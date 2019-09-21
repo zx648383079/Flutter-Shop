@@ -3,8 +3,8 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
 
-const apiEndpoint = 'http://101.85.232.187/open/';
-const assetUri = 'http://101.85.232.187';
+const apiEndpoint = 'http://zodream.cn/open/';
+const assetUri = 'http://zodream.cn';
 const appId = '11543906547';
 const secret = '012e936d3d3653b40c6fc5a32e4ea685';
 
