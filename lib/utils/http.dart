@@ -35,6 +35,10 @@ class RestClient {
     
   }
 
+  static post<T>(String url, [Map data]) async {
+    
+  }
+
     /// 创建 dio 实例对象
   static Dio createInstance () {
     if (dio == null) {
