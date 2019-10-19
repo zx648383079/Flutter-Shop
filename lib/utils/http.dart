@@ -7,7 +7,7 @@ class RestClient {
   static const int RECEIVE_TIMEOUT = 3000;
 
 
-  static request<T>(String url, { data, method }) async {
+  static request<T>(String url, { data, method, Function action }) async {
     data = data ?? {};
     method = method ?? 'GET';
     Dio dio = createInstance();
@@ -31,12 +31,12 @@ class RestClient {
     return result;
   }
 
-  static get<T>(String url, [Map data]) async {
-    
+  static get<T>(String url, {Map data, Function action}) async {
+    return await request<T>(url, data: data, method: 'GET', action: action);
   }
 
-  static post<T>(String url, [Map data]) async {
-    
+  static post<T>(String url, {Map data, Function action}) async {
+    return await request<T>(url, data: data, method: 'POST', action: action);
   }
 
     /// 创建 dio 实例对象
