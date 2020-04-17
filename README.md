@@ -14,3 +14,19 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## model 生成
+
+```shell
+flutter pub run build_runner build
+
+```
+
+## 无法获取包
+
+新增两个环境变量
+
+```
+PUB_HOSTED_URL ===== https://pub.flutter-io.cn
+FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
+```

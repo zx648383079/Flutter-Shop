@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
+const IS_DEV = false;
 
-const apiEndpoint = 'http://zodream.cn/open/';
-const assetUri = 'http://zodream.cn';
+const BASIC_HOST = IS_DEV ? 'http://zodream.localhost' : 'https://zodream.cn';
+
+const apiEndpoint = BASIC_HOST + '/open/';
+const assetUri = BASIC_HOST;
 const appId = '11543906547';
 const secret = '012e936d3d3653b40c6fc5a32e4ea685';
 

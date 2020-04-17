@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './pages/index/index.dart';
+import './pages/member/index.dart';
+import './pages/member/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,6 +26,10 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: Color(0x05a6b1)
       ),
       home: IndexPage(),
+      routes: <String, WidgetBuilder> {
+        '/member': (BuildContext context) => MemberPage(),
+        '/login': (BuildContext context) => LoginPage(),
+      },
     );
   }
 }

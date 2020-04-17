@@ -14,18 +14,27 @@ class _SearchBarState extends State<SearchBar> {
     return Container(
       color: Theme.of(context).secondaryHeaderColor,
       child: Row(children: <Widget>[
-        Image.network(logo),
+        Image.network(logo, width: 100,),
         Expanded(
           child: Container(
             child: Row(children: <Widget>[
               Icon(Icons.search),
               Text('搜索商品, 共10469款好物')
             ],),
+            decoration: BoxDecoration(
+              color: Color(0xFFededed),
+              borderRadius: BorderRadius.all(
+                const Radius.circular(2)
+              )
+            ),
           ),
         ),
-        IconButton(icon: Icon(Icons.message), onPressed: () {
+        Container(
+          child: IconButton(icon: Icon(Icons.message), onPressed: () {
 
-        },)
+          }),
+          width: 54, 
+        )
       ],),
     );
   }
