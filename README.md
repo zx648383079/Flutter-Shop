@@ -15,10 +15,16 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## 配置
+
+复制 `lib/config/config.sample.dart` 为 `lib/config/config.dart`
+
+修改 `config.dart` 的内容
+
 ## model 生成
 
 ```shell
-flutter pub run build_runner build
+flutter pub run build_runner build --delete-conflicting-outputs
 
 ```
 
@@ -30,3 +36,11 @@ flutter pub run build_runner build
 PUB_HOSTED_URL ===== https://pub.flutter-io.cn
 FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
 ```
+
+## 更新依赖
+
+先把依赖的版本号 换为 `any`
+
+执行 `flutter pub upgrade` 
+
+正式发布时，请改回版本号

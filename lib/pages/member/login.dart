@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(color: Colors.green),
               ),
               onTap: () {
-                //TODO 跳转到注册页面
+                // todo 跳转到注册页面
                 print('去注册');
                 Navigator.pop(context);
               },
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                       icon: Icon(item['icon'],
                           color: Theme.of(context).iconTheme.color),
                       onPressed: () {
-                        //TODO : 第三方登录方法
+                        // todo : 第三方登录方法
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("${item['title']}登录"),
                           action: new SnackBarAction(
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
             if (_formKey.currentState.validate()) {
               ///只有输入的内容符合要求通过才会到达此处
               _formKey.currentState.save();
-              //TODO 执行登录方法
+              // todo 执行登录方法
               print('email:$_email , assword:$_password');
             }
           },

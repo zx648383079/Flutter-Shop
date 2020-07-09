@@ -2,14 +2,7 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
-const IS_DEV = false;
-
-const BASIC_HOST = IS_DEV ? 'http://zodream.localhost' : 'https://zodream.cn';
-
-const apiEndpoint = BASIC_HOST + '/open/';
-const assetUri = BASIC_HOST;
-const appId = '11543906547';
-const secret = '012e936d3d3653b40c6fc5a32e4ea685';
+part '../config/config.dart';
 
 class ApiToken {
   String appid;
@@ -38,13 +31,12 @@ String getAssetUrl(String uri) {
   return assetUri + '/' + uri;
 }
 
-
 String getCurrentTime() {
   return formatTime(new DateTime.now());
 }
 
 String formatTime(DateTime date) {
-  return "${date.year.toString()}-${date.month.toString().padLeft(2,'0')}-${date.day.toString().padLeft(2,'0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}";
+  return "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}";
 }
 
 String twoPad(num i) {

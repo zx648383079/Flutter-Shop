@@ -1,23 +1,20 @@
-// import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-// part 'user.g.dart';
+part 'page.g.dart';
 
-// @JsonSerializable()
-// class Paging {
-//   int limit;
-//   int offset;
-//   int total;
-//   bool more;
+@JsonSerializable()
+class Paging extends Object {
+  int limit;
+  int offset;
+  int total;
+  bool more;
 
-//   Paging(this.limit, this.offset, this.total, this.more);
+  Paging(this.limit, this.offset, this.total, this.more);
 
-//   factory Paging.fromJson(Map<String, dynamic> json) => _$PagingFromJson(json);
+  factory Paging.fromJson(Map<String, dynamic> json) => _$PagingFromJson(json);
 
-//   Map<String, dynamic> toJson() => _$PagingToJson(this);
-// }
-
-// part 'page.g.dart';
-
+  Map<String, dynamic> toJson() => _$PagingToJson(this);
+}
 
 // @JsonSerializable(explicitToJson: true)
 // class Page<T> {
@@ -29,18 +26,42 @@
 //   Map<String, dynamic> toJson() => _$PageToJson(this);
 // }
 
-// part 'baseResponse.g.dart';
+// @JsonSerializable(explicitToJson: true)
+// class ResponseData<T> {
+//   List<T> data;
 
+//   factory ResponseData.fromJson(Map<String, dynamic> json) =>
+//       _$ResponseDataFromJson(json);
 
-// class BaseResponse {
-//   String appid;
-//   String sign;
-//   String signType;
-//   String timestamp;
-//   String encrypt;
-//   String encryptType;
-
-//   factory BaseResponse.fromJson(Map<String, dynamic> json) => _$BaseResponseFromJson(json);
-
-//   Map<String, dynamic> toJson() => _$BaseResponseToJson(this);
+//   Map<String, dynamic> toJson() => _$ResponseDataToJson(this);
 // }
+
+// @JsonSerializable(explicitToJson: true)
+// class ResponseOne<T> {
+//   T data;
+
+//   factory ResponseOne.fromJson(Map<String, dynamic> json) =>
+//       _$ResponseOneFromJson(json);
+
+//   Map<String, dynamic> toJson() => _$ResponseOneToJson(this);
+// }
+
+@JsonSerializable()
+class BaseResponse extends Object {
+  String appid;
+  String sign;
+  @JsonKey(name: 'sign_type')
+  String signType;
+  String timestamp;
+  String encrypt;
+  @JsonKey(name: 'encrypt_type')
+  String encryptType;
+
+  BaseResponse(this.appid, this.sign, this.signType, this.timestamp,
+      this.encrypt, this.encryptType);
+
+  factory BaseResponse.fromJson(Map<String, dynamic> json) =>
+      _$BaseResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BaseResponseToJson(this);
+}

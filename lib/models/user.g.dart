@@ -15,10 +15,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['avatar'] as String,
     json['token'] as String,
     json['status'] as int,
-    json['createdAt'] as String,
-    json['updatedAt'] as String,
+    json['created_at'] as String,
+    json['updated_at'] as String,
     json['money'] as int,
-  );
+  )..isAdmin = json['is_admin'] as bool;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -29,7 +29,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'avatar': instance.avatar,
       'token': instance.token,
       'status': instance.status,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
       'money': instance.money,
+      'is_admin': instance.isAdmin,
     };
