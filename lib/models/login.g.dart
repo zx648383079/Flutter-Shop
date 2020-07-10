@@ -43,3 +43,34 @@ Map<String, dynamic> _$RegisterToJson(Register instance) => <String, dynamic>{
       'confirm_password': instance.confirmPassword,
       'agree': instance.agree,
     };
+
+ResetForm _$ResetFormFromJson(Map<String, dynamic> json) {
+  return ResetForm(
+    json['email'] as String,
+    json['code'] as String,
+    json['password'] as String,
+    json['confirm_password'] as String,
+  );
+}
+
+Map<String, dynamic> _$ResetFormToJson(ResetForm instance) => <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'code': instance.code,
+      'confirm_password': instance.confirmPassword,
+    };
+
+PasswordForm _$PasswordFormFromJson(Map<String, dynamic> json) {
+  return PasswordForm(
+    json['old_password'] as String,
+    json['password'] as String,
+    json['confirm_password'] as String,
+  );
+}
+
+Map<String, dynamic> _$PasswordFormToJson(PasswordForm instance) =>
+    <String, dynamic>{
+      'password': instance.password,
+      'confirm_password': instance.confirmPassword,
+      'old_password': instance.oldPassword,
+    };

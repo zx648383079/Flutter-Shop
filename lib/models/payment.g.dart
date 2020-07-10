@@ -19,3 +19,17 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'name': instance.name,
       'icon': instance.icon,
     };
+
+PaymentData _$PaymentDataFromJson(Map<String, dynamic> json) {
+  return PaymentData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Payment.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$PaymentDataToJson(PaymentData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

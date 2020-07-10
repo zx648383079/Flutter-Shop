@@ -14,3 +14,15 @@ class ArticleCategory extends Object {
 
   Map<String, dynamic> toJson() => _$ArticleCategoryToJson(this);
 }
+
+@JsonSerializable()
+class ArticleCategoryData extends Object {
+  List<ArticleCategory> data;
+
+  ArticleCategoryData(this.data);
+
+  factory ArticleCategoryData.fromJson(Map<String, dynamic> json) =>
+      _$ArticleCategoryDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ArticleCategoryDataToJson(this);
+}

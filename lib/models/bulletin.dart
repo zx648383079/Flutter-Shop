@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'page.dart';
+
 part 'bulletin.g.dart';
 
 @JsonSerializable()
@@ -37,4 +39,17 @@ class BulletinUser extends Object {
       _$BulletinUserFromJson(json);
 
   Map<String, dynamic> toJson() => _$BulletinUserToJson(this);
+}
+
+@JsonSerializable()
+class BulletinUserPage extends Object {
+  Paging paging;
+  List<BulletinUser> data;
+
+  BulletinUserPage(this.data, this.paging);
+
+  factory BulletinUserPage.fromJson(Map<String, dynamic> json) =>
+      _$BulletinUserPageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BulletinUserPageToJson(this);
 }

@@ -18,3 +18,19 @@ Map<String, dynamic> _$ArticleCategoryToJson(ArticleCategory instance) =>
       'id': instance.id,
       'name': instance.name,
     };
+
+ArticleCategoryData _$ArticleCategoryDataFromJson(Map<String, dynamic> json) {
+  return ArticleCategoryData(
+    (json['data'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ArticleCategory.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ArticleCategoryDataToJson(
+        ArticleCategoryData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

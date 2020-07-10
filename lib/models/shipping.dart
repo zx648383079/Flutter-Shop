@@ -15,3 +15,15 @@ class Shipping extends Object {
 
   Map<String, dynamic> toJson() => _$ShippingToJson(this);
 }
+
+@JsonSerializable()
+class ShippingData extends Object {
+  List<Shipping> data;
+
+  ShippingData(this.data);
+
+  factory ShippingData.fromJson(Map<String, dynamic> json) =>
+      _$ShippingDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShippingDataToJson(this);
+}

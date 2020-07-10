@@ -48,3 +48,21 @@ Map<String, dynamic> _$BulletinUserToJson(BulletinUser instance) =>
       'createdAt': instance.createdAt,
       'bulletin': instance.bulletin,
     };
+
+BulletinUserPage _$BulletinUserPageFromJson(Map<String, dynamic> json) {
+  return BulletinUserPage(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : BulletinUser.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$BulletinUserPageToJson(BulletinUserPage instance) =>
+    <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
+    };

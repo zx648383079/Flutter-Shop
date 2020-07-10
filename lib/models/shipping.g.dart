@@ -19,3 +19,17 @@ Map<String, dynamic> _$ShippingToJson(Shipping instance) => <String, dynamic>{
       'name': instance.name,
       'icon': instance.icon,
     };
+
+ShippingData _$ShippingDataFromJson(Map<String, dynamic> json) {
+  return ShippingData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Shipping.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ShippingDataToJson(ShippingData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

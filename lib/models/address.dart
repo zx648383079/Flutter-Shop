@@ -25,3 +25,15 @@ class Address extends Object {
 
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 }
+
+@JsonSerializable()
+class AddressData extends Object {
+  List<Address> data;
+
+  AddressData(this.data);
+
+  factory AddressData.fromJson(Map<String, dynamic> json) =>
+      _$AddressDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AddressDataToJson(this);
+}

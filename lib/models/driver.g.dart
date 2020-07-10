@@ -19,3 +19,17 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
       'name': instance.name,
       'created_at': instance.createdAt,
     };
+
+DriverData _$DriverDataFromJson(Map<String, dynamic> json) {
+  return DriverData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Driver.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DriverDataToJson(DriverData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

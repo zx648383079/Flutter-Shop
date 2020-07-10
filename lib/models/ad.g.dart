@@ -23,3 +23,15 @@ Map<String, dynamic> _$AdToJson(Ad instance) => <String, dynamic>{
       'url': instance.url,
       'content': instance.content,
     };
+
+AdData _$AdDataFromJson(Map<String, dynamic> json) {
+  return AdData(
+    (json['data'] as List)
+        ?.map((e) => e == null ? null : Ad.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$AdDataToJson(AdData instance) => <String, dynamic>{
+      'data': instance.data,
+    };

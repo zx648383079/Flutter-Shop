@@ -15,3 +15,15 @@ class Driver extends Object {
 
   Map<String, dynamic> toJson() => _$DriverToJson(this);
 }
+
+@JsonSerializable()
+class DriverData extends Object {
+  List<Driver> data;
+
+  DriverData(this.data);
+
+  factory DriverData.fromJson(Map<String, dynamic> json) =>
+      _$DriverDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverDataToJson(this);
+}

@@ -16,3 +16,14 @@ class Ad extends Object {
 
   Map<String, dynamic> toJson() => _$AdToJson(this);
 }
+
+@JsonSerializable()
+class AdData extends Object {
+  List<Ad> data;
+
+  AdData(this.data);
+
+  factory AdData.fromJson(Map<String, dynamic> json) => _$AdDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdDataToJson(this);
+}

@@ -21,3 +21,21 @@ Map<String, dynamic> _$CollectToJson(Collect instance) => <String, dynamic>{
       'goods_id': instance.goodsId,
       'goods': instance.goods,
     };
+
+CollectPage _$CollectPageFromJson(Map<String, dynamic> json) {
+  return CollectPage(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Collect.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CollectPageToJson(CollectPage instance) =>
+    <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
+    };

@@ -42,3 +42,25 @@ Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
       'encrypt': instance.encrypt,
       'encrypt_type': instance.encryptType,
     };
+
+ResponseBool _$ResponseBoolFromJson(Map<String, dynamic> json) {
+  return ResponseBool(
+    json['data'] as bool,
+  );
+}
+
+Map<String, dynamic> _$ResponseBoolToJson(ResponseBool instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+StringData _$StringDataFromJson(Map<String, dynamic> json) {
+  return StringData(
+    (json['data'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$StringDataToJson(StringData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

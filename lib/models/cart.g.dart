@@ -113,16 +113,34 @@ Map<String, dynamic> _$CartSubtotalToJson(CartSubtotal instance) =>
 CartDialog _$CartDialogFromJson(Map<String, dynamic> json) {
   return CartDialog(
     json['dialog'] as bool,
-    json['data'] == null
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : CartGroup.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  )
+    ..goods = json['goods'] == null
         ? null
-        : Product.fromJson(json['data'] as Map<String, dynamic>),
-  );
+        : Product.fromJson(json['goods'] as Map<String, dynamic>)
+    ..checkoutButton = json['checkout_button'] == null
+        ? null
+        : CartButton.fromJson(json['checkout_button'] as Map<String, dynamic>)
+    ..promotionCell = (json['promotion_cell'] as List)
+        ?.map((e) =>
+            e == null ? null : CartCell.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..subtotal = json['subtotal'] == null
+        ? null
+        : CartSubtotal.fromJson(json['subtotal'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CartDialogToJson(CartDialog instance) =>
     <String, dynamic>{
       'dialog': instance.dialog,
+      'goods': instance.goods,
+      'checkout_button': instance.checkoutButton,
       'data': instance.data,
+      'promotion_cell': instance.promotionCell,
+      'subtotal': instance.subtotal,
     };
 
 Cart _$CartFromJson(Map<String, dynamic> json) {

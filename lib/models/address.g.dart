@@ -31,3 +31,17 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
       'is_default': instance.isDefault,
       'region': instance.region,
     };
+
+AddressData _$AddressDataFromJson(Map<String, dynamic> json) {
+  return AddressData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Address.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$AddressDataToJson(AddressData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

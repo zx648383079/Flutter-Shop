@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'product.dart';
+import 'page.dart';
 
 part 'collect.g.dart';
 
@@ -16,4 +17,17 @@ class Collect extends Object {
       _$CollectFromJson(json);
 
   Map<String, dynamic> toJson() => _$CollectToJson(this);
+}
+
+@JsonSerializable()
+class CollectPage extends Object {
+  Paging paging;
+  List<Collect> data;
+
+  CollectPage(this.data, this.paging);
+
+  factory CollectPage.fromJson(Map<String, dynamic> json) =>
+      _$CollectPageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CollectPageToJson(this);
 }

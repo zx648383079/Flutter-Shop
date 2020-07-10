@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'page.dart';
+
 part 'comment.g.dart';
 
 @JsonSerializable()
@@ -15,6 +17,19 @@ class Comment extends Object {
       _$CommentFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommentToJson(this);
+}
+
+@JsonSerializable()
+class CommentPage extends Object {
+  Paging paging;
+  List<Comment> data;
+
+  CommentPage(this.data, this.paging);
+
+  factory CommentPage.fromJson(Map<String, dynamic> json) =>
+      _$CommentPageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommentPageToJson(this);
 }
 
 @JsonSerializable()

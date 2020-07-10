@@ -29,3 +29,17 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'expanded': instance.expanded,
       'level': instance.level,
     };
+
+CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) {
+  return CategoryData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CategoryDataToJson(CategoryData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

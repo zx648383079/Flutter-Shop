@@ -20,3 +20,15 @@ class Connect extends Object {
 
   Map<String, dynamic> toJson() => _$ConnectToJson(this);
 }
+
+@JsonSerializable()
+class ConnectData extends Object {
+  List<Connect> data;
+
+  ConnectData(this.data);
+
+  factory ConnectData.fromJson(Map<String, dynamic> json) =>
+      _$ConnectDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConnectDataToJson(this);
+}

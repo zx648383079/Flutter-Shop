@@ -15,3 +15,15 @@ class Payment extends Object {
 
   Map<String, dynamic> toJson() => _$PaymentToJson(this);
 }
+
+@JsonSerializable()
+class PaymentData extends Object {
+  List<Payment> data;
+
+  PaymentData(this.data);
+
+  factory PaymentData.fromJson(Map<String, dynamic> json) =>
+      _$PaymentDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaymentDataToJson(this);
+}

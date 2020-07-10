@@ -65,3 +65,27 @@ class BaseResponse extends Object {
 
   Map<String, dynamic> toJson() => _$BaseResponseToJson(this);
 }
+
+@JsonSerializable()
+class ResponseBool extends Object {
+  bool data;
+
+  ResponseBool(this.data);
+
+  factory ResponseBool.fromJson(Map<String, dynamic> json) =>
+      _$ResponseBoolFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ResponseBoolToJson(this);
+}
+
+@JsonSerializable()
+class StringData extends Object {
+  List<String> data;
+
+  StringData(this.data);
+
+  factory StringData.fromJson(Map<String, dynamic> json) =>
+      _$StringDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StringDataToJson(this);
+}

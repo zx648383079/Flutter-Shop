@@ -41,6 +41,23 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'address': instance.address,
     };
 
+OrderPage _$OrderPageFromJson(Map<String, dynamic> json) {
+  return OrderPage(
+    (json['data'] as List)
+        ?.map(
+            (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$OrderPageToJson(OrderPage instance) => <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
+    };
+
 OrderGoods _$OrderGoodsFromJson(Map<String, dynamic> json) {
   return OrderGoods(
     json['id'] as int,
@@ -64,6 +81,38 @@ Map<String, dynamic> _$OrderGoodsToJson(OrderGoods instance) =>
       'price': instance.price,
       'goods_id': instance.goodsId,
       'goods': instance.goods,
+    };
+
+OrderGoodsData _$OrderGoodsDataFromJson(Map<String, dynamic> json) {
+  return OrderGoodsData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$OrderGoodsDataToJson(OrderGoodsData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+OrderGoodsPage _$OrderGoodsPageFromJson(Map<String, dynamic> json) {
+  return OrderGoodsPage(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$OrderGoodsPageToJson(OrderGoodsPage instance) =>
+    <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
     };
 
 OrderCount _$OrderCountFromJson(Map<String, dynamic> json) {
@@ -107,20 +156,18 @@ Map<String, dynamic> _$LogisticsToJson(Logistics instance) => <String, dynamic>{
       'created_at': instance.createdAt,
     };
 
-CheckIn _$CheckInFromJson(Map<String, dynamic> json) {
-  return CheckIn(
-    json['id'] as int,
-    json['running'] as int,
-    json['created_at'] as String,
-    json['type'] as int,
+LogisticsData _$LogisticsDataFromJson(Map<String, dynamic> json) {
+  return LogisticsData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Logistics.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
-Map<String, dynamic> _$CheckInToJson(CheckIn instance) => <String, dynamic>{
-      'id': instance.id,
-      'running': instance.running,
-      'created_at': instance.createdAt,
-      'type': instance.type,
+Map<String, dynamic> _$LogisticsDataToJson(LogisticsData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
     };
 
 PrePay _$PrePayFromJson(Map<String, dynamic> json) {
@@ -137,4 +184,17 @@ Map<String, dynamic> _$PrePayToJson(PrePay instance) => <String, dynamic>{
       'url': instance.url,
       'html': instance.html,
       'params': instance.params,
+    };
+
+PrePayData _$PrePayDataFromJson(Map<String, dynamic> json) {
+  return PrePayData(
+    json['data'] == null
+        ? null
+        : PrePay.fromJson(json['data'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$PrePayDataToJson(PrePayData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
     };

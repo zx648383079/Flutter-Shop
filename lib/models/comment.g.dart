@@ -22,6 +22,24 @@ Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'rank': instance.rank,
     };
 
+CommentPage _$CommentPageFromJson(Map<String, dynamic> json) {
+  return CommentPage(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Comment.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CommentPageToJson(CommentPage instance) =>
+    <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
+    };
+
 CommentImage _$CommentImageFromJson(Map<String, dynamic> json) {
   return CommentImage(
     json['image'] as String,

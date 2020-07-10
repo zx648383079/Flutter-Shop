@@ -106,14 +106,49 @@ class CartSubtotal extends Object {
 @JsonSerializable()
 class CartDialog extends Object {
   bool dialog;
-  Product data;
+  Product goods;
+  @JsonKey(name: 'checkout_button')
+  CartButton checkoutButton;
+  List<CartGroup> data;
+  @JsonKey(name: 'promotion_cell')
+  List<CartCell> promotionCell;
+  CartSubtotal subtotal;
 
   CartDialog(this.dialog, this.data);
 
   factory CartDialog.fromJson(Map<String, dynamic> json) =>
-      _$CartDialogFromJson(json);
+      _$CartDialogFromJson2(json);
 
   Map<String, dynamic> toJson() => _$CartDialogToJson(this);
+}
+
+CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
+  var dailog = json['dialog'] as bool;
+  return CartDialog(
+    dailog,
+    !dailog
+        ? (json['data'] as List)
+            ?.map((e) => e == null
+                ? null
+                : CartGroup.fromJson(e as Map<String, dynamic>))
+            ?.toList()
+        : null,
+  )
+    ..goods = dailog && json['data'] == null
+        ? null
+        : Product.fromJson(json['data'] as Map<String, dynamic>)
+    ..checkoutButton = !dailog || json['checkout_button'] == null
+        ? null
+        : CartButton.fromJson(json['checkout_button'] as Map<String, dynamic>)
+    ..promotionCell = !dailog
+        ? (json['promotion_cell'] as List)
+            ?.map((e) =>
+                e == null ? null : CartCell.fromJson(e as Map<String, dynamic>))
+            ?.toList()
+        : null
+    ..subtotal = !dailog || json['subtotal'] == null
+        ? null
+        : CartSubtotal.fromJson(json['subtotal'] as Map<String, dynamic>);
 }
 
 @JsonSerializable()

@@ -16,6 +16,19 @@ class ApiToken {
     var digest = md5.convert(content);
     return ApiToken(appId, time, hex.encode(digest.bytes));
   }
+
+  Map<String, String> toJson() => <String, String>{
+        'appid': this.appid,
+        'timestamp': this.timestamp,
+        'sign': this.sign
+      };
+
+  Map<String, dynamic> append(Map<String, dynamic> data) {
+    data['appid'] = this.appid;
+    data['timestamp'] = this.timestamp;
+    data['sign'] = this.sign;
+    return data;
+  }
 }
 
 String getAssetUrl(String uri) {

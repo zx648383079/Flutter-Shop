@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'address.dart';
+import 'page.dart';
 import 'product.dart';
 
 part 'order.g.dart';
@@ -33,6 +34,19 @@ class Order extends Object {
 }
 
 @JsonSerializable()
+class OrderPage extends Object {
+  Paging paging;
+  List<Order> data;
+
+  OrderPage(this.data, this.paging);
+
+  factory OrderPage.fromJson(Map<String, dynamic> json) =>
+      _$OrderPageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderPageToJson(this);
+}
+
+@JsonSerializable()
 class OrderGoods extends Object {
   int id;
   String name;
@@ -49,6 +63,31 @@ class OrderGoods extends Object {
       _$OrderGoodsFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderGoodsToJson(this);
+}
+
+@JsonSerializable()
+class OrderGoodsData extends Object {
+  List<OrderGoods> data;
+
+  OrderGoodsData(this.data);
+
+  factory OrderGoodsData.fromJson(Map<String, dynamic> json) =>
+      _$OrderGoodsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderGoodsDataToJson(this);
+}
+
+@JsonSerializable()
+class OrderGoodsPage extends Object {
+  Paging paging;
+  List<OrderGoods> data;
+
+  OrderGoodsPage(this.data, this.paging);
+
+  factory OrderGoodsPage.fromJson(Map<String, dynamic> json) =>
+      _$OrderGoodsPageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderGoodsPageToJson(this);
 }
 
 @JsonSerializable()
@@ -89,19 +128,15 @@ class Logistics extends Object {
 }
 
 @JsonSerializable()
-class CheckIn extends Object {
-  int id;
-  int running;
-  @JsonKey(name: 'created_at')
-  String createdAt;
-  int type;
+class LogisticsData extends Object {
+  List<Logistics> data;
 
-  CheckIn(this.id, this.running, this.createdAt, this.type);
+  LogisticsData(this.data);
 
-  factory CheckIn.fromJson(Map<String, dynamic> json) =>
-      _$CheckInFromJson(json);
+  factory LogisticsData.fromJson(Map<String, dynamic> json) =>
+      _$LogisticsDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CheckInToJson(this);
+  Map<String, dynamic> toJson() => _$LogisticsDataToJson(this);
 }
 
 @JsonSerializable()
@@ -116,6 +151,18 @@ class PrePay extends Object {
   factory PrePay.fromJson(Map<String, dynamic> json) => _$PrePayFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrePayToJson(this);
+}
+
+@JsonSerializable()
+class PrePayData extends Object {
+  PrePay data;
+
+  PrePayData(this.data);
+
+  factory PrePayData.fromJson(Map<String, dynamic> json) =>
+      _$PrePayDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PrePayDataToJson(this);
 }
 
 mixin ORDER_STATUS {

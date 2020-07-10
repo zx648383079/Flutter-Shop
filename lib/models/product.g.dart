@@ -29,3 +29,58 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'is_collect': instance.isCollect,
       'amount': instance.amount,
     };
+
+ProductPage _$ProductPageFromJson(Map<String, dynamic> json) {
+  return ProductPage(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['paging'] == null
+        ? null
+        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ProductPageToJson(ProductPage instance) =>
+    <String, dynamic>{
+      'paging': instance.paging,
+      'data': instance.data,
+    };
+
+ProductData _$ProductDataFromJson(Map<String, dynamic> json) {
+  return ProductData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ProductDataToJson(ProductData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+HomeProduct _$HomeProductFromJson(Map<String, dynamic> json) {
+  return HomeProduct()
+    ..hotProducts = (json['hot_products'] as List)
+        ?.map((e) =>
+            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..newProducts = (json['new_products'] as List)
+        ?.map((e) =>
+            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..bestProducts = (json['best_products'] as List)
+        ?.map((e) =>
+            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
+        ?.toList();
+}
+
+Map<String, dynamic> _$HomeProductToJson(HomeProduct instance) =>
+    <String, dynamic>{
+      'hot_products': instance.hotProducts,
+      'new_products': instance.newProducts,
+      'best_products': instance.bestProducts,
+    };
