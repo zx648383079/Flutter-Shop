@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'pages/category/index.dart';
 import './pages/index/index.dart';
 import './pages/member/index.dart';
 import './pages/member/login.dart';
+import 'pages/cart/index.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,10 +25,14 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
-        secondaryHeaderColor: Color(0x05a6b1)
+        secondaryHeaderColor: Color(0x05a6b1),
+        indicatorColor: Color(0xFFB4282D),
+        backgroundColor: Color(0xF4F4F4),
       ),
       home: IndexPage(),
-      routes: <String, WidgetBuilder> {
+      routes: <String, WidgetBuilder>{
+        '/category': (context) => CategoryPage(),
+        '/cart': (context) => CartPage(),
         '/member': (BuildContext context) => MemberPage(),
         '/login': (BuildContext context) => LoginPage(),
       },

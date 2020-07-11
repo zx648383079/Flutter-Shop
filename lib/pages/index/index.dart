@@ -1,6 +1,10 @@
 import "package:flutter/material.dart";
-import 'package:flutter_shop/pages/index/search_bar.dart';
-import '../../utils/index.dart';
+import 'package:flutter_shop/pages/cart/index.dart';
+import 'package:flutter_shop/pages/category/index.dart';
+import 'package:flutter_shop/pages/index/home.dart';
+import 'package:flutter_shop/pages/member/index.dart';
+import '../../iconfont.dart';
+import '../../models/bar.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -8,45 +12,48 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  final String logo = getAssetUrl('/assets/images/wap_logo.png');
   int tabIndex = 0;
+  final List<BarItem> nav = <BarItem>[
+    BarItem('首页', IconFont.home, HomePage()),
+    BarItem('分类', IconFont.table, CategoryPage()),
+    BarItem('购物车', IconFont.cart, CartPage()),
+    BarItem('我的', IconFont.user, MemberPage()),
+  ];
 
-  void tabBarTap(int index) {
+  final pageController = PageController();
+
+  void onPageTapped(int index) {
     setState(() {
       tabIndex = index;
     });
-    if (index == 1) {
-      Navigator.pushNamed(context, '/member');
-    }
+    pageController.jumpToPage(index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          title: SearchBar(),
-          backgroundColor: Color(0xFF05A6B1),
+        body: PageView(
+          children: nav.map((e) => e.page),
+          physics: NeverScrollableScrollPhysics(), // 禁止滑动
+          controller: pageController,
+          onPageChanged: onPageTapped,
         ),
-        body: Container(
-          child: Text('body'),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('首页'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('我的'),
-            ),
-          ],
-          selectedItemColor: Color(0xFFB4282D),
-          currentIndex: tabIndex,
-          onTap: tabBarTap,
-        ),
-      )
+        bottomNavigationBar: bottomBar(),
+      ),
+    );
+  }
+
+  BottomNavigationBar bottomBar() {
+    return BottomNavigationBar(
+      items: nav
+          .map((e) =>
+              BottomNavigationBarItem(icon: Icon(e.icon), title: Text(e.name)))
+          .toList(),
+      selectedItemColor: Theme.of(context).indicatorColor,
+      currentIndex: tabIndex,
+      onTap: onPageTapped,
+      type: BottomNavigationBarType.fixed,
     );
   }
 }
