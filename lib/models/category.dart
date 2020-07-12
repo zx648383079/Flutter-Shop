@@ -1,3 +1,4 @@
+import 'package:flutter_shop/models/product.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
@@ -14,6 +15,9 @@ class Category extends Object {
   int parentId;
   bool expanded;
   int level;
+  List<Category> children;
+  @JsonKey(name: 'goods_list')
+  List<Product> goodsList;
 
   Category(this.id, this.name, this.icon, this.appBanner, this.parentId);
 

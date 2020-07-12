@@ -165,19 +165,20 @@ class PrePayData extends Object {
   Map<String, dynamic> toJson() => _$PrePayDataToJson(this);
 }
 
-mixin ORDER_STATUS {
+// ignore: camel_case_types
+class ORDER_STATUS {
   // ignore: non_constant_identifier_names
-  int CANCEL = 1;
+  static final int CANCEL = 1;
   // ignore: non_constant_identifier_names
-  int INVALID = 2;
+  static final int INVALID = 2;
   // ignore: non_constant_identifier_names
-  int UN_PAY = 10;
+  static final int UN_PAY = 10;
   // ignore: non_constant_identifier_names
-  int PAID_UN_SHIP = 20;
+  static final int PAID_UN_SHIP = 20;
   // ignore: non_constant_identifier_names
-  int SHIPPED = 40;
+  static final int SHIPPED = 40;
   // ignore: non_constant_identifier_names
-  int RECEIVED = 60;
+  static final int RECEIVED = 60;
   // ignore: non_constant_identifier_names
-  int FINISH = 80;
+  static final int FINISH = 80;
 }
