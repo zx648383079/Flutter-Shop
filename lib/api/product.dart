@@ -24,8 +24,9 @@ class ProductApi {
 
   static void getHome(Function(HomeProduct res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<HomeProduct>('shop/goods/home',
-        success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/goods/home', success: (res) {
+      success(HomeProduct.fromJson(res));
+    }, error: error);
   }
 
   static void getHotKeywords(Function(StringData res) success,

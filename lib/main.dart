@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        primaryColor: Color(0xFF05A6B1),
         secondaryHeaderColor: Color(0x05a6b1),
         indicatorColor: Color(0xFFB4282D),
         backgroundColor: Color(0xF4F4F4),
@@ -33,8 +34,8 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/category': (context) => CategoryPage(),
         '/cart': (context) => CartPage(),
-        '/member': (BuildContext context) => MemberPage(),
-        '/login': (BuildContext context) => LoginPage(),
+        '/member': (context) => MemberPage(),
+        '/login': (context) => LoginPage(),
       },
     );
   }

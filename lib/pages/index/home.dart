@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/ad.dart';
 import 'package:flutter_shop/api/category.dart';
 import 'package:flutter_shop/api/product.dart';
-import 'package:flutter_shop/api/site.dart';
 import 'package:flutter_shop/models/ad.dart';
 import 'package:flutter_shop/models/category.dart';
 import 'package:flutter_shop/models/product.dart';
 import 'package:flutter_shop/models/site.dart';
-import 'package:flutter_shop/pages/index/floor.dart';
+import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/pages/index/menu_icon.dart';
 import 'package:flutter_shop/utils/index.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import 'product_item.dart';
 import 'search_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage>
   bool get wantKeepAlive => true;
 
   @override
-  Future initState() async {
-    SiteApi.get((res) {
+  void initState() {
+    Application.getSite((res) {
       setState(() {
         this.site = res;
       });
@@ -52,9 +52,15 @@ class _HomePageState extends State<HomePage>
     });
     ProductApi.getHome((res) {
       setState(() {
-        hotItems = res.hotProducts;
-        bestItems = res.bestProducts;
-        newItems = res.newProducts;
+        if (res.hotProducts != null) {
+          hotItems = res.hotProducts;
+        }
+        if (res.bestProducts != null) {
+          bestItems = res.bestProducts;
+        }
+        if (res.newProducts != null) {
+          newItems = res.newProducts;
+        }
       });
     });
     super.initState();
@@ -63,22 +69,76 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    var items = <Widget>[
+      SliverFixedExtentList(
+        itemExtent: 200,
+        delegate: SliverChildListDelegate(
+          <Widget>[
+            banner(),
+          ],
+        ),
+      ),
+      menu(),
+    ];
+    items.addAll(floor('最新商品', newItems));
+    items.addAll(floor('热门商品', hotItems));
+    items.addAll(floor('推荐商品', bestItems));
+
     return Container(
       child: Scaffold(
         appBar: appBar(),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              banner(),
-              menu(),
-              FloorPanel(title: '最新商品', items: newItems),
-              FloorPanel(title: '热门商品', items: hotItems),
-              FloorPanel(title: '推荐商品', items: bestItems),
-            ],
-          ),
+        body: CustomScrollView(
+          shrinkWrap: true,
+          slivers: items,
         ),
       ),
     );
+  }
+
+  List<Widget> floor(String title, List<Product> data) {
+    if (data == null || data.length < 1) {
+      return <Widget>[];
+    }
+    return <Widget>[
+      SliverFixedExtentList(
+        itemExtent: 60,
+        delegate: SliverChildListDelegate(
+          <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[100],
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Center(
+                  child: Text(title),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 1.0,
+          crossAxisSpacing: 1.0,
+          childAspectRatio: 0.7,
+        ),
+        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+          return ProductItem(
+            item: data[index],
+          );
+        }, childCount: data.length),
+      ),
+    ];
   }
 
   Widget menu() {
@@ -89,7 +149,7 @@ class _HomePageState extends State<HomePage>
         crossAxisSpacing: 0.0,
         childAspectRatio: 0.9,
       ),
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      delegate: SliverChildBuilderDelegate((context, index) {
         return InkWell(
           onTap: () {},
           child: MenuIcon(
@@ -102,11 +162,16 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget banner() {
-    return Swiper(
-      itemBuilder: (context, index) =>
-          CachedNetworkImage(imageUrl: banners[index].content),
-      itemCount: banners.length,
-      autoplay: true,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 200.0,
+      child: Swiper(
+        itemBuilder: (context, index) =>
+            CachedNetworkImage(imageUrl: banners[index].content),
+        itemCount: banners.length,
+        autoplay: true,
+        loop: true,
+      ),
     );
   }
 
@@ -121,6 +186,7 @@ class _HomePageState extends State<HomePage>
           ),
           Expanded(
             child: Container(
+              height: 35,
               child: Row(
                 children: <Widget>[
                   Icon(Icons.search),
@@ -128,8 +194,11 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
               decoration: BoxDecoration(
-                  color: Color(0xFFededed),
-                  borderRadius: BorderRadius.all(const Radius.circular(2))),
+                color: Color(0xFFededed),
+                borderRadius: BorderRadius.all(
+                  const Radius.circular(2),
+                ),
+              ),
             ),
           ),
           Container(

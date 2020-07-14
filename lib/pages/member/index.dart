@@ -13,7 +13,7 @@ class _MemberPageState extends State<MemberPage>
   bool get wantKeepAlive => true;
 
   @override
-  Future initState() async {
+  void initState() {
     super.initState();
   }
 
@@ -40,10 +40,27 @@ class _MemberPageState extends State<MemberPage>
         snap: true,
         expandedHeight: 250,
         flexibleSpace: FlexibleSpaceBar(
-          title: Text('欢迎你，请登录'),
-          background: Image.network(
-            getAssetUrl('assets/images/zx.jpg'),
-            fit: BoxFit.cover,
+          title: InkWell(
+            onTap: () {},
+            child: Text(
+              '欢迎你，请登录~',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ),
+          background: Container(
+            color: Theme.of(context).primaryColor,
+            child: Center(
+              child: ClipOval(
+                child: Image.network(
+                  getAssetUrl('assets/images/zx.jpg'),
+                  height: 80,
+                  width: 80,
+                ),
+              ),
+            ),
           ),
         ),
       ),

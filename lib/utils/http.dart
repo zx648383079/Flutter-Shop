@@ -15,21 +15,24 @@ class RestClient {
       Function(int code, String message) error}) async {
     method = method ?? 'GET';
     data = data ?? {};
-    Map<String, dynamic> queryParameters = {};
+    var queryParameters = Map<String, dynamic>();
     if (method == 'GET' || method == 'DELETE') {
-      queryParameters = data;
+      queryParameters = Map<String, dynamic>.from(data);
       data = {};
     }
 
     Dio dio = createInstance();
+    print('[URL]$url');
     try {
       ApiToken.create().append(queryParameters);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var token = prefs.get(TOKEN_KEY);
+      var token = prefs.getString(TOKEN_KEY);
+
       Response response = await dio.request<T>(url,
           data: data,
           queryParameters: queryParameters,
           options: new Options(method: method, headers: {
+            'Content-Type': 'application/vnd.api+json',
             'Date': getCurrentTime(),
             "Authorization": "Bearer $token"
           }));
@@ -42,7 +45,7 @@ class RestClient {
         return;
       }
       if (e.response == null) {
-        error(400, '网络错误');
+        error(400, e.message);
         return;
       }
       error(e.response.statusCode, e.response.data['message']);
@@ -56,7 +59,7 @@ class RestClient {
     try {
       var queryParameters = ApiToken.create().toJson();
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var token = prefs.get(TOKEN_KEY);
+      var token = prefs.getString(TOKEN_KEY);
       Response response = await dio.request<T>(url,
           data: data,
           queryParameters: queryParameters,
@@ -113,13 +116,11 @@ class RestClient {
   static Dio createInstance() {
     if (dio == null) {
       /// 全局属性：请求前缀、连接超时时间、响应超时时间
-
       dio = new Dio(new BaseOptions(
           baseUrl: apiEndpoint,
           connectTimeout: CONNECT_TIMEOUT,
           receiveTimeout: RECEIVE_TIMEOUT,
           headers: {
-            'Content-Type': 'application/vnd.api+json',
             'Accept': 'application/json',
           },
           responseType: ResponseType.json));

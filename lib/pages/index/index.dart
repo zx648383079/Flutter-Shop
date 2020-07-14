@@ -20,7 +20,9 @@ class _IndexPageState extends State<IndexPage> {
     BarItem('我的', IconFont.user, MemberPage()),
   ];
 
-  final pageController = PageController();
+  final pageController = PageController(
+    initialPage: 0,
+  );
 
   void onPageTapped(int index) {
     setState(() {
@@ -34,7 +36,7 @@ class _IndexPageState extends State<IndexPage> {
     return Container(
       child: Scaffold(
         body: PageView(
-          children: nav.map((e) => e.page),
+          children: nav.map((e) => e.page).toList(),
           physics: NeverScrollableScrollPhysics(), // 禁止滑动
           controller: pageController,
           onPageChanged: onPageTapped,

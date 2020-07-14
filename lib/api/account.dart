@@ -11,8 +11,10 @@ import '../utils/http.dart';
 class AccountApi {
   static void getLogs(PageForm page, Function(AccountLogPage res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<AccountLogPage>('shop/account/log',
-        data: page.toJson(), success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/account/log',
+        data: page.toJson(), success: (res) {
+      success(AccountLogPage.fromJson(res));
+    }, error: error);
   }
 
   static void getBankCard(PageForm page, Function(CardPage res) success,

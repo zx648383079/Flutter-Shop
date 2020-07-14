@@ -10,6 +10,8 @@ class AdApi {
 
   static void banners(Function(AdData res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<AdData>('shop/ad/banner', success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/ad/banner', success: (res) {
+      success(AdData.fromJson(res));
+    }, error: error);
   }
 }

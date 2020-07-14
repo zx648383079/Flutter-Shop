@@ -13,10 +13,9 @@ class Category extends Object {
   String appBanner;
   @JsonKey(name: 'parent_id')
   int parentId;
-  bool expanded;
-  int level;
+  @JsonKey(ignore: true)
   List<Category> children;
-  @JsonKey(name: 'goods_list')
+  @JsonKey(ignore: true)
   List<Product> goodsList;
 
   Category(this.id, this.name, this.icon, this.appBanner, this.parentId);
@@ -25,6 +24,36 @@ class Category extends Object {
       _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
+
+  void fromExtra(CategoryExtra data) {
+    this.appBanner = data.appBanner;
+    this.children = data.children;
+    this.goodsList = data.goodsList;
+  }
+}
+
+@JsonSerializable()
+class CategoryExtra extends Object {
+  int id;
+  String name;
+  String icon;
+  String banner;
+  @JsonKey(name: 'app_banner')
+  String appBanner;
+  @JsonKey(name: 'parent_id')
+  int parentId;
+  bool expanded;
+  int level;
+  List<Category> children;
+  @JsonKey(name: 'goods_list')
+  List<Product> goodsList;
+
+  CategoryExtra(this.id, this.name, this.icon, this.appBanner, this.parentId);
+
+  factory CategoryExtra.fromJson(Map<String, dynamic> json) =>
+      _$CategoryExtraFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CategoryExtraToJson(this);
 }
 
 @JsonSerializable()
