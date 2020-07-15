@@ -76,7 +76,9 @@ class _CategoryPageState extends State<CategoryPage>
 
   Widget mainBox(BuildContext context) {
     if (categories.length <= selectedIndex) {
-      return Container();
+      return Container(
+        color: Theme.of(context).backgroundColor,
+      );
     }
     var items = <Widget>[];
     var item = categories[selectedIndex];
@@ -142,7 +144,7 @@ class _CategoryPageState extends State<CategoryPage>
 
     return Container(
       width: MediaQuery.of(context).size.width - 100.0,
-      color: Colors.white,
+      color: Theme.of(context).backgroundColor,
       height: MediaQuery.of(context).size.height,
       child: CustomScrollView(
         shrinkWrap: true,

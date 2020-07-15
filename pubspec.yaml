@@ -29,6 +29,7 @@ dependencies:
   barcode_scan: any
   permission_handler: any
   pull_to_refresh: any
+  flutter_slidable: any
 
 dev_dependencies:
   flutter_test:

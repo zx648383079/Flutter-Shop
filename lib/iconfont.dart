@@ -5,6 +5,8 @@ class IconFont {
 
   static const fontName = 'iconfont';
 
+  static const IconData eyeSlash = const IconData(0xe680, fontFamily: fontName);
+  static const IconData eye = const IconData(0xe681, fontFamily: fontName);
   static const IconData runner = const IconData(0xe61d, fontFamily: fontName);
   static const IconData gift = const IconData(0xe69f, fontFamily: fontName);
   static const IconData moneyO = const IconData(0xe6e4, fontFamily: fontName);

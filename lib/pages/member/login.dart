@@ -119,10 +119,10 @@ class _LoginPageState extends State<LoginPage> {
         width: 270.0,
         child: RaisedButton(
           child: Text(
-            'Login',
-            style: Theme.of(context).primaryTextTheme.headline,
+            '登录',
+            style: Theme.of(context).primaryTextTheme.headline6,
           ),
-          color: Colors.black,
+          color: Theme.of(context).primaryColor,
           onPressed: () {
             if (_formKey.currentState.validate()) {
               ///只有输入的内容符合要求通过才会到达此处
