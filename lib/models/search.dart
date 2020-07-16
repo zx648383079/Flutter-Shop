@@ -23,7 +23,7 @@ class SearchForm extends Object {
   int brand;
   String keywords;
 
-  SearchForm(this.page, this.category, this.keywords);
+  SearchForm(this.page, {this.category, this.keywords, this.brand});
 
   factory SearchForm.fromJson(Map<String, dynamic> json) =>
       _$SearchFormFromJson(json);

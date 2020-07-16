@@ -19,9 +19,10 @@ Map<String, dynamic> _$PageFormToJson(PageForm instance) => <String, dynamic>{
 SearchForm _$SearchFormFromJson(Map<String, dynamic> json) {
   return SearchForm(
     json['page'] as int,
-    json['category'] as int,
-    json['keywords'] as String,
-  )..brand = json['brand'] as int;
+    category: json['category'] as int,
+    keywords: json['keywords'] as String,
+    brand: json['brand'] as int,
+  );
 }
 
 Map<String, dynamic> _$SearchFormToJson(SearchForm instance) =>
