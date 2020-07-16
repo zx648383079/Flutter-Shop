@@ -55,20 +55,16 @@ class _EmailloginPageState extends State<EmailloginPage> {
               onSaved: (newValue) => password = newValue,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: FlatButton(
-                    child: Text('注册账户'),
-                    onPressed: () {},
-                  ),
+                FlatButton(
+                  child: Text('注册账户'),
+                  onPressed: () {},
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    child: Text('忘记密码'),
-                    onPressed: () {},
-                  ),
+                FlatButton(
+                  child: Text('忘记密码'),
+                  onPressed: () {},
                 ),
               ],
             ),

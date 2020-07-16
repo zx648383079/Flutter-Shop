@@ -30,3 +30,17 @@ class SearchForm extends Object {
 
   Map<String, dynamic> toJson() => _$SearchFormToJson(this);
 }
+
+@JsonSerializable()
+class OrderForm extends Object {
+  int page;
+  int status;
+  String keywords;
+
+  OrderForm(this.page, {this.status, this.keywords});
+
+  factory OrderForm.fromJson(Map<String, dynamic> json) =>
+      _$OrderFormFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderFormToJson(this);
+}

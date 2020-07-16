@@ -5,10 +5,12 @@ import '../models/search.dart';
 import '../utils/http.dart';
 
 class OrderApi {
-  static void getList(PageForm page, Function(OrderPage res) success,
+  static void getList(OrderForm page, Function(OrderPage res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<OrderPage>('shop/order',
-        data: page.toJson(), success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/order', data: page.toJson(),
+        success: (res) {
+      success(OrderPage.fromJson(res));
+    }, error: error);
   }
 
   static void get(int id, Function(Order res) success,
