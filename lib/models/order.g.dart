@@ -18,6 +18,15 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     ..paymentName = json['payment_name'] as String
     ..shippingId = json['shipping_id'] as int
     ..shippingName = json['shipping_name'] as String
+    ..shippingFee = (json['shipping_fee'] as num)?.toDouble()
+    ..payFee = (json['pay_fee'] as num)?.toDouble()
+    ..discount = (json['discount'] as num)?.toDouble()
+    ..orderAmount = (json['order_amount'] as num)?.toDouble()
+    ..createdAt = json['created_at'] as String
+    ..payAt = json['pay_at'] as String
+    ..shippingAt = json['shipping_at'] as String
+    ..receiveAt = json['receive_at'] as String
+    ..finishAt = json['finish_at'] as String
     ..goods = (json['goods'] as List)
         ?.map((e) =>
             e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
@@ -37,6 +46,15 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'payment_name': instance.paymentName,
       'shipping_id': instance.shippingId,
       'shipping_name': instance.shippingName,
+      'shipping_fee': instance.shippingFee,
+      'pay_fee': instance.payFee,
+      'discount': instance.discount,
+      'order_amount': instance.orderAmount,
+      'created_at': instance.createdAt,
+      'pay_at': instance.payAt,
+      'shipping_at': instance.shippingAt,
+      'receive_at': instance.receiveAt,
+      'finish_at': instance.finishAt,
       'goods': instance.goods,
       'address': instance.address,
     };

@@ -34,6 +34,10 @@ class _MemberPageState extends State<MemberPage>
               menu(),
               orderMenu(),
               MenuItem(
+                icon: IconFont.scan,
+                label: '扫一扫',
+              ),
+              MenuItem(
                 icon: IconFont.etCheckingIn,
                 label: '签到',
               ),

@@ -6,8 +6,10 @@ import '../utils/http.dart';
 class BulletinApi {
   static void getList(PageForm page, Function(BulletinUserPage res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<BulletinUserPage>('auth/bulletin',
-        data: page.toJson(), success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('auth/bulletin', data: page.toJson(),
+        success: (res) {
+      success(BulletinUserPage.fromJson(res));
+    }, error: error);
   }
 
   static void get(int id, Function(BulletinUser res) success,

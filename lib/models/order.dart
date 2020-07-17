@@ -23,6 +23,23 @@ class Order extends Object {
   int shippingId;
   @JsonKey(name: 'shipping_name')
   String shippingName;
+  @JsonKey(name: 'shipping_fee')
+  double shippingFee;
+  @JsonKey(name: 'pay_fee')
+  double payFee;
+  double discount;
+  @JsonKey(name: 'order_amount')
+  double orderAmount;
+  @JsonKey(name: 'created_at')
+  String createdAt;
+  @JsonKey(name: 'pay_at')
+  String payAt;
+  @JsonKey(name: 'shipping_at')
+  String shippingAt;
+  @JsonKey(name: 'receive_at')
+  String receiveAt;
+  @JsonKey(name: 'finish_at')
+  String finishAt;
   List<OrderGoods> goods;
   Address address;
 

@@ -6,6 +6,7 @@ import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/models/search.dart';
 import 'package:flutter_shop/models/tab_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'order_action.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -85,19 +86,17 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: header(context),
-        body: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: hasMore,
-          controller: refreshController,
-          onLoading: tapMore,
-          onRefresh: tapRefresh,
-          child: ListView.builder(
-            itemBuilder: (context, index) => orderItem(context, index),
-            itemCount: items.length,
-          ),
+    return Scaffold(
+      appBar: header(context),
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: hasMore,
+        controller: refreshController,
+        onLoading: tapMore,
+        onRefresh: tapRefresh,
+        child: ListView.builder(
+          itemBuilder: (context, index) => orderItem(context, index),
+          itemCount: items.length,
         ),
       ),
     );
@@ -129,70 +128,69 @@ class _OrderPageState extends State<OrderPage> {
             children: item.goods
                 .map(
                   (e) => InkWell(
-                      onTap: () {},
-                      child: Row(
-                        children: <Widget>[
-                          CachedNetworkImage(
-                            imageUrl: e.goods.thumb,
-                            width: 100.0,
-                            height: 100.0,
-                            placeholder: (context, url) => new Icon(
-                              Icons.image,
-                              color: Colors.grey[300],
-                              size: 100.0,
-                            ),
-                            errorWidget: (context, url, error) => new Icon(
-                              Icons.image,
-                              color: Colors.grey[300],
-                              size: 100.0,
+                    onTap: () {},
+                    child: Row(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                          imageUrl: e.goods.thumb,
+                          width: 100.0,
+                          height: 100.0,
+                          placeholder: (context, url) => new Icon(
+                            Icons.image,
+                            color: Colors.grey[300],
+                            size: 100.0,
+                          ),
+                          errorWidget: (context, url, error) => new Icon(
+                            Icons.image,
+                            color: Colors.grey[300],
+                            size: 100.0,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  e.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                                Text(
+                                  '',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14.0),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      e.price.toString(),
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 22.0),
+                                    ),
+                                    Text(
+                                      e.amount > 0 ? 'x${e.amount}' : '',
+                                      style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14.0),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 10.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    e.name,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 16.0),
-                                  ),
-                                  Text(
-                                    '',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 14.0),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        e.price.toString(),
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 22.0),
-                                      ),
-                                      Text(
-                                        e.amount > 0 ? 'x${e.amount}' : '',
-                                        style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 14.0),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
                 )
                 .toList(),
           ),
@@ -207,59 +205,6 @@ class _OrderPageState extends State<OrderPage> {
         )
       ],
     );
-  }
-
-  List<Widget> orderAction(BuildContext context, Order item) {
-    var actions = <Widget>[];
-    if (item.status == ORDER_STATUS.UN_PAY) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('支付'),
-      ));
-    }
-    actions.add(FlatButton(
-      child: Text('详情'),
-      onPressed: () {},
-    ));
-    if (item.status == ORDER_STATUS.SHIPPED) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('确认收货'),
-      ));
-    }
-    if (item.status == ORDER_STATUS.RECEIVED) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('评价'),
-      ));
-    }
-    if (item.status == ORDER_STATUS.SHIPPED ||
-        item.status == ORDER_STATUS.PAID_UN_SHIP) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('申请退款'),
-      ));
-    }
-    if (item.status == ORDER_STATUS.RECEIVED) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('退换货'),
-      ));
-    }
-    if (item.status == ORDER_STATUS.FINISH) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('售后'),
-      ));
-    }
-    if (item.status == ORDER_STATUS.UN_PAY ||
-        item.status == ORDER_STATUS.PAID_UN_SHIP) {
-      actions.add(RaisedButton(
-        onPressed: () {},
-        child: Text('取消'),
-      ));
-    }
-    return actions;
   }
 
   Widget header(BuildContext context) {

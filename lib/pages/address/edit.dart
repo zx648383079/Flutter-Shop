@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../iconfont.dart';
 
-class ProfilePage extends StatefulWidget {
+class AddressEditPage extends StatefulWidget {
+  AddressEditPage({Key key}) : super(key: key);
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AddressEditPageState createState() => _AddressEditPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AddressEditPageState extends State<AddressEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('个人信息'),
+        title: Text('新增收货地址'),
       ),
       body: ListView(
         children: <Widget>[],

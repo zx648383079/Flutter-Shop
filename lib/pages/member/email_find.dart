@@ -92,6 +92,7 @@ class _EmailFindPageState extends State<EmailFindPage> {
               },
               onSaved: (newValue) => confirmPassword = newValue,
             ),
+            SizedBox(height: 30.0),
             RaisedButton(
               child: Text(sent ? '重置密码' : '发送验证邮件'),
               onPressed: () {

@@ -5,7 +5,9 @@ import '../models/address.dart';
 class AddressApi {
   static void getList(Function(AddressData res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<AddressData>('shop/address', success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/address', success: (res) {
+      success(AddressData.fromJson(res));
+    }, error: error);
   }
 
   static void get(int id, Function(Address res) success,
