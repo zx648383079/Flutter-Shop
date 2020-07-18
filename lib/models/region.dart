@@ -17,3 +17,15 @@ class Region extends Object {
 
   Map<String, dynamic> toJson() => _$RegionToJson(this);
 }
+
+@JsonSerializable()
+class RegionData extends Object {
+  List<Region> data;
+
+  RegionData(this.data);
+
+  factory RegionData.fromJson(Map<String, dynamic> json) =>
+      _$RegionDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RegionDataToJson(this);
+}

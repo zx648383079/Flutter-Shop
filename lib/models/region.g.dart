@@ -21,3 +21,17 @@ Map<String, dynamic> _$RegionToJson(Region instance) => <String, dynamic>{
       'parent_id': instance.parentId,
       'full_name': instance.fullName,
     };
+
+RegionData _$RegionDataFromJson(Map<String, dynamic> json) {
+  return RegionData(
+    (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : Region.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$RegionDataToJson(RegionData instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

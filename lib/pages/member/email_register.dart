@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/models/dialog.dart';
 
 import '../../iconfont.dart';
-
-enum Action { Ok, Cancel }
 
 class EmailRegisterPage extends StatefulWidget {
   EmailRegisterPage({Key key}) : super(key: key);
@@ -111,7 +110,9 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                   alignment: Alignment.centerLeft,
                   child: FlatButton(
                     child: Text('同意注册协议'),
-                    onPressed: () {},
+                    onPressed: () {
+                      showAgreement(context);
+                    },
                   ),
                 ),
                 Align(
@@ -139,7 +140,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
     );
   }
 
-  Future showAgreement() async {
+  Future showAgreement(BuildContext context) async {
     final action = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -156,19 +157,19 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
           FlatButton(
             child: Text('取消'),
             onPressed: () {
-              Navigator.pop(context, Action.Cancel);
+              Navigator.pop(context, DialogAction.Cancel);
             },
           ),
           FlatButton(
             child: Text('确认'),
             onPressed: () {
-              Navigator.pop(context, Action.Ok);
+              Navigator.pop(context, DialogAction.Ok);
             },
           ),
         ],
       ),
     );
-    if (action == Action.Ok) {
+    if (action == DialogAction.Ok) {
       setState(() {
         agree = true;
       });
