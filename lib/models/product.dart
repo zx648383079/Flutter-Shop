@@ -1,3 +1,4 @@
+import 'package:flutter_shop/models/comment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'page.dart';
@@ -9,6 +10,7 @@ class Product extends Object {
   int id;
   String name;
   String thumb;
+  String image;
   double price;
   @JsonKey(name: 'market_price')
   double marketPrice;
@@ -16,6 +18,8 @@ class Product extends Object {
   @JsonKey(name: 'is_collect')
   bool isCollect;
   int amount;
+  List<CommentImage> gallery;
+  String content;
 
   Product(this.id, this.name);
 
@@ -52,7 +56,6 @@ class ProductData extends Object {
 
 @JsonSerializable()
 class HomeProduct extends Object {
-  
   @JsonKey(name: 'hot_products')
   List<Product> hotProducts;
 

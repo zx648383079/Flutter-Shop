@@ -30,6 +30,7 @@ dependencies:
   permission_handler: any
   pull_to_refresh: any
   flutter_slidable: any
+  flutter_html: any
 
 dev_dependencies:
   flutter_test:

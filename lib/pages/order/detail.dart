@@ -228,7 +228,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('订单总价'),
-                Text('￥${data..orderAmount}'),
+                Text('￥${data.orderAmount}'),
               ],
             ),
             Row(
