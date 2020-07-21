@@ -23,14 +23,14 @@ class MenuItem extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Icon(icon),
-                width: 50,
+                width: 30,
               ),
               Expanded(
                 child: Text(this.label),
               ),
               Container(
                 child: Icon(IconFont.chevronRight),
-                width: 50,
+                width: 30,
               ),
             ],
           ),

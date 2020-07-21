@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/iconfont.dart';
 import 'package:flutter_shop/pages/member/icon_label.dart';
 import 'package:flutter_shop/pages/member/icon_number.dart';
@@ -29,7 +28,8 @@ class _MemberPageState extends State<MemberPage>
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: header,
-          body: Column(
+          body: ListView(
+            padding: EdgeInsets.all(0),
             children: <Widget>[
               menu(),
               orderMenu(),
@@ -37,30 +37,37 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.scan,
                 label: '扫一扫',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.etCheckingIn,
                 label: '签到',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.map,
                 label: '我的收货地址',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.runner,
                 label: '代取件',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.runner,
                 label: '代取件管理',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.history,
                 label: '浏览历史',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.help,
                 label: '帮助',
               ),
+              hr(),
               MenuItem(
                 icon: IconFont.comment,
                 label: '反馈',
@@ -69,6 +76,14 @@ class _MemberPageState extends State<MemberPage>
           ),
         ),
       ),
+    );
+  }
+
+  Widget hr() {
+    return Divider(
+      height: 1,
+      indent: 10,
+      endIndent: 10,
     );
   }
 
@@ -81,6 +96,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.money,
                 label: '待付款',
+                count: 99,
               ),
             ),
             Expanded(
@@ -113,6 +129,7 @@ class _MemberPageState extends State<MemberPage>
 
   Widget menu() {
     return Container(
+      height: 40,
       color: Colors.white,
       child: Row(
         children: <Widget>[
@@ -159,15 +176,15 @@ class _MemberPageState extends State<MemberPage>
         snap: true,
         expandedHeight: 250,
         flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
           title: InkWell(
             onTap: () {
               Navigator.pushNamed(context, '/login');
             },
             child: Text(
               '欢迎你，请登录~',
-              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 16,
               ),
             ),
           ),
@@ -177,8 +194,8 @@ class _MemberPageState extends State<MemberPage>
               child: ClipOval(
                 child: Image.network(
                   getAssetUrl('assets/images/zx.jpg'),
-                  height: 80,
-                  width: 80,
+                  height: 100,
+                  width: 100,
                 ),
               ),
             ),

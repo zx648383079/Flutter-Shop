@@ -60,6 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 10,
           ),
           RaisedButton(
+            color: Theme.of(context).indicatorColor,
+            textColor: Colors.white,
             onPressed: () {},
             child: Text('退出'),
           ),

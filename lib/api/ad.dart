@@ -4,8 +4,10 @@ import '../utils/http.dart';
 class AdApi {
   static void get(dynamic position, Function(AdData res) success,
       [Function(int code, String message) error]) async {
-    RestClient.get<AdData>('shop/ad',
-        data: {'position': position}, success: success, error: error);
+    RestClient.get<Map<String, dynamic>>('shop/ad',
+        data: {'position': position}, success: (res) {
+      success(AdData.fromJson(res));
+    }, error: error);
   }
 
   static void banners(Function(AdData res) success,

@@ -16,19 +16,45 @@ class IconNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var items = <Widget>[
-      Icon(icon),
-      Text(label),
+      Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              icon,
+              size: 40,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(label),
+          ],
+        ),
+      ),
     ];
     if (count != null && count > 0) {
       items.add(
         Positioned(
+          top: 0,
+          left: MediaQuery.of(context).size.width / 4 - 10,
           child: Container(
-            child: Text(count.toString()),
+            width: 20,
+            height: 20,
+            child: Center(
+              child: Text(
+                count.toString(),
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadiusDirectional.all(Radius.circular(10))),
           ),
         ),
       );
     }
     return Container(
+      height: 70,
       child: InkWell(
         onTap: onTap,
         child: Stack(

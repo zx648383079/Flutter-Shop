@@ -18,6 +18,7 @@ class Iconlabel extends StatelessWidget {
         onTap: onTap,
         child: Center(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(icon),
               Text(label),

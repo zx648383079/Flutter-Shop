@@ -33,6 +33,15 @@ class _LoginPageState extends State<LoginPage> {
 
   int mode = 0;
   String logo;
+  String get title {
+    if (mode == 2) {
+      return '注册';
+    }
+    if (mode == 3) {
+      return '找回密码';
+    }
+    return '登录';
+  }
 
   @override
   void initState() {
@@ -53,19 +62,37 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(IconFont.chevronLeft),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(title),
+        centerTitle: true,
+      ),
       body: showLogin(),
     );
   }
 
   Widget showLogin() {
     if (mode == 1) {
-      return EmailloginPage();
+      return EmailloginPage(
+        tapFlip: tapChange,
+        logo: this.logo,
+      );
     }
     if (mode == 2) {
-      return EmailRegisterPage();
+      return EmailRegisterPage(
+        tapFlip: tapChange,
+      );
     }
     if (mode == 3) {
-      return EmailFindPage();
+      return EmailFindPage(
+        tapFlip: tapChange,
+        logo: this.logo,
+      );
     }
     return ListView(
       children: <Widget>[
@@ -75,11 +102,18 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 30,
         ),
-        RaisedButton(
-          onPressed: () {
-            tapChange(1);
-          },
-          child: Text('邮箱登录'),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: RaisedButton(
+            color: Theme.of(context).indicatorColor,
+            textColor: Colors.white,
+            onPressed: () {
+              tapChange(1);
+            },
+            child: Text(
+              '邮箱登录',
+            ),
+          ),
         ),
         FlatButton(
           onPressed: () {

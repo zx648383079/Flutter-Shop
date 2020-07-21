@@ -4,7 +4,11 @@ import 'package:flutter_shop/models/dialog.dart';
 import '../../iconfont.dart';
 
 class EmailRegisterPage extends StatefulWidget {
-  EmailRegisterPage({Key key}) : super(key: key);
+  final Function(int mode) tapFlip;
+  EmailRegisterPage({
+    Key key,
+    this.tapFlip,
+  }) : super(key: key);
 
   @override
   _EmailRegisterPageState createState() => _EmailRegisterPageState();
@@ -32,7 +36,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 if (value.isEmpty) {
                   return '请输入昵称';
                 }
-                return '';
+                return null;
               },
               onSaved: (newValue) => name = newValue,
             ),
@@ -44,7 +48,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 if (value.isEmpty) {
                   return '请输入账号';
                 }
-                return '';
+                return null;
               },
               onSaved: (newValue) => email = newValue,
             ),
@@ -65,7 +69,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 if (value.isEmpty) {
                   return '请输入密码';
                 }
-                return '';
+                return null;
               },
               onSaved: (newValue) => password = newValue,
             ),
@@ -89,42 +93,49 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 if (value != password) {
                   return '两次密码不一致';
                 }
-                return '';
+                return null;
               },
               onSaved: (newValue) => confirmPassword = newValue,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Checkbox(
-                    value: agree,
-                    onChanged: (val) {
-                      setState(() {
-                        agree = val;
-                      });
-                    },
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: FlatButton(
-                    child: Text('同意注册协议'),
-                    onPressed: () {
-                      showAgreement(context);
-                    },
+                  child: Row(
+                    children: <Widget>[
+                      Checkbox(
+                        value: agree,
+                        onChanged: (val) {
+                          setState(() {
+                            agree = val;
+                          });
+                        },
+                      ),
+                      FlatButton(
+                        padding: EdgeInsets.all(0),
+                        child: Text('同意《注册协议》'),
+                        onPressed: () {
+                          showAgreement(context);
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
                     child: Text('返回登录'),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.tapFlip(1);
+                    },
                   ),
                 ),
               ],
             ),
             RaisedButton(
+              color: Theme.of(context).indicatorColor,
+              textColor: Colors.white,
               child: Text('注册'),
               onPressed: () {
                 if (!formKey.currentState.validate()) {
@@ -145,13 +156,11 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('注册协议'),
-        content: RichText(
-          text: TextSpan(
-            text: '本程序使用过程中产生的数据，不会对外公布，但会存储了服务器，直到用户注销，用户产生的数据都会被删除。',
-            children: <InlineSpan>[
-              TextSpan(text: '本商城只支持微信支付，因此订单以微信支付成功为准，以微信支付对账单为准。')
-            ],
-          ),
+        content: Column(
+          children: <Widget>[
+            Text('本程序使用过程中产生的数据，不会对外公布，但会存储了服务器，直到用户注销，用户产生的数据都会被删除。'),
+            Text('本商城只支持微信支付，因此订单以微信支付成功为准，以微信支付对账单为准。'),
+          ],
         ),
         actions: <Widget>[
           FlatButton(
