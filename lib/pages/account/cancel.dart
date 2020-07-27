@@ -19,6 +19,11 @@ class _CancelPageState extends State<CancelPage> {
   int selected = 0;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +75,21 @@ class _CancelPageState extends State<CancelPage> {
                 ),
               );
             }, childCount: items.length),
-            itemExtent: 30,
+            itemExtent: 50,
+          ),
+          SliverFixedExtentList(
+            delegate: SliverChildListDelegate(<Widget>[
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: RaisedButton(
+                  color: Theme.of(context).indicatorColor,
+                  textColor: Colors.white,
+                  onPressed: () {},
+                  child: Text('确定注销'),
+                ),
+              ),
+            ]),
+            itemExtent: 50,
           ),
         ],
       ),

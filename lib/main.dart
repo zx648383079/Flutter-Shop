@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/pages/account/cancel.dart';
+import 'package:flutter_shop/pages/member/profile.dart';
 import 'pages/category/index.dart';
 import './pages/index/index.dart';
 import './pages/member/index.dart';
@@ -35,7 +37,9 @@ class MyApp extends StatelessWidget {
         '/category': (context) => CategoryPage(),
         '/cart': (context) => CartPage(),
         '/member': (context) => MemberPage(),
+        '/member/profile': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
+        '/account/cancel': (context) => CancelPage(),
       },
     );
   }

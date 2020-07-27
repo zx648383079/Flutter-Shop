@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/iconfont.dart';
+import 'package:flutter_shop/models/order.dart';
+import 'package:flutter_shop/models/user.dart';
+import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/pages/member/icon_label.dart';
 import 'package:flutter_shop/pages/member/icon_number.dart';
 import 'package:flutter_shop/pages/member/menu_item.dart';
@@ -14,10 +17,17 @@ class _MemberPageState extends State<MemberPage>
     with AutomaticKeepAliveClientMixin<MemberPage> {
   @override
   bool get wantKeepAlive => true;
+  User user;
+  OrderCount orderSubtotal;
 
   @override
   void initState() {
     super.initState();
+    Application.getUser().then((value) {
+      setState(() {
+        user = value;
+      });
+    });
   }
 
   @override
@@ -179,10 +189,11 @@ class _MemberPageState extends State<MemberPage>
           centerTitle: true,
           title: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/login');
+              Navigator.pushNamed(
+                  context, user != null ? '/member/profile' : '/login');
             },
             child: Text(
-              '欢迎你，请登录~',
+              user != null ? '欢迎你，${user.name}~' : '欢迎你，请登录~',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -193,7 +204,9 @@ class _MemberPageState extends State<MemberPage>
             child: Center(
               child: ClipOval(
                 child: Image.network(
-                  getAssetUrl('assets/images/zx.jpg'),
+                  user != null
+                      ? user.avatar
+                      : getAssetUrl('assets/images/zx.jpg'),
                   height: 100,
                   width: 100,
                 ),

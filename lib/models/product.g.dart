@@ -12,22 +12,31 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     json['name'] as String,
   )
     ..thumb = json['thumb'] as String
+    ..image = json['image'] as String
     ..price = (json['price'] as num)?.toDouble()
     ..marketPrice = (json['market_price'] as num)?.toDouble()
     ..stock = json['stock'] as int
     ..isCollect = json['is_collect'] as bool
-    ..amount = json['amount'] as int;
+    ..amount = json['amount'] as int
+    ..gallery = (json['gallery'] as List)
+        ?.map((e) =>
+            e == null ? null : CommentImage.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..content = json['content'] as String;
 }
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'thumb': instance.thumb,
+      'image': instance.image,
       'price': instance.price,
       'market_price': instance.marketPrice,
       'stock': instance.stock,
       'is_collect': instance.isCollect,
       'amount': instance.amount,
+      'gallery': instance.gallery,
+      'content': instance.content,
     };
 
 ProductPage _$ProductPageFromJson(Map<String, dynamic> json) {

@@ -6,8 +6,8 @@ part 'login.g.dart';
 class Login extends Object {
   String email;
   String password;
-  String mobile;
-  String code;
+  // String mobile;
+  // String code;
 
   Login(this.email, this.password);
 
@@ -21,8 +21,8 @@ class Register extends Object {
   String name;
   String email;
   String password;
-  String mobile;
-  String code;
+  // String mobile;
+  // String code;
   @JsonKey(name: 'confirm_password')
   String confirmPassword;
   bool agree;

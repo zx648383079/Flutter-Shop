@@ -1,6 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/iconfont.dart';
+import 'package:flutter_shop/models/login.dart';
+import 'package:flutter_shop/pages/application.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EmailloginPage extends StatefulWidget {
   final Function(int mode) tapFlip;
@@ -19,6 +23,24 @@ class _EmailloginPageState extends State<EmailloginPage> {
   final formKey = GlobalKey<FormState>();
   String email, password;
   bool isObscure = true;
+
+  void tapLogin() {
+    UserApi.login(Login(email, password), (user) {
+      Application.setUser(user);
+      Navigator.pop(context);
+    }, (code, err) {
+      print(err);
+      Fluttertoast.showToast(
+        msg: err,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +114,7 @@ class _EmailloginPageState extends State<EmailloginPage> {
                 }
                 formKey.currentState.save();
                 // todo
+                tapLogin();
               },
             ),
             RaisedButton(
