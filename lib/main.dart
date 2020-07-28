@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/pages/account/cancel.dart';
-import 'package:flutter_shop/pages/member/profile.dart';
-import 'pages/category/index.dart';
+import 'package:flutter_shop/router/index.dart';
 import './pages/index/index.dart';
-import './pages/member/index.dart';
-import './pages/member/login.dart';
-import 'pages/cart/index.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,14 +28,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xF4F4F4),
       ),
       home: IndexPage(),
-      routes: <String, WidgetBuilder>{
-        '/category': (context) => CategoryPage(),
-        '/cart': (context) => CartPage(),
-        '/member': (context) => MemberPage(),
-        '/member/profile': (context) => ProfilePage(),
-        '/login': (context) => LoginPage(),
-        '/account/cancel': (context) => CancelPage(),
-      },
+      routes: bindRoutes(),
     );
   }
 }

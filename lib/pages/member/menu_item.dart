@@ -4,7 +4,7 @@ import 'package:flutter_shop/iconfont.dart';
 class MenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
-  final GestureTapCallback onTap;
+  final Function onTap;
   MenuItem({
     Key key,
     this.icon,
@@ -17,6 +17,7 @@ class MenuItem extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: InkWell(
+        onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Row(

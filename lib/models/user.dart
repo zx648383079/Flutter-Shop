@@ -9,6 +9,7 @@ class User extends Object {
   String email;
   int sex;
   String avatar;
+  String birthday;
   String token;
   int status;
   @JsonKey(name: 'created_at')

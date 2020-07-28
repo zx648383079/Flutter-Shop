@@ -72,21 +72,29 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         hr(),
-        profileItem('昵称', user.name),
+        profileItem('昵称', user.name, onTap: () {
+          Navigator.pushNamed(context, '/member/edit');
+        }),
         hr(),
         profileItem('邮箱', user.email),
         hr(),
         profileItem('性别', user.sex.toString()),
         hr(),
-        profileItem('生日', ''),
+        profileItem('生日', user.birthday),
         SizedBox(
           height: 30,
         ),
-        menuItem('我的收货地址'),
+        menuItem('我的收货地址', onTap: () {
+          Navigator.pushNamed(context, '/address');
+        }),
         hr(),
-        menuItem('修改密码'),
+        menuItem('修改密码', onTap: () {
+          Navigator.pushNamed(context, '/member/password');
+        }),
         hr(),
-        menuItem('登录设备管理'),
+        menuItem('登录设备管理', onTap: () {
+          Navigator.pushNamed(context, '/account/driver');
+        }),
         hr(),
         menuItem('账户注销', onTap: () {
           Navigator.pushNamed(context, '/account/cancel');
@@ -138,10 +146,11 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget profileItem(String name, String value) {
+  Widget profileItem(String name, String value, {Function onTap}) {
     return Container(
       color: Colors.white,
       child: InkWell(
+        onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Row(

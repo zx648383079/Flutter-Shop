@@ -21,7 +21,7 @@ class _AuthorizePageState extends State<AuthorizePage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('我的消息'),
+        title: Text(''),
       ),
       body: ListView(
         children: <Widget>[

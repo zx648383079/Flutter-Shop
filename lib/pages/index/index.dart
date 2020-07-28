@@ -7,6 +7,10 @@ import '../../iconfont.dart';
 import '../../models/bar.dart';
 
 class IndexPage extends StatefulWidget {
+  final int pageIndex;
+
+  IndexPage({Key key, this.pageIndex}) : super(key: key);
+
   @override
   _IndexPageState createState() => _IndexPageState();
 }
@@ -23,6 +27,13 @@ class _IndexPageState extends State<IndexPage> {
   final pageController = PageController(
     initialPage: 0,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    tabIndex = widget.pageIndex == null ? 0 : widget.pageIndex;
+    //onPageTapped(widget.pageIndex);
+  }
 
   void onPageTapped(int index) {
     setState(() {
