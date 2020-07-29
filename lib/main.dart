@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFF05A6B1),
         secondaryHeaderColor: Color(0x05a6b1),
         indicatorColor: Color(0xFFB4282D),
-        backgroundColor: Color(0xF4F4F4),
+        backgroundColor: Color(0xFFF4F4F4),
       ),
       home: IndexPage(),
       routes: bindRoutes(),

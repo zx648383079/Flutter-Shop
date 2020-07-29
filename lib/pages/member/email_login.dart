@@ -27,7 +27,7 @@ class _EmailloginPageState extends State<EmailloginPage> {
   void tapLogin() {
     UserApi.login(Login(email, password), (user) {
       Application.setUser(user);
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }, (code, err) {
       print(err);
       Fluttertoast.showToast(

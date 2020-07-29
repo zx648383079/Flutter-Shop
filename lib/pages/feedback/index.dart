@@ -15,6 +15,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: LargeHeaderBar(
         title: '留言反馈',
         onBack: () {

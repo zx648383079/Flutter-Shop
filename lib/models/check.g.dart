@@ -40,7 +40,7 @@ CheckInOne _$CheckInOneFromJson(Map<String, dynamic> json) {
   return CheckInOne(
     json['data'] == null
         ? null
-        : CheckInOne.fromJson(json['data'] as Map<String, dynamic>),
+        : CheckIn.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 

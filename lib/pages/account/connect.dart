@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/account.dart';
 import 'package:flutter_shop/models/connect.dart';
 
 import '../../iconfont.dart';
@@ -10,6 +11,20 @@ class ConnectPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectPage> {
   List<Connect> items = <Connect>[];
+
+  @override
+  void initState() {
+    super.initState();
+    AccountApi.getConnect((res) {
+      if (res.data == null) {
+        return;
+      }
+      setState(() {
+        items = res.data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +53,8 @@ class _ConnectPageState extends State<ConnectPage> {
                 ),
                 Expanded(
                   flex: 2,
-                  child:
-                      Text(item.id > 0 ? '已绑(' + item.nickname + ')' : '未绑定'),
+                  child: Text(
+                      item.id != null ? '已绑(' + item.nickname + ')' : '未绑定'),
                 ),
                 Container(
                   width: 50,
@@ -50,6 +65,7 @@ class _ConnectPageState extends State<ConnectPage> {
           );
         },
         itemCount: items.length,
+        itemExtent: 40,
       ),
     );
   }
@@ -62,6 +78,7 @@ class _ConnectPageState extends State<ConnectPage> {
       case "weixin":
       case "wechat":
       case "fa-weixin":
+      case "fa-wechat":
         return IconFont.wechat;
       case "alipay":
       case "fa-alipay":

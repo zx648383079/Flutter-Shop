@@ -15,23 +15,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: LargeHeaderBar(
+        title: '修改昵称',
+        onBack: () {
+          Navigator.pop(context);
+        },
+        onSubmit: () {
+          if (!formKey.currentState.validate()) {
+            return;
+          }
+          formKey.currentState.save();
+          // todo
+        },
+      ),
       body: Form(
         key: formKey,
         child: ListView(
           children: <Widget>[
-            LargeHeader(
-              title: '修改昵称',
-              onBack: () {
-                Navigator.pop(context);
-              },
-              onSubmit: () {
-                if (!formKey.currentState.validate()) {
-                  return;
-                }
-                formKey.currentState.save();
-                // todo
-              },
-            ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: '请输入昵称',

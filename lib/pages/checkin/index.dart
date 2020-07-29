@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/check.dart';
 import 'package:flutter_shop/models/check.dart';
 import 'package:flutter_shop/models/day_item.dart';
 import 'package:flutter_shop/utils/index.dart';
@@ -14,9 +15,99 @@ class _CheckInPageState extends State<CheckInPage> {
   CheckIn todayChecked;
   List<DayItem> dayItems = <DayItem>[];
   String month;
+
+  @override
+  void initState() {
+    super.initState();
+    canCheck();
+    refreshDay();
+  }
+
+  void canCheck() {
+    CheckApi.getCanCheckIn((res) {
+      if (res == null || res.data == null) {
+        return;
+      }
+      setState(() {
+        todayChecked = res.data;
+      });
+    });
+  }
+
+  void refreshDay() {
+    var now = new DateTime.now();
+    setMonth(now.add(Duration(days: now.day)));
+  }
+
+  void checkToday() {
+    if (todayChecked != null) {
+      return;
+    }
+    CheckApi.checkIn((res) {
+      if (res.data == null) {
+        return;
+      }
+      setState(() {
+        todayChecked = res.data;
+      });
+    });
+  }
+
+  DateTime getMonth() {
+    return DateTime.parse(month + "-01");
+  }
+
+  void previousMonth() {
+    setMonth(getMonth().add(Duration(days: -1)));
+  }
+
+  void nextMonth() {
+    setMonth(getMonth().add(Duration(days: 31)));
+  }
+
+  void setMonth(DateTime date) {
+    month = "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}";
+    dayItems.clear();
+    var start = date.weekday;
+    var count =
+        date.add(Duration(days: 31)).add(Duration(days: -date.day - 1)).day;
+    start = start > 0 ? start - 1 : 6;
+    for (int i = 0; i < count + start; i++) {
+      dayItems.add(DayItem(i >= start ? i - start + 1 : 0, false));
+    }
+    setState(() {});
+  }
+
+  void getMonthChecked() {
+    CheckApi.getMonth(month, (res) {
+      if (res.data == null || res.data.length < 1) {
+        return;
+      }
+      var items = List<int>();
+      var i = 0;
+      for (var item in res.data) {
+        items[i++] = DateTime.parse(item.createdAt).day;
+      }
+      checkDay(items);
+    });
+  }
+
+  void checkDay(List<int> items) {
+    if (items.length < 1) {
+      return;
+    }
+    for (var item in dayItems) {
+      if (item.day > 0 && items.contains(item.day)) {
+        item.isChecked = true;
+      }
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(IconFont.chevronLeft),
@@ -31,11 +122,11 @@ class _CheckInPageState extends State<CheckInPage> {
           SliverFixedExtentList(
             delegate: SliverChildListDelegate(<Widget>[
               Container(
-                height: 100,
+                height: 120,
                 color: Theme.of(context).primaryColor,
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: 60,
+                    top: 30,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -70,52 +161,85 @@ class _CheckInPageState extends State<CheckInPage> {
             children: <Widget>[
               IconButton(
                 icon: Icon(IconFont.chevronLeft),
-                onPressed: () {},
+                onPressed: () {
+                  previousMonth();
+                },
               ),
               Expanded(
-                child: Text(month),
+                child: Text(
+                  month,
+                  textAlign: TextAlign.center,
+                ),
               ),
               IconButton(
-                icon: Icon(IconFont.chevronLeft),
-                onPressed: () {},
+                icon: Icon(IconFont.chevronRight),
+                onPressed: () {
+                  nextMonth();
+                },
               ),
             ],
           ),
           Row(
             children: <Widget>[
               Expanded(
-                child: Text('一'),
+                child: Text(
+                  '一',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('二'),
+                child: Text(
+                  '二',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('三'),
+                child: Text(
+                  '三',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('四'),
+                child: Text(
+                  '四',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('五'),
+                child: Text(
+                  '五',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('六'),
+                child: Text(
+                  '六',
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
-                child: Text('日'),
+                child: Text(
+                  '日',
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),
-          SliverGrid(
-            delegate: SliverChildBuilderDelegate(buildDay,
-                childCount: dayItems.length),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              mainAxisSpacing: 0.0,
-              crossAxisSpacing: 0.0,
-              childAspectRatio: 0.9,
-            ),
-          ),
+          CustomScrollView(
+            shrinkWrap: true,
+            slivers: <Widget>[
+              SliverGrid(
+                delegate: SliverChildBuilderDelegate(buildDay,
+                    childCount: dayItems.length),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                  mainAxisSpacing: 0.0,
+                  crossAxisSpacing: 0.0,
+                  childAspectRatio: 0.9,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -128,10 +252,15 @@ class _CheckInPageState extends State<CheckInPage> {
     }
     if (!item.isChecked) {
       return Container(
-        child: Text(twoPad(item.day)),
+        alignment: Alignment.center,
+        child: Text(
+          twoPad(item.day),
+          textAlign: TextAlign.center,
+        ),
       );
     }
     return Container(
+      alignment: Alignment.center,
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -139,7 +268,10 @@ class _CheckInPageState extends State<CheckInPage> {
             left: 0,
             child: Icon(IconFont.check),
           ),
-          Text(twoPad(item.day)),
+          Text(
+            twoPad(item.day),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -148,13 +280,19 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget buildButton(BuildContext context) {
     if (todayChecked == null) {
       return RaisedButton(
-        onPressed: () {},
+        color: Theme.of(context).primaryColor,
+        textColor: Colors.white,
+        onPressed: () {
+          checkToday();
+        },
         child: Text('签到'),
       );
     }
     return Column(
       children: <Widget>[
         RaisedButton.icon(
+          color: Theme.of(context).primaryColor,
+          textColor: Colors.white,
           onPressed: () {},
           icon: Icon(IconFont.calendarCheck),
           label: Text('已签到'),

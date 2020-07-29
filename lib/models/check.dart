@@ -32,7 +32,7 @@ class CheckInData extends Object {
 
 @JsonSerializable()
 class CheckInOne extends Object {
-  CheckInOne data;
+  CheckIn data;
 
   CheckInOne(this.data);
 

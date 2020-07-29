@@ -17,23 +17,24 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: LargeHeaderBar(
+        title: '修改密码',
+        onBack: () {
+          Navigator.pop(context);
+        },
+        onSubmit: () {
+          if (!formKey.currentState.validate()) {
+            return;
+          }
+          formKey.currentState.save();
+          // todo
+        },
+      ),
       body: Form(
         key: formKey,
         child: ListView(
           children: <Widget>[
-            LargeHeader(
-              title: '修改密码',
-              onBack: () {
-                Navigator.pop(context);
-              },
-              onSubmit: () {
-                if (!formKey.currentState.validate()) {
-                  return;
-                }
-                formKey.currentState.save();
-                // todo
-              },
-            ),
             TextFormField(
               obscureText: isObscure,
               decoration: InputDecoration(

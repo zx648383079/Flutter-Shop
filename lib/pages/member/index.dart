@@ -23,14 +23,18 @@ class _MemberPageState extends State<MemberPage>
   User user;
   OrderCount orderSubtotal;
 
-  @override
-  void initState() {
-    super.initState();
+  void loadUser() {
     Application.getUser().then((value) {
       setState(() {
         user = value;
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUser();
   }
 
   @override
@@ -281,7 +285,12 @@ class _MemberPageState extends State<MemberPage>
           title: InkWell(
             onTap: () {
               Navigator.pushNamed(
-                  context, user != null ? '/member/profile' : LOGIN_PATH);
+                      context, user != null ? '/member/profile' : LOGIN_PATH)
+                  .then((value) {
+                if (value == true) {
+                  loadUser();
+                }
+              });
             },
             child: Text(
               user != null ? '欢迎你，${user.name}~' : '欢迎你，请登录~',
