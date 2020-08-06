@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage>
 
   SearchAppBar appBar() {
     return SearchAppBar(
-      backgroundColor: Color(0xFF05A6B1),
+      backgroundColor: Theme.of(context).primaryColor,
       child: Row(
         children: <Widget>[
           CachedNetworkImage(
@@ -185,20 +185,25 @@ class _HomePageState extends State<HomePage>
             width: 100,
           ),
           Expanded(
-            child: Container(
-              height: 35,
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.search),
-                  Text('搜索商品, 共${site.goods}款好物')
-                ],
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFFededed),
-                borderRadius: BorderRadius.all(
-                  const Radius.circular(2),
+            child: InkWell(
+              child: Container(
+                height: 35,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.search),
+                    Text('搜索商品, 共${site.goods}款好物')
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Color(0xFFededed),
+                  borderRadius: BorderRadius.all(
+                    const Radius.circular(2),
+                  ),
                 ),
               ),
+              onTap: () {
+                Navigator.pushNamed(context, '/search');
+              },
             ),
           ),
           Container(

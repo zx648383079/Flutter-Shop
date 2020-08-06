@@ -24,6 +24,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
   bool isLoading = false;
   final refreshController = RefreshController(initialRefresh: false);
 
+  @override
+  void initState() {
+    super.initState();
+    // var form = ModalRoute.of(context).settings.arguments as SearchForm;
+    // keywords = form.keywords;
+  }
+
   void tapRefresh() {
     tapPage(1, () {
       refreshController.refreshCompleted();
@@ -68,14 +75,53 @@ class _SearchResultPageState extends State<SearchResultPage> {
     return Container(
       child: Scaffold(
         appBar: SearchAppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           child: Row(
             children: <Widget>[
               IconButton(
+                color: Colors.white,
                 icon: Icon(IconFont.home),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
               Expanded(
-                child: TextField(),
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    right: 5,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Icon(IconFont.search),
+                              Text(keywords),
+                            ],
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(IconFont.close),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFededed),
+                    borderRadius: BorderRadius.all(
+                      const Radius.circular(2),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -86,9 +132,15 @@ class _SearchResultPageState extends State<SearchResultPage> {
           controller: refreshController,
           onLoading: tapMore,
           onRefresh: tapRefresh,
-          child: ListView.builder(
+          child: GridView.builder(
             itemBuilder: (context, index) => product(context, items[index]),
             itemCount: items.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 1.0,
+              crossAxisSpacing: 1.0,
+              childAspectRatio: 0.7,
+            ),
           ),
         ),
       ),

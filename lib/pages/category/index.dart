@@ -270,16 +270,21 @@ class _CategoryPageState extends State<CategoryPage>
       backgroundColor: Color(0xFF05A6B1),
       child: Padding(
         padding: EdgeInsets.all(5.0),
-        child: Container(
-          child: Center(
-            child: Text('搜索商品, 共 $goodsCount 款好物'),
-          ),
-          decoration: BoxDecoration(
-            color: Color(0xFFededed),
-            borderRadius: BorderRadius.all(
-              const Radius.circular(2),
+        child: InkWell(
+          child: Container(
+            child: Center(
+              child: Text('搜索商品, 共 $goodsCount 款好物'),
+            ),
+            decoration: BoxDecoration(
+              color: Color(0xFFededed),
+              borderRadius: BorderRadius.all(
+                const Radius.circular(2),
+              ),
             ),
           ),
+          onTap: () {
+            Navigator.pushNamed(context, '/search');
+          },
         ),
       ),
     );

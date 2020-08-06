@@ -216,7 +216,10 @@ class _OrderPageState extends State<OrderPage> {
         },
       ),
       title: Text('我的订单'),
-      bottom: TabBar(tabs: statusItems.map((e) => null).toList()),
+      bottom: TabBar(
+        tabs: statusItems.map((e) => null).toList(),
+        controller: tabController,
+      ),
     );
   }
 }

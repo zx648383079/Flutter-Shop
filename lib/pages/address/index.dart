@@ -26,7 +26,9 @@ class _AddressPageState extends State<AddressPage> {
       ),
       body: showItems(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/address/create');
+        },
         child: Icon(IconFont.plus),
       ),
     );
