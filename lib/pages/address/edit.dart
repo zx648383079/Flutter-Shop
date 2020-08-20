@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/pages/address/region_picker.dart';
 
 import '../../iconfont.dart';
 
 class AddressEditPage extends StatefulWidget {
-  AddressEditPage({Key key}) : super(key: key);
+  final Map arguments;
+  AddressEditPage({Key key, this.arguments}) : super(key: key);
 
   @override
   _AddressEditPageState createState() => _AddressEditPageState();
@@ -51,6 +53,27 @@ class _AddressEditPageState extends State<AddressEditPage> {
               },
               onSaved: (newValue) => newValue,
             ),
+            InkWell(
+              child: Container(
+                height: 60,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  '请选择地址',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              onTap: () {
+                showRegionPicker(context).then((value) {});
+              },
+            ),
             TextFormField(
               maxLines: null,
               keyboardType: TextInputType.multiline,
@@ -76,6 +99,8 @@ class _AddressEditPageState extends State<AddressEditPage> {
               height: 30,
             ),
             RaisedButton(
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
               onPressed: () {},
               child: Text('保存'),
             ),
@@ -83,6 +108,8 @@ class _AddressEditPageState extends State<AddressEditPage> {
               height: 10,
             ),
             RaisedButton(
+              color: Color(0xffb4282d),
+              textColor: Colors.white,
               onPressed: () {},
               child: Text('删除'),
             ),

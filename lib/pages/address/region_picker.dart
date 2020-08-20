@@ -117,7 +117,7 @@ class _RegionPickerState extends State<RegionPicker> {
 
     return Container(
       color: Colors.white,
-      height: 40.0,
+      height: 60.0,
       child: Row(
         children: <Widget>[
           buildButton("取消", () {

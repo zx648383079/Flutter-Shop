@@ -96,6 +96,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void tapSuggestion(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        tipItems = [];
+      });
+      return;
+    }
     ProductApi.getTips(value, (res) {
       setState(() {
         tipItems = res.data == null ? [] : res.data;

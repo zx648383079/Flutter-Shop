@@ -13,7 +13,7 @@ Bulletin _$BulletinFromJson(Map<String, dynamic> json) {
     json['content'] as String,
     json['type'] as int,
     json['created_at'] as String,
-    json['userName'] as String,
+    json['user_name'] as String,
     json['icon'] as String,
   );
 }
@@ -24,7 +24,7 @@ Map<String, dynamic> _$BulletinToJson(Bulletin instance) => <String, dynamic>{
       'content': instance.content,
       'type': instance.type,
       'created_at': instance.createdAt,
-      'userName': instance.userName,
+      'user_name': instance.userName,
       'icon': instance.icon,
     };
 

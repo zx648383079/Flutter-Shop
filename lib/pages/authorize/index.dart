@@ -4,7 +4,8 @@ import 'package:flutter_shop/utils/index.dart';
 import '../../iconfont.dart';
 
 class AuthorizePage extends StatefulWidget {
-  AuthorizePage({Key key}) : super(key: key);
+  final Map arguments;
+  AuthorizePage({Key key, this.arguments}) : super(key: key);
 
   @override
   _AuthorizePageState createState() => _AuthorizePageState();

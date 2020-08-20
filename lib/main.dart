@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xFFF4F4F4),
       ),
       home: IndexPage(),
-      routes: bindRoutes(),
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

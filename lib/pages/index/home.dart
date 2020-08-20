@@ -6,6 +6,7 @@ import 'package:flutter_shop/api/product.dart';
 import 'package:flutter_shop/models/ad.dart';
 import 'package:flutter_shop/models/category.dart';
 import 'package:flutter_shop/models/product.dart';
+import 'package:flutter_shop/models/search.dart';
 import 'package:flutter_shop/models/site.dart';
 import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/pages/index/menu_icon.dart';
@@ -84,13 +85,11 @@ class _HomePageState extends State<HomePage>
     items.addAll(floor('热门商品', hotItems));
     items.addAll(floor('推荐商品', bestItems));
 
-    return Container(
-      child: Scaffold(
-        appBar: appBar(),
-        body: CustomScrollView(
-          shrinkWrap: true,
-          slivers: items,
-        ),
+    return Scaffold(
+      appBar: appBar(),
+      body: CustomScrollView(
+        shrinkWrap: true,
+        slivers: items,
       ),
     );
   }
@@ -150,11 +149,15 @@ class _HomePageState extends State<HomePage>
         childAspectRatio: 0.9,
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
+        var item = categories[index];
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, '/search/result',
+                arguments: SearchForm(1, category: item.id));
+          },
           child: MenuIcon(
-            name: categories[index].name,
-            icon: categories[index].icon,
+            name: item.name,
+            icon: item.icon,
           ),
         );
       }, childCount: categories.length),

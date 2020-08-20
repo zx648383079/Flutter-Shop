@@ -51,6 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 Container(
                   width: 60,
+                  margin: EdgeInsets.only(
+                    left: 10,
+                  ),
                   child: Text('头像'),
                 ),
                 Expanded(
@@ -64,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(
-                  width: 50,
+                  width: 60,
                   child: Icon(IconFont.chevronRight),
                 ),
               ],
@@ -73,7 +76,9 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         hr(),
         profileItem('昵称', user.name, onTap: () {
-          Navigator.pushNamed(context, '/member/edit');
+          Navigator.pushNamed(context, '/member/edit', arguments: {
+            'field': 'name',
+          });
         }),
         hr(),
         profileItem('邮箱', user.email),
@@ -136,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Container(
-                width: 50,
+                width: 40,
                 child: Icon(IconFont.chevronRight),
               ),
             ],
@@ -166,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Container(
-                width: 50,
+                width: 40,
                 child: Icon(IconFont.chevronRight),
               ),
             ],

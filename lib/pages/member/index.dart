@@ -54,11 +54,7 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.scan,
                 label: '扫一扫',
                 onTap: () {
-                  if (user == null) {
-                    Navigator.pushNamed(context, LOGIN_PATH);
-                    return;
-                  }
-                  scan();
+                  doIfLogin(scan);
                 },
               ),
               hr(),
@@ -66,9 +62,8 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.etCheckingIn,
                 label: '签到',
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    user == null ? LOGIN_PATH : '/checkin',
+                  navigateIfLogin(
+                    '/checkin',
                   );
                 },
               ),
@@ -77,9 +72,8 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.map,
                 label: '我的收货地址',
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    user == null ? LOGIN_PATH : '/address',
+                  navigateIfLogin(
+                    '/address',
                   );
                 },
               ),
@@ -152,9 +146,8 @@ class _MemberPageState extends State<MemberPage>
                 label: '待付款',
                 count: 99,
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    user == null ? LOGIN_PATH : '/order',
+                  navigateIfLogin(
+                    '/order',
                     arguments: {
                       'status': ORDER_STATUS.UN_PAY,
                     },
@@ -167,9 +160,8 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.exchange,
                 label: '待发货',
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    user == null ? LOGIN_PATH : '/order',
+                  navigateIfLogin(
+                    '/order',
                     arguments: {
                       'status': ORDER_STATUS.PAID_UN_SHIP,
                     },
@@ -186,9 +178,8 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.shippingFast,
                 label: '待收货',
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    user == null ? LOGIN_PATH : '/order',
+                  navigateIfLogin(
+                    '/order',
                     arguments: {
                       'status': ORDER_STATUS.SHIPPED,
                     },
@@ -201,8 +192,7 @@ class _MemberPageState extends State<MemberPage>
                 icon: IconFont.comment,
                 label: '待评价',
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, user == null ? LOGIN_PATH : '/commnet');
+                  navigateIfLogin('/commnet');
                 },
               ),
             ),
@@ -223,8 +213,7 @@ class _MemberPageState extends State<MemberPage>
               icon: IconFont.users,
               label: '订单',
               onTap: () {
-                Navigator.pushNamed(
-                    context, user == null ? LOGIN_PATH : '/order');
+                navigateIfLogin('/order');
               },
             ),
           ),
@@ -233,8 +222,7 @@ class _MemberPageState extends State<MemberPage>
               icon: IconFont.collect,
               label: '关注',
               onTap: () {
-                Navigator.pushNamed(
-                    context, user == null ? LOGIN_PATH : '/collect');
+                navigateIfLogin('/collect');
               },
             ),
           ),
@@ -243,8 +231,7 @@ class _MemberPageState extends State<MemberPage>
               icon: IconFont.message,
               label: '消息',
               onTap: () {
-                Navigator.pushNamed(
-                    context, user == null ? LOGIN_PATH : '/message');
+                navigateIfLogin('/message');
               },
             ),
           ),
@@ -253,8 +240,7 @@ class _MemberPageState extends State<MemberPage>
               icon: IconFont.shield,
               label: '安全',
               onTap: () {
-                Navigator.pushNamed(
-                    context, user == null ? LOGIN_PATH : '/account/connect');
+                navigateIfLogin('/account/connect');
               },
             ),
           ),
@@ -263,8 +249,7 @@ class _MemberPageState extends State<MemberPage>
               icon: IconFont.set,
               label: '设置',
               onTap: () {
-                Navigator.pushNamed(
-                    context, user == null ? LOGIN_PATH : '/member/profile');
+                navigateIfLogin('/member/profile');
               },
             ),
           ),
@@ -284,13 +269,7 @@ class _MemberPageState extends State<MemberPage>
           centerTitle: true,
           title: InkWell(
             onTap: () {
-              Navigator.pushNamed(
-                      context, user != null ? '/member/profile' : LOGIN_PATH)
-                  .then((value) {
-                if (value == true) {
-                  loadUser();
-                }
-              });
+              navigateIfLogin('/member/profile');
             },
             child: Text(
               user != null ? '欢迎你，${user.name}~' : '欢迎你，请登录~',
@@ -326,5 +305,23 @@ class _MemberPageState extends State<MemberPage>
         Navigator.pushNamed(context, '/authorize');
       }
     }
+  }
+
+  void navigateIfLogin(String route, {Object arguments}) {
+    doIfLogin(() {
+      Navigator.pushNamed(context, route, arguments: arguments);
+    });
+  }
+
+  void doIfLogin(Function onTap) {
+    if (user != null) {
+      onTap();
+      return;
+    }
+    Navigator.pushNamed(context, LOGIN_PATH).then((value) {
+      if (value == true) {
+        loadUser();
+      }
+    });
   }
 }

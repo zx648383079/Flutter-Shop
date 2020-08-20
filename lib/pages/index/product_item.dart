@@ -15,18 +15,24 @@ class ProductItem extends StatelessWidget {
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: item.thumb,
-            placeholder: (context, url) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 10,
+          InkWell(
+            child: CachedNetworkImage(
+              imageUrl: item.thumb,
+              placeholder: (context, url) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 10,
+              ),
+              errorWidget: (context, url, error) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 10,
+              ),
             ),
-            errorWidget: (context, url, error) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 10,
-            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/goods',
+                  arguments: {'id': item.id});
+            },
           ),
           Container(height: 5.0),
           Text(

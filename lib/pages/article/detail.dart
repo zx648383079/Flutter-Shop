@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ArticleDetailPage extends StatefulWidget {
-  ArticleDetailPage({Key key}) : super(key: key);
+  final Map arguments;
+  ArticleDetailPage({Key key, this.arguments}) : super(key: key);
 
   @override
   _ArticleDetailPageState createState() => _ArticleDetailPageState();

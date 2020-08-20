@@ -6,7 +6,8 @@ import '../../iconfont.dart';
 import 'order_action.dart';
 
 class OrderDetailPage extends StatefulWidget {
-  OrderDetailPage({Key key}) : super(key: key);
+  final Map arguments;
+  OrderDetailPage({Key key, this.arguments}) : super(key: key);
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();

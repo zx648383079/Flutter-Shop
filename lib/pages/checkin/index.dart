@@ -36,7 +36,7 @@ class _CheckInPageState extends State<CheckInPage> {
 
   void refreshDay() {
     var now = new DateTime.now();
-    setMonth(now.add(Duration(days: now.day)));
+    setMonth(now.add(Duration(days: -now.day + 1)));
   }
 
   void checkToday() {
@@ -76,6 +76,7 @@ class _CheckInPageState extends State<CheckInPage> {
       dayItems.add(DayItem(i >= start ? i - start + 1 : 0, false));
     }
     setState(() {});
+    getMonthChecked();
   }
 
   void getMonthChecked() {
@@ -84,9 +85,8 @@ class _CheckInPageState extends State<CheckInPage> {
         return;
       }
       var items = List<int>();
-      var i = 0;
       for (var item in res.data) {
-        items[i++] = DateTime.parse(item.createdAt).day;
+        items.add(DateTime.parse(item.createdAt).day);
       }
       checkDay(items);
     });
@@ -109,6 +109,7 @@ class _CheckInPageState extends State<CheckInPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        shadowColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(IconFont.chevronLeft),
           onPressed: () {
@@ -122,7 +123,7 @@ class _CheckInPageState extends State<CheckInPage> {
           SliverFixedExtentList(
             delegate: SliverChildListDelegate(<Widget>[
               Container(
-                height: 120,
+                height: 300,
                 color: Theme.of(context).primaryColor,
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -135,7 +136,7 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
               ),
             ]),
-            itemExtent: 100,
+            itemExtent: 200,
           ),
           SliverFixedExtentList(
             delegate: SliverChildListDelegate(<Widget>[
@@ -179,51 +180,55 @@ class _CheckInPageState extends State<CheckInPage> {
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  '一',
-                  textAlign: TextAlign.center,
+          Container(
+            height: 40,
+            color: Color(0xFFEEEEEE),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    '一',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '二',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '二',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '三',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '三',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '四',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '四',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '五',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '五',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '六',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '六',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '日',
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Text(
+                    '日',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           CustomScrollView(
             shrinkWrap: true,
@@ -235,7 +240,7 @@ class _CheckInPageState extends State<CheckInPage> {
                   crossAxisCount: 7,
                   mainAxisSpacing: 0.0,
                   crossAxisSpacing: 0.0,
-                  childAspectRatio: 0.9,
+                  childAspectRatio: 1,
                 ),
               ),
             ],
@@ -248,10 +253,15 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget buildDay(BuildContext context, int index) {
     var item = dayItems[index];
     if (item.day < 1) {
-      return Container();
+      return Container(
+        height: 40,
+        width: 40,
+      );
     }
     if (!item.isChecked) {
       return Container(
+        height: 40,
+        width: 40,
         alignment: Alignment.center,
         child: Text(
           twoPad(item.day),
@@ -260,18 +270,36 @@ class _CheckInPageState extends State<CheckInPage> {
       );
     }
     return Container(
-      alignment: Alignment.center,
+      height: 40,
+      width: 40,
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 0,
-            left: 0,
-            child: Icon(IconFont.check),
+            top: 5,
+            left: 5,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color(0xff006cff),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Icon(
+                IconFont.check,
+                size: 30,
+                color: Color(0x4cffffff),
+              ),
+            ),
           ),
-          Text(
-            twoPad(item.day),
-            textAlign: TextAlign.center,
-          ),
+          Container(
+            child: Text(
+              twoPad(item.day),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            alignment: Alignment.center,
+          )
         ],
       ),
     );
@@ -297,7 +325,10 @@ class _CheckInPageState extends State<CheckInPage> {
           icon: Icon(IconFont.calendarCheck),
           label: Text('已签到'),
         ),
-        Text('已连续签到${todayChecked.running}天，继续加油'),
+        Text(
+          '已连续签到${todayChecked.running}天，继续加油',
+          style: TextStyle(color: Colors.white),
+        ),
       ],
     );
   }

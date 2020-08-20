@@ -120,7 +120,11 @@ class _CartPageState extends State<CartPage>
   }
 
   Widget bottomBar() {
+    if (items.length < 1) {
+      return null;
+    }
     return Container(
+      height: 40,
       child: Row(
         children: <Widget>[
           Container(

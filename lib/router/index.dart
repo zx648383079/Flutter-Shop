@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../pages/browser/index.dart';
 import '../pages/comment/index.dart';
 import '../pages/article/index.dart';
 import '../pages/article/detail.dart';
@@ -27,42 +28,66 @@ import '../pages/account/cancel.dart';
 import '../pages/member/login.dart';
 import '../pages/member/profile.dart';
 
-Map<String, WidgetBuilder> bindRoutes() {
-  return <String, WidgetBuilder>{
-    '/category': (context) => IndexPage(
-          pageIndex: 1,
-        ),
-    '/cart': (context) => IndexPage(
-          pageIndex: 2,
-        ),
-    '/cashier': (context) => CashierPage(),
-    '/checkin': (context) => CheckInPage(),
-    '/collect': (context) => CollectPage(),
-    '/goods': (context) => GoodsPage(),
-    '/comment': (context) => CommentPage(),
-    '/pay': (context) => PayPage(),
-    '/member': (context) => IndexPage(
-          pageIndex: 3,
-        ),
-    '/member/profile': (context) => ProfilePage(),
-    '/member/edit': (context) => EditProfilePage(),
-    '/member/password': (context) => EditPasswordPage(),
-    '/message': (context) => MessagePage(),
-    '/order': (context) => OrderPage(),
-    '/order/detail': (context) => OrderDetailPage(),
-    '/login': (context) => LoginPage(),
-    '/search': (context) => SearchPage(),
-    '/search/result': (context) => SearchResultPage(),
-    '/account/cancel': (context) => CancelPage(),
-    '/account/connect': (context) => ConnectPage(),
-    '/account/driver': (context) => DriverPage(),
-    '/address': (context) => AddressPage(),
-    '/address/edit': (context) => AddressEditPage(),
-    '/address/create': (context) => AddressEditPage(),
-    '/authorize': (context) => AuthorizePage(),
-    '/history': (context) => HistoryPage(),
-    '/article': (context) => ArticlePage(),
-    '/article/detail': (context) => ArticleDetailPage(),
-    '/feedback': (context) => FeedbackPage(),
-  };
+final routes = {
+  '/': (context) => IndexPage(
+        pageIndex: 0,
+      ),
+  '/category': (context) => IndexPage(
+        pageIndex: 1,
+      ),
+  '/cart': (context) => IndexPage(
+        pageIndex: 2,
+      ),
+  '/cashier': (context) => CashierPage(),
+  '/checkin': (context) => CheckInPage(),
+  '/collect': (context) => CollectPage(),
+  '/goods': (context, {arguments}) => GoodsPage(arguments: arguments),
+  '/comment': (context, {arguments}) => CommentPage(arguments: arguments),
+  '/pay': (context, {arguments}) => PayPage(arguments: arguments),
+  '/member': (context) => IndexPage(
+        pageIndex: 3,
+      ),
+  '/member/profile': (context) => ProfilePage(),
+  '/member/edit': (context, {arguments}) =>
+      EditProfilePage(arguments: arguments),
+  '/member/password': (context) => EditPasswordPage(),
+  '/message': (context) => MessagePage(),
+  '/order': (context, {arguments}) => OrderPage(arguments: arguments),
+  '/order/detail': (context, {arguments}) =>
+      OrderDetailPage(arguments: arguments),
+  '/login': (context) => LoginPage(),
+  '/search': (context) => SearchPage(),
+  '/search/result': (context, {arguments}) =>
+      SearchResultPage(arguments: arguments),
+  '/account/cancel': (context) => CancelPage(),
+  '/account/connect': (context) => ConnectPage(),
+  '/account/driver': (context) => DriverPage(),
+  '/address': (context) => AddressPage(),
+  '/address/edit': (context, {arguments}) =>
+      AddressEditPage(arguments: arguments),
+  '/address/create': (context) => AddressEditPage(),
+  '/authorize': (context, {arguments}) => AuthorizePage(arguments: arguments),
+  '/history': (context) => HistoryPage(),
+  '/article': (context) => ArticlePage(),
+  '/article/detail': (context, {arguments}) =>
+      ArticleDetailPage(arguments: arguments),
+  '/feedback': (context) => FeedbackPage(),
+  '/browser': (context, {arguments}) => BrowserPage(arguments: arguments),
+};
+
+//固定写法：
+Route<dynamic> onGenerateRoute(RouteSettings settings) {
+  //统一处理：
+  final String name = settings.name;
+  final Function pageContentBuilder =
+      routes.containsKey(name) ? routes[name] : routes['/'];
+  if (settings.arguments != null) {
+    final Route route = MaterialPageRoute(
+        builder: (context) =>
+            pageContentBuilder(context, arguments: settings.arguments));
+    return route;
+  }
+  final Route route =
+      MaterialPageRoute(builder: (context) => pageContentBuilder(context));
+  return route;
 }

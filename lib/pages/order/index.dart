@@ -9,6 +9,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'order_action.dart';
 
 class OrderPage extends StatefulWidget {
+  final Map arguments;
+  OrderPage({Key key, this.arguments}) : super(key: key);
+
   @override
   _OrderPageState createState() => _OrderPageState();
 }

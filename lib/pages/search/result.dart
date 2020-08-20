@@ -8,7 +8,8 @@ import 'package:flutter_shop/pages/index/search_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchResultPage extends StatefulWidget {
-  SearchResultPage({Key key}) : super(key: key);
+  final SearchForm arguments;
+  SearchResultPage({Key key, this.arguments}) : super(key: key);
 
   @override
   _SearchResultPageState createState() => _SearchResultPageState();
@@ -27,12 +28,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
   @override
   void initState() {
     super.initState();
-    // var form = ModalRoute.of(context).settings.arguments as SearchForm;
-    // keywords = form.keywords;
+    this.brand = widget.arguments.brand;
+    this.category = widget.arguments.category;
+    this.keywords = widget.arguments.keywords;
+    this.tapRefresh();
   }
 
   void tapRefresh() {
-    tapPage(1, () {
+    tapPage(1, (suc) {
       refreshController.refreshCompleted();
     });
   }
@@ -42,7 +45,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
       refreshController.loadComplete();
       return;
     }
-    tapPage(page + 1, () {
+    tapPage(page + 1, (suc) {
       refreshController.loadComplete();
     });
   }
@@ -66,6 +69,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
             items.addAll(res.data);
           }
         });
+        finish(true);
       },
     );
   }
@@ -154,18 +158,24 @@ class _SearchResultPageState extends State<SearchResultPage> {
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: item.thumb,
-            placeholder: (context, url) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 60,
+          InkWell(
+            child: CachedNetworkImage(
+              imageUrl: item.thumb,
+              placeholder: (context, url) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 60,
+              ),
+              errorWidget: (context, url, error) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 60,
+              ),
             ),
-            errorWidget: (context, url, error) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 60,
-            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/goods',
+                  arguments: {'id': item.id});
+            },
           ),
           Container(height: 5.0),
           Text(

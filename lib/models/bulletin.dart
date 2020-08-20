@@ -12,6 +12,7 @@ class Bulletin extends Object {
   int type;
   @JsonKey(name: 'created_at')
   String createdAt;
+  @JsonKey(name: 'user_name')
   String userName;
   String icon;
 

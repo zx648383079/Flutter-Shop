@@ -19,9 +19,14 @@ class _MessagePageState extends State<MessagePage> {
   bool hasMore = true;
   bool isLoading = false;
   final refreshController = RefreshController(initialRefresh: false);
+  @override
+  void initState() {
+    super.initState();
+    this.tapRefresh();
+  }
 
   void tapRefresh() {
-    tapPage(1, () {
+    tapPage(1, (suc) {
       refreshController.refreshCompleted();
     });
   }
@@ -31,7 +36,7 @@ class _MessagePageState extends State<MessagePage> {
       refreshController.loadComplete();
       return;
     }
-    tapPage(page + 1, () {
+    tapPage(page + 1, (suc) {
       refreshController.loadComplete();
     });
   }
@@ -57,6 +62,7 @@ class _MessagePageState extends State<MessagePage> {
             items.addAll(res.data);
           }
         });
+        finish(true);
       },
     );
   }
@@ -96,11 +102,26 @@ class _MessagePageState extends State<MessagePage> {
       itemBuilder: (context, index) {
         var item = items[index];
         return Container(
+          color: Colors.white,
+          margin: EdgeInsets.only(
+            bottom: 10,
+          ),
+          padding: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+          ),
           child: Row(
             children: <Widget>[
               Container(
+                width: 60,
                 child: Center(
-                  child: Text(item.bulletin.icon),
+                  child: Text(
+                    item.bulletin.icon,
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Color(0xff41C4FF),
+                    ),
+                  ),
                 ),
               ),
               Expanded(
@@ -109,13 +130,21 @@ class _MessagePageState extends State<MessagePage> {
                     Column(
                       children: <Widget>[
                         Text(
-                            '[${item.bulletin.userName}] ${item.bulletin.createdAt}'),
+                          '${item.bulletin.userName} ${item.bulletin.createdAt}',
+                          style: TextStyle(
+                            color: Color(0xff999999),
+                          ),
+                        ),
                         Container(
                           child: Text(item.bulletin.title),
                         ),
-                        FlatButton(
-                          onPressed: () {},
-                          child: Text('点击查看'),
+                        InkWell(
+                          child: Text(
+                            '点击查看',
+                            style: TextStyle(
+                              color: Color(0xff999999),
+                            ),
+                          ),
                         ),
                       ],
                     ),

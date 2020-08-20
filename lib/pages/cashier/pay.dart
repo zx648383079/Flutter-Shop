@@ -5,7 +5,8 @@ import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/models/payment.dart';
 
 class PayPage extends StatefulWidget {
-  PayPage({Key key}) : super(key: key);
+  final Map arguments;
+  PayPage({Key key, this.arguments}) : super(key: key);
 
   @override
   _PayPageState createState() => _PayPageState();
