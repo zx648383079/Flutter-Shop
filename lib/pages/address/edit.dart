@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/address.dart';
+import 'package:flutter_shop/models/address.dart';
 import 'package:flutter_shop/pages/address/region_picker.dart';
 
 import '../../iconfont.dart';
@@ -13,6 +15,28 @@ class AddressEditPage extends StatefulWidget {
 
 class _AddressEditPageState extends State<AddressEditPage> {
   final formKey = GlobalKey<FormState>();
+  Address address = Address(0, '', '', 0, '', false);
+  TextEditingController nameController, telController, addressController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    telController = TextEditingController();
+    addressController = TextEditingController();
+    if (widget.arguments == null || widget.arguments['id'] == null) {
+      return;
+    }
+    AddressApi.get(widget.arguments['id'], (res) {
+      nameController.value = TextEditingValue(text: res.name);
+      telController.value = TextEditingValue(text: res.tel);
+      addressController.value = TextEditingValue(text: res.address);
+      setState(() {
+        address = res;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +47,14 @@ class _AddressEditPageState extends State<AddressEditPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('新增收货地址'),
+        title: Text(address.id > 0 ? '修改收货地址' : '新增收货地址'),
       ),
       body: Form(
         key: formKey,
         child: ListView(
           children: <Widget>[
             TextFormField(
+              controller: nameController,
               decoration: InputDecoration(
                 labelText: '收货人',
               ),
@@ -39,9 +64,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 }
                 return '';
               },
-              onSaved: (newValue) => newValue,
+              onSaved: (newValue) {
+                address.name = newValue;
+              },
             ),
             TextFormField(
+              controller: telController,
               decoration: InputDecoration(
                 labelText: '手机号',
               ),
@@ -51,7 +79,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 }
                 return '';
               },
-              onSaved: (newValue) => newValue,
+              onSaved: (newValue) => address.tel = newValue,
             ),
             InkWell(
               child: Container(
@@ -65,16 +93,14 @@ class _AddressEditPageState extends State<AddressEditPage> {
                     ),
                   ),
                 ),
-                child: Text(
-                  '请选择地址',
-                  style: TextStyle(color: Colors.grey),
-                ),
+                child: showRegion(),
               ),
               onTap: () {
                 showRegionPicker(context).then((value) {});
               },
             ),
             TextFormField(
+              controller: addressController,
               maxLines: null,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
@@ -86,13 +112,19 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 }
                 return '';
               },
-              onSaved: (newValue) => newValue,
+              onSaved: (newValue) => address.address = newValue,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('设为默认地址'),
-                Switch(value: false, onChanged: (value) => value)
+                Switch(
+                    value: address.isDefault,
+                    onChanged: (value) {
+                      setState(() {
+                        address.isDefault = value;
+                      });
+                    })
               ],
             ),
             SizedBox(
@@ -107,15 +139,27 @@ class _AddressEditPageState extends State<AddressEditPage> {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(
-              color: Color(0xffb4282d),
-              textColor: Colors.white,
-              onPressed: () {},
-              child: Text('删除'),
-            ),
+            address.id > 0
+                ? RaisedButton(
+                    color: Color(0xffb4282d),
+                    textColor: Colors.white,
+                    onPressed: () {},
+                    child: Text('删除'),
+                  )
+                : Container(),
           ],
         ),
       ),
     );
+  }
+
+  Widget showRegion() {
+    if (address.regionId < 1 || address.region == null) {
+      return Text(
+        '请选择地址',
+        style: TextStyle(color: Colors.grey),
+      );
+    }
+    return Text(address.region.fullName);
   }
 }

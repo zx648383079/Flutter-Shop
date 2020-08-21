@@ -125,44 +125,71 @@ class _MessagePageState extends State<MessagePage> {
                 ),
               ),
               Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '${item.bulletin.userName} ${item.bulletin.createdAt}',
-                          style: TextStyle(
-                            color: Color(0xff999999),
-                          ),
-                        ),
-                        Container(
-                          child: Text(item.bulletin.title),
-                        ),
-                        InkWell(
-                          child: Text(
-                            '点击查看',
-                            style: TextStyle(
-                              color: Color(0xff999999),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        child: Text(item.status < 1 ? '未读' : '已读'),
-                      ),
-                    )
-                  ],
-                ),
+                child: infoItem(item),
               ),
             ],
           ),
         );
       },
       itemCount: items.length,
+    );
+  }
+
+  Widget infoItem(BulletinUser item) {
+    var infoBox = Column(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.topLeft,
+          child: Text(
+            '${item.bulletin.userName} ${item.bulletin.createdAt}',
+            style: TextStyle(
+              color: Color(0xff999999),
+            ),
+          ),
+        ),
+        Container(
+          constraints: BoxConstraints(
+            minHeight: 60,
+          ),
+          alignment: Alignment.topLeft,
+          child: Text(item.bulletin.title),
+        ),
+        Container(
+          alignment: Alignment.topLeft,
+          child: InkWell(
+            child: Text(
+              '点击查看',
+              style: TextStyle(
+                color: Color(0xff999999),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+    if (item.status > 0) {
+      return infoBox;
+    }
+    return Stack(
+      children: <Widget>[
+        infoBox,
+        Positioned(
+          right: 0,
+          top: 0,
+          child: Container(
+            child: Transform.rotate(
+              angle: 20,
+              child: Text(
+                '未读',
+                style: TextStyle(
+                  color: Color(0x33000000),
+                  fontSize: 40,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -24,15 +24,15 @@ class _IndexPageState extends State<IndexPage> {
     BarItem('我的', IconFont.user, MemberPage()),
   ];
 
-  final pageController = PageController(
-    initialPage: 0,
-  );
+  PageController pageController;
 
   @override
   void initState() {
     super.initState();
     tabIndex = widget.pageIndex == null ? 0 : widget.pageIndex;
-    //onPageTapped(widget.pageIndex);
+    pageController = PageController(
+      initialPage: tabIndex,
+    );
   }
 
   void onPageTapped(int index) {

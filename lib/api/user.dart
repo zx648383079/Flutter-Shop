@@ -50,11 +50,12 @@ class UserApi {
     }, error: error);
   }
 
-  static void logout(Function(ResponseBool res) success,
-      [Function(int code, String message) error]) async {
+  static void logout(Function(ResponseBool res) success) async {
     RestClient.post<Map<String, dynamic>>('auth/logout', success: (res) {
       success(ResponseBool.fromJson(res));
-    }, error: error);
+    }, error: (code, message) {
+      success(ResponseBool(false));
+    });
   }
 
   static void register(Register form, Function(User user) success,

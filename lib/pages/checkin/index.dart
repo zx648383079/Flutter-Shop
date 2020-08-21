@@ -154,8 +154,10 @@ class _CheckInPageState extends State<CheckInPage> {
 
   Widget buildDayGrid(BuildContext context) {
     return Container(
+      color: Colors.white,
       width: 336,
       height: 384,
+      transform: Matrix4.translationValues(0, -60, 0),
       child: Column(
         children: <Widget>[
           Row(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/account.dart';
 import 'package:flutter_shop/pages/member/large_header.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FeedbackPage extends StatefulWidget {
   FeedbackPage({Key key}) : super(key: key);
@@ -27,6 +29,23 @@ class _FeedbackPageState extends State<FeedbackPage> {
           }
           formKey.currentState.save();
           // todo
+          AccountApi.saveFeedback({
+            'name': name,
+            'email': email,
+            'phone': phone,
+            'content': content
+          }, (res) {
+            Fluttertoast.showToast(
+              msg: '留言成功！',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            Navigator.pop(context);
+          });
         },
       ),
       body: Form(

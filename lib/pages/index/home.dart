@@ -210,7 +210,11 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           Container(
-            child: IconButton(icon: Icon(Icons.message), onPressed: () {}),
+            child: IconButton(
+                icon: Icon(Icons.message),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/message');
+                }),
             width: 54,
           )
         ],

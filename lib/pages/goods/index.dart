@@ -6,8 +6,10 @@ import 'package:flutter_shop/api/product.dart';
 import 'package:flutter_shop/models/comment.dart';
 import 'package:flutter_shop/models/product.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../iconfont.dart';
+import 'cart_dialog.dart';
 
 class GoodsPage extends StatefulWidget {
   final Map arguments;
@@ -208,16 +210,55 @@ class _GoodsPageState extends State<GoodsPage> {
   }
 
   Widget bottomBar(BuildContext context) {
+    var children = <Widget>[
+      menuItem('首页', IconFont.home, onTap: () {
+        Navigator.pushNamed(context, '/');
+      }),
+      menuItem('分类', IconFont.table, onTap: () {
+        Navigator.pushNamed(context, '/category');
+      }),
+      menuItem('购物车', IconFont.cart, onTap: () {
+        Navigator.pushNamed(context, '/cart');
+      }),
+    ];
+    if (product == null || product.stock < 1) {
+      children.add(
+        Expanded(
+          child: Container(
+            color: Color(0xff77777),
+            child: Text('库存不足'),
+          ),
+        ),
+      );
+    } else {
+      children.add(
+        menuButton('加入购物车', Color(0xFFFF9600), onTap: () {
+          showCartDialog(context, product).then((value) {
+            if (value == null) {
+              return;
+            }
+            Fluttertoast.showToast(
+              msg: '已成功加入购物车',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          });
+        }),
+      );
+      children.add(
+        menuButton('立即购买', Colors.red, onTap: () {
+          showCartDialog(context, product, isBuy: true).then((value) {});
+        }),
+      );
+    }
     return Container(
       height: 60,
       child: Row(
-        children: <Widget>[
-          menuItem('首页', IconFont.home),
-          menuItem('分类', IconFont.table),
-          menuItem('购物车', IconFont.cart),
-          menuButton('加入购物车', Color(0xFFFF9600)),
-          menuButton('立即购买', Colors.red),
-        ],
+        children: children,
       ),
     );
   }

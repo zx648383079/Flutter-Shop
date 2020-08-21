@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/models/user.dart';
 import 'package:flutter_shop/pages/application.dart';
+import 'package:flutter_shop/pages/member/action_sheet.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../iconfont.dart';
 
@@ -15,10 +20,51 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    loadUser();
+  }
+
+  void loadUser() {
     Application.getUser().then((value) {
       setState(() {
         user = value;
       });
+    });
+  }
+
+  void tapAvatar() {
+    showActionSheet(context, items: ['拍照', '图库选择']).then((value) async {
+      if (value < 0) {
+        return;
+      }
+      var img = await ImagePicker().getImage(
+          source: value > 0 ? ImageSource.gallery : ImageSource.camera);
+      if (img == null) {
+        return;
+      }
+      UserApi.updateAvatar(File(img.path), (res) {
+        Application.setUser(res);
+        setState(() {
+          user = res;
+        });
+      });
+    });
+  }
+
+  void updateProfile(String name, dynamic value) {
+    UserApi.update({name: value}, (res) {
+      Application.setUser(res);
+      setState(() {
+        user = res;
+      });
+    });
+  }
+
+  void tapSex() {
+    showActionSheet(context, items: ['未知', '男', '女']).then((value) async {
+      if (value < 0) {
+        return;
+      }
+      updateProfile('sex', value);
     });
   }
 
@@ -47,6 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Container(
           color: Colors.white,
           child: InkWell(
+            onTap: tapAvatar,
             child: Row(
               children: <Widget>[
                 Container(
@@ -78,12 +125,14 @@ class _ProfilePageState extends State<ProfilePage> {
         profileItem('昵称', user.name, onTap: () {
           Navigator.pushNamed(context, '/member/edit', arguments: {
             'field': 'name',
+          }).then((value) {
+            loadUser();
           });
         }),
         hr(),
         profileItem('邮箱', user.email),
         hr(),
-        profileItem('性别', user.sex.toString()),
+        profileItem('性别', user.sexLabel),
         hr(),
         profileItem('生日', user.birthday),
         SizedBox(
@@ -109,7 +158,12 @@ class _ProfilePageState extends State<ProfilePage> {
           child: RaisedButton(
             color: Theme.of(context).indicatorColor,
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              UserApi.logout((res) {
+                Application.removeToken();
+                Navigator.pop(context, true);
+              });
+            },
             child: Text('退出'),
           ),
         ),

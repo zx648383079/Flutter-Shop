@@ -41,6 +41,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
               onSaved: (newValue) => name = newValue,
             ),
             TextFormField(
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: '请输入账号',
               ),

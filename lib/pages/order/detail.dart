@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/models/order.dart';
 
 import '../../iconfont.dart';
@@ -15,10 +16,22 @@ class OrderDetailPage extends StatefulWidget {
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
   Order data;
+
+  @override
+  void initState() {
+    super.initState();
+    OrderApi.get(widget.arguments['id'], (res) {
+      setState(() {
+        data = res;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(IconFont.chevronLeft),
           onPressed: () {
@@ -39,11 +52,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     }
     return CustomScrollView(
       slivers: <Widget>[
-        SliverFixedExtentList(
+        SliverList(
           delegate: SliverChildListDelegate(<Widget>[
             Container(
               color: Theme.of(context).primaryColor,
-              height: 80,
+              height: 120,
               child: Center(
                 child: Text(
                   data.statusLabel,
@@ -58,87 +71,104 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               height: 80,
               child: Row(
                 children: <Widget>[
-                  Icon(IconFont.map),
+                  Container(
+                    width: 80,
+                    height: 60,
+                    child: Icon(
+                      IconFont.map,
+                      size: 40,
+                    ),
+                  ),
                   Expanded(
-                      child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Text(data.address.name),
-                          Text(data.address.tel),
-                        ],
-                      ),
-                      Text('${data.address.regionName} ${data.address.address}')
-                    ],
-                  ))
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              data.address.name,
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            Text(data.address.tel),
+                          ],
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              '${data.address.regionName} ${data.address.address}'),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )
           ]),
-          itemExtent: 80,
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               var e = data.goods[index];
-              return Row(
-                children: <Widget>[
-                  CachedNetworkImage(
-                    imageUrl: e.goods.thumb,
-                    width: 100.0,
-                    height: 100.0,
-                    placeholder: (context, url) => new Icon(
-                      Icons.image,
-                      color: Colors.grey[300],
-                      size: 100.0,
-                    ),
-                    errorWidget: (context, url, error) => new Icon(
-                      Icons.image,
-                      color: Colors.grey[300],
-                      size: 100.0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            e.name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                          Text(
-                            '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.grey[400], fontSize: 14.0),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                e.price.toString(),
-                                style: TextStyle(
-                                    color: Colors.red, fontSize: 22.0),
-                              ),
-                              Text(
-                                e.amount > 0 ? 'x${e.amount}' : '',
-                                style: TextStyle(
-                                    color: Colors.grey[400], fontSize: 14.0),
-                              ),
-                            ],
-                          ),
-                        ],
+              return Container(
+                color: Colors.white,
+                child: Row(
+                  children: <Widget>[
+                    CachedNetworkImage(
+                      imageUrl: e.thumb,
+                      width: 100.0,
+                      height: 100.0,
+                      placeholder: (context, url) => new Icon(
+                        Icons.image,
+                        color: Colors.grey[300],
+                        size: 100.0,
+                      ),
+                      errorWidget: (context, url, error) => new Icon(
+                        Icons.image,
+                        color: Colors.grey[300],
+                        size: 100.0,
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              e.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            Text(
+                              '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.grey[400], fontSize: 14.0),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  e.price.toString(),
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 22.0),
+                                ),
+                                Text(
+                                  e.amount > 0 ? 'x${e.amount}' : '',
+                                  style: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
             childCount: data.goods.length,
@@ -232,7 +262,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: orderAction(context, data),
+              children: orderAction(context, data, isDetail: true),
             )
           ]),
           itemExtent: 30,

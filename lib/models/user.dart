@@ -8,6 +8,8 @@ class User extends Object {
   String name;
   String email;
   int sex;
+  @JsonKey(name: 'sex_label')
+  String sexLabel;
   String avatar;
   String birthday;
   String token;

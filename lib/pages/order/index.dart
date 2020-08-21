@@ -43,10 +43,11 @@ class _OrderPageState extends State<OrderPage> {
       tabIndex = tabController.index;
       tapRefresh();
     });
+    tapRefresh();
   }
 
   void tapRefresh() {
-    tapPage(1, () {
+    tapPage(1, (suc) {
       refreshController.refreshCompleted();
     });
   }
@@ -56,7 +57,7 @@ class _OrderPageState extends State<OrderPage> {
       refreshController.loadComplete();
       return;
     }
-    tapPage(page + 1, () {
+    tapPage(page + 1, (suc) {
       refreshController.loadComplete();
     });
   }
@@ -83,6 +84,7 @@ class _OrderPageState extends State<OrderPage> {
             items.addAll(res.data);
           }
         });
+        finish(true);
       },
     );
   }
@@ -110,6 +112,7 @@ class _OrderPageState extends State<OrderPage> {
     return Column(
       children: <Widget>[
         Container(
+          color: Colors.white,
           margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,21 +137,26 @@ class _OrderPageState extends State<OrderPage> {
                     onTap: () {},
                     child: Row(
                       children: <Widget>[
-                        CachedNetworkImage(
-                          imageUrl: e.goods.thumb,
-                          width: 100.0,
-                          height: 100.0,
-                          placeholder: (context, url) => new Icon(
-                            Icons.image,
-                            color: Colors.grey[300],
-                            size: 100.0,
-                          ),
-                          errorWidget: (context, url, error) => new Icon(
-                            Icons.image,
-                            color: Colors.grey[300],
-                            size: 100.0,
-                          ),
-                        ),
+                        e.thumb == null
+                            ? Container(
+                                width: 100.0,
+                                height: 100.0,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: e.thumb,
+                                width: 100.0,
+                                height: 100.0,
+                                placeholder: (context, url) => new Icon(
+                                  Icons.image,
+                                  color: Colors.grey[300],
+                                  size: 100.0,
+                                ),
+                                errorWidget: (context, url, error) => new Icon(
+                                  Icons.image,
+                                  color: Colors.grey[300],
+                                  size: 100.0,
+                                ),
+                              ),
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(left: 10.0),
@@ -198,13 +206,18 @@ class _OrderPageState extends State<OrderPage> {
                 .toList(),
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text('共${item.goods.length}件，合计：￥${item.goodsAmount}'),
+        Container(
+          color: Colors.white,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text('共${item.goods.length}件，合计：￥${item.goodsAmount}'),
+          ),
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: orderAction(context, item),
+        Container(
+          color: Colors.white,
+          child: Row(
+            children: orderAction(context, item),
+          ),
         )
       ],
     );
@@ -220,7 +233,14 @@ class _OrderPageState extends State<OrderPage> {
       ),
       title: Text('我的订单'),
       bottom: TabBar(
-        tabs: statusItems.map((e) => null).toList(),
+        tabs: statusItems
+            .map((e) => Container(
+                  height: 30,
+                  child: Text(
+                    e.name,
+                  ),
+                ))
+            .toList(),
         controller: tabController,
       ),
     );

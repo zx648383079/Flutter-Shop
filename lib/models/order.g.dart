@@ -13,7 +13,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
   )
     ..statusLabel = json['status_label'] as String
     ..status = json['status'] as int
-    ..goodsAmount = json['goods_amount'] as int
+    ..goodsAmount = (json['goods_amount'] as num)?.toDouble()
     ..paymentId = json['payment_id'] as int
     ..paymentName = json['payment_name'] as String
     ..shippingId = json['shipping_id'] as int
@@ -83,6 +83,7 @@ OrderGoods _$OrderGoodsFromJson(Map<String, dynamic> json) {
   )
     ..status = json['status'] as int
     ..amount = json['amount'] as int
+    ..thumb = json['thumb'] as String
     ..price = (json['price'] as num)?.toDouble()
     ..goodsId = json['goods_id'] as int
     ..goods = json['goods'] == null

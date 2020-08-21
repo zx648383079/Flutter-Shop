@@ -20,7 +20,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['money'] as int,
   )
     ..birthday = json['birthday'] as String
-    ..isAdmin = json['is_admin'] as bool;
+    ..isAdmin = json['is_admin'] as bool
+    ..sexLabel = json['sex_label'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

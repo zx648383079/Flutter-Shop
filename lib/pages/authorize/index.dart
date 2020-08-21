@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/authorize.dart';
+import 'package:flutter_shop/models/authorize.dart';
+import 'package:flutter_shop/models/user.dart';
+import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/utils/index.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../iconfont.dart';
 
@@ -12,10 +17,35 @@ class AuthorizePage extends StatefulWidget {
 }
 
 class _AuthorizePageState extends State<AuthorizePage> {
+  User user;
+  QrAction qr;
+
+  @override
+  void initState() {
+    super.initState();
+    Application.getUser().then((value) {
+      user = value;
+    });
+    qr = QrAction();
+    qr.token = widget.arguments['token'];
+    AuthorizeApi.authorizeQrToken(qr, (res) {}, (code, message) {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(IconFont.chevronLeft),
           onPressed: () {
@@ -33,7 +63,9 @@ class _AuthorizePageState extends State<AuthorizePage> {
                 Center(
                   child: ClipOval(
                     child: Image.network(
-                      getAssetUrl('assets/images/zx.jpg'),
+                      user != null
+                          ? user.avatar
+                          : getAssetUrl('assets/images/zx.jpg'),
                       height: 80,
                       width: 80,
                     ),
@@ -49,14 +81,44 @@ class _AuthorizePageState extends State<AuthorizePage> {
             height: 30,
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              qr.confirm = true;
+              AuthorizeApi.authorizeQrToken(qr, (res) {
+                Navigator.pop(context);
+              }, (code, message) {
+                Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              });
+            },
             child: Text('确认授权'),
           ),
           SizedBox(
             height: 10,
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              qr.reject = true;
+              AuthorizeApi.authorizeQrToken(qr, (res) {
+                Navigator.pop(context);
+              }, (code, message) {
+                Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              });
+            },
             child: Text('取消授权'),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/models/user.dart';
 import 'package:flutter_shop/pages/member/large_header.dart';
 
@@ -34,6 +35,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
   }
 
+  void updateProfile(String name, dynamic value) {
+    UserApi.update({name: value}, (res) {
+      Application.setUser(res);
+      setState(() {
+        user = res;
+      });
+      Navigator.pop(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +60,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           }
           formKey.currentState.save();
           // todo
+          this.updateProfile(field, value);
         },
       ),
       body: Form(

@@ -14,7 +14,7 @@ class Order extends Object {
   String statusLabel;
   int status;
   @JsonKey(name: 'goods_amount')
-  int goodsAmount;
+  double goodsAmount;
   @JsonKey(name: 'payment_id')
   int paymentId;
   @JsonKey(name: 'payment_name')
@@ -69,6 +69,7 @@ class OrderGoods extends Object {
   String name;
   int status;
   int amount;
+  String thumb;
   double price;
   @JsonKey(name: 'goods_id')
   int goodsId;

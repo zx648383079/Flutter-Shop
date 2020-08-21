@@ -31,91 +31,108 @@ class _CartPageState extends State<CartPage>
       appBar: AppBar(
         title: Text('购物车'),
       ),
-      body: CustomScrollView(
-        shrinkWrap: true,
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              var group = items[index];
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 50,
-                            child: IconButton(
-                              icon: Icon(IconFont.circle),
-                              onPressed: () {},
-                            ),
+      body: showBox(),
+      bottomNavigationBar: bottomBar(),
+    );
+  }
+
+  Widget showBox() {
+    if (items.length < 1) {
+      return Container(
+        child: Center(
+          child: Text(
+            '购物车空空如也',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 30,
+            ),
+          ),
+        ),
+      );
+    }
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            var group = items[index];
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 50,
+                          child: IconButton(
+                            icon: Icon(IconFont.circle),
+                            onPressed: () {},
                           ),
-                          Expanded(
-                            child: Text(group.name),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: Text(group.name),
+                        ),
+                      ],
                     ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((c, i) {
-                        var goods = group.goodsList[i];
-                        return Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Row(
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((c, i) {
+                      var goods = group.goodsList[i];
+                      return Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  child: IconButton(
+                                    icon: Icon(IconFont.circle),
+                                    onPressed: () {},
+                                  ),
+                                ),
+                                CachedNetworkImage(
+                                  width: 70,
+                                  height: 70,
+                                  imageUrl: goods.goods.thumb,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(goods.goods.name),
+                                      Text('￥${goods.price}'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Row(
                                 children: <Widget>[
-                                  Container(
-                                    width: 50,
-                                    child: IconButton(
-                                      icon: Icon(IconFont.circle),
-                                      onPressed: () {},
-                                    ),
+                                  IconButton(
+                                    icon: Icon(IconFont.minus),
+                                    onPressed: () {},
                                   ),
-                                  CachedNetworkImage(
-                                    width: 70,
-                                    height: 70,
-                                    imageUrl: goods.goods.thumb,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(goods.goods.name),
-                                        Text('￥${goods.price}'),
-                                      ],
-                                    ),
+                                  TextField(),
+                                  IconButton(
+                                    icon: Icon(IconFont.plus),
+                                    onPressed: () {},
                                   ),
                                 ],
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Row(
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(IconFont.minus),
-                                      onPressed: () {},
-                                    ),
-                                    TextField(),
-                                    IconButton(
-                                      icon: Icon(IconFont.plus),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }, childCount: group.goodsList.length),
-                    ),
-                  ],
-                ),
-              );
-            }, childCount: items.length),
-          ),
-        ],
-      ),
-      bottomNavigationBar: bottomBar(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }, childCount: group.goodsList.length),
+                  ),
+                ],
+              ),
+            );
+          }, childCount: items.length),
+        ),
+      ],
     );
   }
 

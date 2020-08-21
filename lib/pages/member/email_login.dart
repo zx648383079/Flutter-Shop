@@ -29,7 +29,6 @@ class _EmailloginPageState extends State<EmailloginPage> {
       Application.setUser(user);
       Navigator.pop(context, true);
     }, (code, err) {
-      print(err);
       Fluttertoast.showToast(
         msg: err,
         toastLength: Toast.LENGTH_SHORT,
@@ -54,6 +53,7 @@ class _EmailloginPageState extends State<EmailloginPage> {
               child: CachedNetworkImage(imageUrl: widget.logo),
             ),
             TextFormField(
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: '请输入账号',
               ),

@@ -34,6 +34,7 @@ class _EmailFindPageState extends State<EmailFindPage> {
               child: CachedNetworkImage(imageUrl: widget.logo),
             ),
             TextFormField(
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: '请输入账号',
               ),

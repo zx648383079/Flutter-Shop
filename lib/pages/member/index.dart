@@ -1,5 +1,6 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/iconfont.dart';
 import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/models/user.dart';
@@ -27,6 +28,19 @@ class _MemberPageState extends State<MemberPage>
     Application.getUser().then((value) {
       setState(() {
         user = value;
+      });
+      loadOrder();
+    });
+  }
+
+  void loadOrder() {
+    if (user == null) {
+      orderSubtotal = null;
+      return;
+    }
+    OrderApi.getSubtotal((res) {
+      setState(() {
+        orderSubtotal = res;
       });
     });
   }
@@ -144,7 +158,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.money,
                 label: '待付款',
-                count: 99,
+                count: orderSubtotal == null ? 0 : orderSubtotal.unPay,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -159,6 +173,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.exchange,
                 label: '待发货',
+                count: orderSubtotal == null ? 0 : orderSubtotal.paidUnShip,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -177,6 +192,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.shippingFast,
                 label: '待收货',
+                count: orderSubtotal == null ? 0 : orderSubtotal.shipped,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -191,6 +207,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.comment,
                 label: '待评价',
+                count: orderSubtotal == null ? 0 : orderSubtotal.uncomment,
                 onTap: () {
                   navigateIfLogin('/commnet');
                 },
@@ -248,9 +265,7 @@ class _MemberPageState extends State<MemberPage>
             child: Iconlabel(
               icon: IconFont.set,
               label: '设置',
-              onTap: () {
-                navigateIfLogin('/member/profile');
-              },
+              onTap: tapProfile,
             ),
           ),
         ],
@@ -268,9 +283,7 @@ class _MemberPageState extends State<MemberPage>
         flexibleSpace: FlexibleSpaceBar(
           centerTitle: true,
           title: InkWell(
-            onTap: () {
-              navigateIfLogin('/member/profile');
-            },
+            onTap: tapProfile,
             child: Text(
               user != null ? '欢迎你，${user.name}~' : '欢迎你，请登录~',
               style: TextStyle(
@@ -302,7 +315,8 @@ class _MemberPageState extends State<MemberPage>
       var res = await BarcodeScanner.scan();
       print(res.rawContent);
       if (res.rawContent != null) {
-        Navigator.pushNamed(context, '/authorize');
+        Navigator.pushNamed(context, '/authorize',
+            arguments: {'token': res.rawContent});
       }
     }
   }
@@ -310,6 +324,14 @@ class _MemberPageState extends State<MemberPage>
   void navigateIfLogin(String route, {Object arguments}) {
     doIfLogin(() {
       Navigator.pushNamed(context, route, arguments: arguments);
+    });
+  }
+
+  void tapProfile() {
+    doIfLogin(() {
+      Navigator.pushNamed(context, '/member/profile').then((value) {
+        loadUser();
+      });
     });
   }
 
