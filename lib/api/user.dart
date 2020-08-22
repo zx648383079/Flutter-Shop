@@ -26,7 +26,7 @@ class UserApi {
     }, error: error);
   }
 
-  static void toggleCollect(int id, Function(ResponseBool store) success,
+  static void toggleCollect(int id, Function(ResponseBool res) success,
       [Function(int code, String message) error]) async {
     RestClient.post<Map<String, dynamic>>('shop/collect/toggle',
         data: {'id': id}, success: (res) {

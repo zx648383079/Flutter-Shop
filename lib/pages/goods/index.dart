@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_shop/api/comment.dart';
 import 'package:flutter_shop/api/product.dart';
+import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/models/comment.dart';
 import 'package:flutter_shop/models/product.dart';
+import 'package:flutter_shop/utils/types.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../iconfont.dart';
 import 'cart_dialog.dart';
@@ -33,6 +36,24 @@ class _GoodsPageState extends State<GoodsPage> {
       });
       loadComment();
       loadRecommend();
+      setHistory();
+    });
+  }
+
+  void setHistory() {
+    var id = product.id.toString();
+    SharedPreferences.getInstance().then((prefs) {
+      var data = prefs.getString(SET_GOODS_HISTORY);
+      if (data == null) {
+        data = id;
+      } else {
+        var ids = data.split(',');
+        if (ids.indexOf(id) < 0) {
+          ids.add(id);
+        }
+        data = ids.join(',');
+      }
+      prefs.setString(SET_GOODS_HISTORY, data);
     });
   }
 
@@ -94,17 +115,31 @@ class _GoodsPageState extends State<GoodsPage> {
                       Expanded(
                         child: Column(
                           children: <Widget>[
-                            Text(product.name),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(product.name),
+                            ),
                           ],
                         ),
                       ),
-                      Container(
-                        width: 50,
-                        child: collectButton(context),
+                      InkWell(
+                        child: Container(
+                          width: 50,
+                          child: collectButton(context),
+                        ),
+                        onTap: () {
+                          UserApi.toggleCollect(product.id, (res) {
+                            product.isCollect = res.data;
+                            setState(() {});
+                          });
+                        },
                       ),
                     ],
                   ),
-                  Text('￥${product.price}'),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text('￥${product.price}'),
+                  ),
                 ],
               ),
             ),
@@ -152,8 +187,14 @@ class _GoodsPageState extends State<GoodsPage> {
               return Container(
                 child: Column(
                   children: <Widget>[
-                    CachedNetworkImage(
-                      imageUrl: item.thumb,
+                    InkWell(
+                      child: CachedNetworkImage(
+                        imageUrl: item.thumb,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/goods',
+                            arguments: {'id': item.id});
+                      },
                     ),
                     Text(item.name),
                     Text('￥${item.price}'),
@@ -225,7 +266,9 @@ class _GoodsPageState extends State<GoodsPage> {
       children.add(
         Expanded(
           child: Container(
+            height: 60,
             color: Color(0xff77777),
+            alignment: Alignment.center,
             child: Text('库存不足'),
           ),
         ),

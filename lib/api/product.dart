@@ -12,6 +12,15 @@ class ProductApi {
     }, error: error);
   }
 
+  static void getListById(
+      Map<String, dynamic> data, Function(ProductPage res) success,
+      [Function(int code, String message) error]) async {
+    RestClient.get<Map<String, dynamic>>('shop/goods', data: data,
+        success: (res) {
+      success(ProductPage.fromJson(res));
+    }, error: error);
+  }
+
   static void get(int id, Function(Product res) success,
       [Function(int code, String message) error]) async {
     RestClient.get<Map<String, dynamic>>('shop/goods', data: {'id': id},

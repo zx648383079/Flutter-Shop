@@ -50,6 +50,7 @@ class _CheckInPageState extends State<CheckInPage> {
       setState(() {
         todayChecked = res.data;
       });
+      checkDay(<int>[DateTime.now().day]);
     });
   }
 

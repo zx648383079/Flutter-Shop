@@ -1,7 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter_shop/api/address.dart';
+import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/api/site.dart';
 import 'package:flutter_shop/api/user.dart';
+import 'package:flutter_shop/models/address.dart';
+import 'package:flutter_shop/models/cart.dart';
+import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/models/site.dart';
 import 'package:flutter_shop/models/user.dart';
 import 'package:flutter_shop/utils/types.dart';
@@ -12,6 +17,10 @@ class Application {
   static User user;
   static String token;
   static bool isBooted = false;
+  static List<CartGroup> cart;
+  static List<Address> addressItems;
+  static Address address;
+  static Order order;
 
   static void getSite(Function(Site site) success) {
     if (site != null) {
@@ -72,6 +81,57 @@ class Application {
     user = null;
     SharedPreferences.getInstance().then((prefs) {
       prefs.remove(TOKEN_KEY);
+    });
+  }
+
+  static void setCart(List<CartGroup> data) {
+    cart = data;
+  }
+
+  static void getAddressList(Function(List<Address> res) success) {
+    if (addressItems != null) {
+      success(addressItems);
+      return;
+    }
+    AddressApi.getList((res) {
+      addressItems = res.data;
+      success(addressItems);
+    }, (code, message) {
+      if (code == 401) {
+        removeToken();
+      }
+      addressItems = null;
+      success(<Address>[]);
+    });
+  }
+
+  static void getAddress(Function(Address res) success) {
+    if (address != null) {
+      success(address);
+      return;
+    }
+    getAddressList((res) {
+      for (var item in res) {
+        if (item.isDefault) {
+          address = item;
+          success(address);
+          return;
+        }
+      }
+      success(null);
+    });
+  }
+
+  static void getOrder(int id, Function(Order res) success) {
+    if (order != null && order.id == id) {
+      success(order);
+      return;
+    }
+    OrderApi.get(id, (res) {
+      order = res;
+      success(order);
+    }, (code, message) {
+      success(null);
     });
   }
 }

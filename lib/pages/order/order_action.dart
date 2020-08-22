@@ -10,7 +10,9 @@ List<Widget> orderAction(BuildContext context, Order item,
   ];
   if (item.status == ORDER_STATUS.UN_PAY) {
     actions.add(RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/pay', arguments: {'id': item.id});
+      },
       child: Text('支付'),
     ));
   }

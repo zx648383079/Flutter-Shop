@@ -1,4 +1,5 @@
 import 'package:flutter_shop/models/page.dart';
+import 'package:flutter_shop/models/payment.dart';
 
 import '../models/order.dart';
 import '../models/search.dart';
@@ -102,6 +103,14 @@ class OrderApi {
     RestClient.get<Map<String, dynamic>>('shop/order/comment_goods', data: data,
         success: (res) {
       success(OrderGoodsData.fromJson(res));
+    }, error: error);
+  }
+
+  static void getPaymentList(int order, Function(PaymentData res) success,
+      [Function(int code, String message) error]) async {
+    RestClient.post<Map<String, dynamic>>('shop/cashier/payment',
+        data: {'order': order}, success: (res) {
+      success(PaymentData.fromJson(res));
     }, error: error);
   }
 }

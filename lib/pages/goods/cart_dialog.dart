@@ -4,12 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_shop/iconfont.dart';
-import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/models/product.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-Future<Cart> showCartDialog(BuildContext context, Product product,
+Future<dynamic> showCartDialog(BuildContext context, Product product,
     {bool isBuy = false}) {
-  Completer<Cart> completer = Completer();
+  Completer<dynamic> completer = Completer();
   var result = showModalBottomSheet(
     context: context,
     builder: (context) => CartDialog(
@@ -90,11 +90,12 @@ class _CartDialogState extends State<CartDialog> {
                   ),
                   Container(
                     child: IconButton(
-                        icon: Icon(IconFont.close),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  )
+                      icon: Icon(IconFont.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
                 ],
               ),
               Container(
@@ -150,7 +151,7 @@ class _CartDialogState extends State<CartDialog> {
           child: RaisedButton(
             color: Color(0xffe4393c),
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: tapDoCart,
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Text('确认'),
           ),
@@ -166,6 +167,16 @@ class _CartDialogState extends State<CartDialog> {
     if (!widget.isBuy) {
       CartApi.addGoods(widget.product.id, amount, (res) {
         Navigator.pop(context, res);
+      }, (code, message) {
+        Fluttertoast.showToast(
+          msg: message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       });
       return;
     }

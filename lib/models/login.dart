@@ -8,6 +8,7 @@ class Login extends Object {
   String password;
   // String mobile;
   // String code;
+  bool remember = true;
 
   Login(this.email, this.password);
 

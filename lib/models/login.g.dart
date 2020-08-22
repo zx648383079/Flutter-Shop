@@ -16,6 +16,7 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
+      'remember': instance.remember
     };
 
 Register _$RegisterFromJson(Map<String, dynamic> json) {

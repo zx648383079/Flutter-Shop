@@ -123,7 +123,7 @@ class CartDialog extends Object {
 }
 
 CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
-  var dailog = json['dialog'] as bool;
+  var dailog = json['dialog'] == null ? false : json['dialog'] as bool;
   return CartDialog(
     dailog,
     !dailog
@@ -134,7 +134,7 @@ CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
             ?.toList()
         : null,
   )
-    ..goods = dailog && json['data'] == null
+    ..goods = !dailog || json['data'] == null
         ? null
         : Product.fromJson(json['data'] as Map<String, dynamic>)
     ..checkoutButton = !dailog || json['checkout_button'] == null
