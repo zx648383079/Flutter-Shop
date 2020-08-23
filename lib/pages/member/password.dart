@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/user.dart';
+import 'package:flutter_shop/models/login.dart';
+import 'package:flutter_shop/pages/application.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../iconfont.dart';
 import 'large_header.dart';
@@ -14,6 +18,44 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
   final formKey = GlobalKey<FormState>();
   String oldPassword, password, confirmPassword;
   bool isObscure = true;
+
+  void tapSubmit() {
+    if (oldPassword.length < 4) {
+      showToast('请输入原密码！');
+      return;
+    }
+    if (password.length < 4) {
+      showToast('请输入新密码！');
+      return;
+    }
+    if (oldPassword == password) {
+      showToast('新密码不能和原密码一样！');
+      return;
+    }
+    if (confirmPassword == password) {
+      showToast('确认密码不一致！');
+      return;
+    }
+    UserApi.updatePassword(PasswordForm(oldPassword, password, confirmPassword),
+        (res) {
+      showToast('密码修改成功！');
+      Application.removeToken();
+      Navigator.pushReplacementNamed(context, '/login');
+    });
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +71,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
           }
           formKey.currentState.save();
           // todo
+          tapSubmit();
         },
       ),
       body: Form(

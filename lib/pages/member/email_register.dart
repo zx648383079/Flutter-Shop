@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/models/dialog.dart';
 
 import '../../iconfont.dart';
 
@@ -167,19 +166,19 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
           FlatButton(
             child: Text('取消'),
             onPressed: () {
-              Navigator.pop(context, DialogAction.Cancel);
+              Navigator.pop(context, false);
             },
           ),
           FlatButton(
             child: Text('确认'),
             onPressed: () {
-              Navigator.pop(context, DialogAction.Ok);
+              Navigator.pop(context, true);
             },
           ),
         ],
       ),
     );
-    if (action == DialogAction.Ok) {
+    if (action == true) {
       setState(() {
         agree = true;
       });

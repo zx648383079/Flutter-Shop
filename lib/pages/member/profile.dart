@@ -68,6 +68,22 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  void tapBirthday() {
+    var now = DateTime.now();
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.parse(user.birthday),
+            firstDate: DateTime(now.year - 100),
+            lastDate: now)
+        .then((value) {
+      if (value == null) {
+        return;
+      }
+      updateProfile('birthday',
+          "${value.year.toString()}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,9 +148,9 @@ class _ProfilePageState extends State<ProfilePage> {
         hr(),
         profileItem('邮箱', user.email),
         hr(),
-        profileItem('性别', user.sexLabel),
+        profileItem('性别', user.sexLabel, onTap: tapSex),
         hr(),
-        profileItem('生日', user.birthday),
+        profileItem('生日', user.birthday, onTap: tapBirthday),
         SizedBox(
           height: 30,
         ),

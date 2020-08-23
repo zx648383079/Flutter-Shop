@@ -216,7 +216,19 @@ class _OrderPageState extends State<OrderPage> {
         Container(
           color: Colors.white,
           child: Row(
-            children: orderAction(context, item),
+            children: orderAction(
+              context,
+              item,
+              changed: (order) {
+                if (tabIndex > 0 &&
+                    statusItems[tabIndex].value != order.status) {
+                  items.removeAt(index);
+                } else {
+                  items[index] = order;
+                }
+                setState(() {});
+              },
+            ),
           ),
         )
       ],

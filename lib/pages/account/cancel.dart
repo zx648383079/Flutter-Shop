@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/models/dialog.dart';
+import 'package:flutter_shop/api/account.dart';
+import 'package:flutter_shop/pages/application.dart';
+import 'package:flutter_shop/pages/member/confirm_dialog.dart';
 
 import '../../iconfont.dart';
 
@@ -21,6 +23,9 @@ class _CancelPageState extends State<CancelPage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      showTip(context);
+    });
   }
 
   @override
@@ -38,17 +43,14 @@ class _CancelPageState extends State<CancelPage> {
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: <Widget>[
-          SliverFixedExtentList(
-            delegate: SliverChildListDelegate(<Widget>[
-              Container(
-                height: 50,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('请选择注销原因：'),
-                ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 50,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('请选择注销原因：'),
               ),
-            ]),
-            itemExtent: 50,
+            ),
           ),
           SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate((context, index) {
@@ -61,7 +63,9 @@ class _CancelPageState extends State<CancelPage> {
                         value: index,
                         groupValue: selected,
                         onChanged: (value) {
-                          selected = value;
+                          setState(() {
+                            selected = value;
+                          });
                         },
                       ),
                     ),
@@ -77,53 +81,40 @@ class _CancelPageState extends State<CancelPage> {
             }, childCount: items.length),
             itemExtent: 50,
           ),
-          SliverFixedExtentList(
-            delegate: SliverChildListDelegate(<Widget>[
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: RaisedButton(
-                  color: Theme.of(context).indicatorColor,
-                  textColor: Colors.white,
-                  onPressed: () {},
-                  child: Text('确定注销'),
-                ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: RaisedButton(
+                color: Theme.of(context).indicatorColor,
+                textColor: Colors.white,
+                onPressed: () {
+                  AccountApi.cancelUser({'reason': items[selected]}, (res) {
+                    showConfirmDilaog(context, message: '您的账户注销申请已提交，等待管理员确认。')
+                        .then((value) {
+                      Application.removeToken();
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                    });
+                  });
+                },
+                child: Text('确定注销'),
               ),
-            ]),
-            itemExtent: 50,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Future showTip(BuildContext context) async {
-    final action = await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('账户注销确认'),
-        content: RichText(
-          text: TextSpan(
-            text: '账户注销后，您所有的记录将永远消失。',
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('继续注销'),
-            onPressed: () {
-              Navigator.pop(context, DialogAction.Cancel);
-            },
-          ),
-          FlatButton(
-            child: Text('暂不注销'),
-            onPressed: () {
-              Navigator.pop(context, DialogAction.Ok);
-            },
-          ),
-        ],
-      ),
-    );
-    if (action == DialogAction.Ok) {
-      Navigator.pop(context);
-    }
+  void showTip(BuildContext context) {
+    showConfirmDilaog(context,
+            title: '账户注销确认',
+            message: '账户注销后，您所有的记录将永远消失。',
+            yesLabel: '继续注销',
+            cancelLabel: '暂不注销')
+        .then((value) {
+      if (value == false) {
+        Navigator.pop(context);
+      }
+    });
   }
 }

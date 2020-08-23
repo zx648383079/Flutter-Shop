@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/product.dart';
 import 'package:flutter_shop/models/product.dart';
+import 'package:flutter_shop/pages/member/confirm_dialog.dart';
 import 'package:flutter_shop/utils/types.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -119,7 +120,7 @@ class _HistoryPageState extends State<HistoryPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('我的关注'),
+        title: Text('浏览历史'),
         actions: [
           IconButton(
             icon: Icon(IconFont.trash),
@@ -206,29 +207,10 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Future showClearTip(BuildContext context) async {
-    final action = await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('提示'),
-        content: Text('清除全部历史记录'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('确定'),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
-          FlatButton(
-            child: Text('取消'),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-          ),
-        ],
-      ),
-    );
-    if (action == true) {
-      tapClear();
-    }
+    showConfirmDilaog(context, message: '清除全部历史记录').then((value) {
+      if (value == true) {
+        tapClear();
+      }
+    });
   }
 }

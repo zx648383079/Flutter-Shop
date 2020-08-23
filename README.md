@@ -11,6 +11,13 @@ flutter 版商城客户端
 ![](screen/5.jpg)
 ![](screen/6.jpg)
 ![](screen/7.jpg)
+![](screen/8.jpg)
+![](screen/9.jpg)
+![](screen/10.jpg)
+![](screen/11.jpg)
+![](screen/12.jpg)
+![](screen/13.jpg)
+![](screen/14.jpg)
 
 # 其他版本
 

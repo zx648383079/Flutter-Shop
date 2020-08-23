@@ -209,7 +209,7 @@ class _MemberPageState extends State<MemberPage>
                 label: '待评价',
                 count: orderSubtotal == null ? 0 : orderSubtotal.uncomment,
                 onTap: () {
-                  navigateIfLogin('/commnet');
+                  navigateIfLogin('/comment');
                 },
               ),
             ),

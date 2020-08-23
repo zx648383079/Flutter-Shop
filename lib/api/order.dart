@@ -62,7 +62,7 @@ class OrderApi {
   }
 
   static void commentGoods(
-      Map<String, String> data, Function(ResponseBool res) success,
+      Map<String, dynamic> data, Function(ResponseBool res) success,
       [Function(int code, String message) error]) async {
     RestClient.post<Map<String, dynamic>>('shop/order/comment_save', data: data,
         success: (res) {
@@ -71,7 +71,7 @@ class OrderApi {
   }
 
   static void getRefundGoodsList(
-      Map<String, String> data, Function(OrderGoodsPage res) success,
+      Map<String, dynamic> data, Function(OrderGoodsPage res) success,
       [Function(int code, String message) error]) async {
     RestClient.get<Map<String, dynamic>>('shop/refund', data: data,
         success: (res) {
@@ -80,7 +80,7 @@ class OrderApi {
   }
 
   static void getRefundGoods(
-      Map<String, String> data, Function(OrderGoodsData res) success,
+      Map<String, dynamic> data, Function(OrderGoodsData res) success,
       [Function(int code, String message) error]) async {
     RestClient.get<Map<String, dynamic>>('shop/refund/goods', data: data,
         success: (res) {
@@ -89,7 +89,7 @@ class OrderApi {
   }
 
   static void getCommentGoods(
-      Map<String, String> data, Function(OrderGoodsPage res) success,
+      Map<String, dynamic> data, Function(OrderGoodsPage res) success,
       [Function(int code, String message) error]) async {
     RestClient.get<Map<String, dynamic>>('shop/order/comment', data: data,
         success: (res) {
@@ -98,7 +98,7 @@ class OrderApi {
   }
 
   static void getUnCommentGoods(
-      Map<String, String> data, Function(OrderGoodsData res) success,
+      Map<String, dynamic> data, Function(OrderGoodsData res) success,
       [Function(int code, String message) error]) async {
     RestClient.get<Map<String, dynamic>>('shop/order/comment_goods', data: data,
         success: (res) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/models/order.dart';
+import 'package:flutter_shop/pages/member/confirm_dialog.dart';
 
 List<Widget> orderAction(BuildContext context, Order item,
-    {bool isDetail = false}) {
+    {bool isDetail = false, Function(Order order) changed}) {
   var actions = <Widget>[
     Expanded(
       child: SizedBox(),
@@ -28,7 +30,18 @@ List<Widget> orderAction(BuildContext context, Order item,
 
   if (item.status == ORDER_STATUS.SHIPPED) {
     actions.add(RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        showConfirmDilaog(context, message: '确认已收到商品？').then((value) {
+          if (value != true) {
+            return;
+          }
+          OrderApi.receive(item.id, (res) {
+            if (changed != null) {
+              changed(res);
+            }
+          });
+        });
+      },
       child: Text('确认收货'),
     ));
   }
@@ -60,7 +73,18 @@ List<Widget> orderAction(BuildContext context, Order item,
   if (item.status == ORDER_STATUS.UN_PAY ||
       item.status == ORDER_STATUS.PAID_UN_SHIP) {
     actions.add(RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        showConfirmDilaog(context, message: '确认取消此订单？').then((value) {
+          if (value != true) {
+            return;
+          }
+          OrderApi.cancel(item.id, (res) {
+            if (changed != null) {
+              changed(res);
+            }
+          });
+        });
+      },
       child: Text('取消'),
     ));
   }

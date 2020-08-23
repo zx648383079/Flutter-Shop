@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../pages/comment/create.dart';
 import '../pages/browser/index.dart';
 import '../pages/comment/index.dart';
 import '../pages/article/index.dart';
@@ -43,6 +44,8 @@ final routes = {
   '/collect': (context) => CollectPage(),
   '/goods': (context, {arguments}) => GoodsPage(arguments: arguments),
   '/comment': (context, {arguments}) => CommentPage(arguments: arguments),
+  '/comment/create': (context, {arguments}) =>
+      CommentCreatePage(arguments: arguments),
   '/pay': (context, {arguments}) => PayPage(arguments: arguments),
   '/member': (context) => IndexPage(
         pageIndex: 3,

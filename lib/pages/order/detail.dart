@@ -262,7 +262,15 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: orderAction(context, data, isDetail: true),
+              children: orderAction(
+                context,
+                data,
+                isDetail: true,
+                changed: (order) {
+                  data = order;
+                  setState(() {});
+                },
+              ),
             )
           ]),
           itemExtent: 30,
