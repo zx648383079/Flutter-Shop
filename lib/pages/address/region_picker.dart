@@ -141,6 +141,9 @@ class _RegionPickerState extends State<RegionPicker> {
   Widget buildPickers() {
     var items = <Widget>[];
     for (var i = 0; i < regionController.length; i++) {
+      if (regionItems[i].length < 1) {
+        continue;
+      }
       items.add(Expanded(
         child: CupertinoPicker.builder(
           itemExtent: 40,
