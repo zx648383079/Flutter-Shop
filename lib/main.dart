@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/router/index.dart';
+import './router/index.dart';
 import './pages/index/index.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

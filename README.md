@@ -37,7 +37,7 @@ UWP版[UWP-Shop](https://github.com/zx648383079/UWP-Shop)：有基本的架构�
 
 swift版（待定）
 
-Angular版[Angular-ZoDream](https://github.com/zx648383079/Angular-ZoDream)：包括前台及管理后台，目前只是有基本页面（不全），没有对接
+Angular版[Angular-ZoDream](https://github.com/zx648383079/Angular-ZoDream)：包括前台及管理后台
 
 ## Getting Started
 
@@ -51,33 +51,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-## 配置
-
-复制 `lib/config/config.sample.dart` 为 `lib/config/config.dart`
-
-修改 `config.dart` 的内容
-
-## model 生成
-
-```shell
-flutter pub run build_runner build --delete-conflicting-outputs
-
-```
-
-## 无法获取包
-
-新增两个环境变量
-
-```
-PUB_HOSTED_URL ===== https://pub.flutter-io.cn
-FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
-```
-
-## 更新依赖
-
-先把依赖的版本号 换为 `any`
-
-执行 `flutter pub upgrade` 
-
-正式发布时，请改回版本号

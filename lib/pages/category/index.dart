@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/category.dart';
 import 'package:flutter_shop/models/category.dart';
 import 'package:flutter_shop/models/product.dart';
-import 'package:flutter_shop/pages/index/product_item.dart';
 import 'package:flutter_shop/pages/index/search_bar.dart';
 
 import '../application.dart';
@@ -228,18 +227,24 @@ class _CategoryPageState extends State<CategoryPage>
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: item.thumb,
-            placeholder: (context, url) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 60,
+          InkWell(
+            child: CachedNetworkImage(
+              imageUrl: item.thumb,
+              placeholder: (context, url) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 60,
+              ),
+              errorWidget: (context, url, error) => new Icon(
+                Icons.image,
+                color: Colors.grey[300],
+                size: MediaQuery.of(context).size.width / 2 - 60,
+              ),
             ),
-            errorWidget: (context, url, error) => new Icon(
-              Icons.image,
-              color: Colors.grey[300],
-              size: MediaQuery.of(context).size.width / 2 - 60,
-            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/goods',
+                  arguments: {'id': item.id});
+            },
           ),
           Container(height: 5.0),
           Text(
