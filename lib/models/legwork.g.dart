@@ -11,9 +11,9 @@ LegworkForm _$LegworkFormFromJson(Map<String, dynamic> json) {
     json['name'] as String,
     json['label'] as String,
   )
-    ..required = json['required'] as bool
-    ..only = json['only'] as bool
-    ..value = json['value'] as String;
+    ..required = json['required'] as bool?
+    ..only = json['only'] as bool?
+    ..value = json['value'] as String?;
 }
 
 Map<String, dynamic> _$LegworkFormToJson(LegworkForm instance) =>
@@ -32,11 +32,10 @@ LegworkService _$LegworkServiceFromJson(Map<String, dynamic> json) {
     json['thumb'] as String,
     json['brief'] as String,
     json['content'] as String,
-    (json['price'] as num)?.toDouble(),
-  )..form = (json['form'] as List)
-      ?.map((e) =>
-          e == null ? null : LegworkForm.fromJson(e as Map<String, dynamic>))
-      ?.toList();
+    (json['price'] as num).toDouble(),
+  )..form = (json['form'] as List<dynamic>?)
+      ?.map((e) => LegworkForm.fromJson(e as Map<String, dynamic>))
+      .toList();
 }
 
 Map<String, dynamic> _$LegworkServiceToJson(LegworkService instance) =>
@@ -55,20 +54,19 @@ LegworkOrder _$LegworkOrderFromJson(Map<String, dynamic> json) {
     ..id = json['id'] as int
     ..userId = json['user_id'] as int
     ..serviceId = json['service_id'] as int
-    ..remark = (json['remark'] as List)
-        ?.map((e) =>
-            e == null ? null : LegworkForm.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..orderAmount = (json['order_amount'] as num)?.toDouble()
+    ..remark = (json['remark'] as List<dynamic>?)
+        ?.map((e) => LegworkForm.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..orderAmount = (json['order_amount'] as num).toDouble()
     ..runner = json['runner'] as int
     ..status = json['status'] as int
-    ..serviceRank = json['service_rank'] as int
-    ..payAt = json['pay_at'] as String
-    ..takingAt = json['taking_at'] as String
-    ..takenAt = json['taken_at'] as String
-    ..finishAt = json['finish_at'] as String
-    ..createdAt = json['created_at'] as String
-    ..updatedAt = json['updated_at'] as String;
+    ..serviceRank = json['service_rank'] as int?
+    ..payAt = json['pay_at'] as String?
+    ..takingAt = json['taking_at'] as String?
+    ..takenAt = json['taken_at'] as String?
+    ..finishAt = json['finish_at'] as String?
+    ..createdAt = json['created_at'] as String?
+    ..updatedAt = json['updated_at'] as String?;
 }
 
 Map<String, dynamic> _$LegworkOrderToJson(LegworkOrder instance) =>

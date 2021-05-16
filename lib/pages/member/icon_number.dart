@@ -4,12 +4,12 @@ class IconNumber extends StatelessWidget {
   final IconData icon;
   final String label;
   final int count;
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
   IconNumber({
-    Key key,
-    this.icon,
-    this.label,
-    this.count,
+    Key? key,
+    required this.icon,
+    required this.label,
+    this.count = 0,
     this.onTap,
   }) : super(key: key);
 

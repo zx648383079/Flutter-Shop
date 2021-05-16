@@ -10,9 +10,9 @@ class EmailloginPage extends StatefulWidget {
   final Function(int mode) tapFlip;
   final String logo;
   EmailloginPage({
-    Key key,
-    this.tapFlip,
-    this.logo,
+    Key? key,
+    required this.tapFlip,
+    required this.logo,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class EmailloginPage extends StatefulWidget {
 
 class _EmailloginPageState extends State<EmailloginPage> {
   final formKey = GlobalKey<FormState>();
-  String email, password;
+  String email = '', password = '';
   bool isObscure = true;
 
   void tapLogin() {
@@ -30,7 +30,7 @@ class _EmailloginPageState extends State<EmailloginPage> {
       Navigator.pop(context, true);
     }, (code, err) {
       Fluttertoast.showToast(
-        msg: err,
+        msg: err ?? '',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -58,12 +58,12 @@ class _EmailloginPageState extends State<EmailloginPage> {
                 labelText: '请输入账号',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入账号';
                 }
                 return null;
               },
-              onSaved: (newValue) => email = newValue,
+              onSaved: (newValue) => email = newValue ?? '',
             ),
             TextFormField(
               obscureText: isObscure,
@@ -79,24 +79,24 @@ class _EmailloginPageState extends State<EmailloginPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入密码';
                 }
                 return null;
               },
-              onSaved: (newValue) => password = newValue,
+              onSaved: (newValue) => password = newValue ?? '',
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('注册账户'),
                   onPressed: () {
                     widget.tapFlip(2);
                   },
                 ),
-                FlatButton(
+                TextButton(
                   child: Text('忘记密码'),
                   onPressed: () {
                     widget.tapFlip(3);
@@ -104,22 +104,28 @@ class _EmailloginPageState extends State<EmailloginPage> {
                 ),
               ],
             ),
-            RaisedButton(
-              color: Theme.of(context).indicatorColor,
-              textColor: Colors.white,
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).indicatorColor),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
               child: Text('登录'),
               onPressed: () {
-                if (!formKey.currentState.validate()) {
+                if (!formKey.currentState!.validate()) {
                   return;
                 }
-                formKey.currentState.save();
+                formKey.currentState!.save();
                 // todo
                 tapLogin();
               },
             ),
-            RaisedButton(
-              color: Colors.white,
-              textColor: Theme.of(context).indicatorColor,
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).indicatorColor),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
               child: Text('其他登录方式'),
               onPressed: () {
                 widget.tapFlip(0);

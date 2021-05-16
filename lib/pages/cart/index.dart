@@ -173,7 +173,7 @@ class _CartPageState extends State<CartPage>
                   fontSize: 30,
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/login').then((value) {
                     refreshUser();
@@ -199,7 +199,7 @@ class _CartPageState extends State<CartPage>
                   fontSize: 30,
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/');
                 },
@@ -356,7 +356,7 @@ class _CartPageState extends State<CartPage>
     );
   }
 
-  Widget bottomBar() {
+  Widget? bottomBar() {
     if (isGuest || items.length < 1) {
       return null;
     }
@@ -373,7 +373,7 @@ class _CartPageState extends State<CartPage>
           ),
           Container(
             width: 60,
-            child: FlatButton(
+            child: TextButton(
               onPressed: toggleCheckAll,
               child: Text('全选'),
             ),

@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../iconfont.dart';
 
 class MessagePage extends StatefulWidget {
-  MessagePage({Key key}) : super(key: key);
+  MessagePage({Key? key}) : super(key: key);
 
   @override
   _MessagePageState createState() => _MessagePageState();

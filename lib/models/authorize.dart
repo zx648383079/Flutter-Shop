@@ -4,9 +4,9 @@ part 'authorize.g.dart';
 
 @JsonSerializable()
 class QrAction extends Object {
-  String token;
-  bool confirm;
-  bool reject;
+  String? token;
+  bool? confirm;
+  bool? reject;
 
   QrAction();
 
@@ -18,10 +18,10 @@ class QrAction extends Object {
 
 @JsonSerializable()
 class QrToken extends Object {
-  int id;
-  int status;
+  int? id;
+  int? status;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
 
   QrToken();
 

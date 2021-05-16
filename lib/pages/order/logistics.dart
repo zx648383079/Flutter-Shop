@@ -4,7 +4,7 @@ import 'package:flutter_shop/models/order.dart';
 import '../../iconfont.dart';
 
 class OrderLogisticsPage extends StatefulWidget {
-  OrderLogisticsPage({Key key}) : super(key: key);
+  OrderLogisticsPage({Key? key}) : super(key: key);
 
   @override
   _OrderLogisticsPageState createState() => _OrderLogisticsPageState();
@@ -41,10 +41,10 @@ class _OrderLogisticsPageState extends State<OrderLogisticsPage> {
     final reg = new RegExp(r'(\d{4})-(\d{2})(-\d{2} \d{2}:\d{2})');
     for (var item in items) {
       var match = reg.firstMatch(item.createdAt);
-      if (match.groupCount < 0) {
+      if (match == null || match.groupCount < 0) {
         continue;
       }
-      var current = match[1] + '年' + match[2] + '月';
+      var current = match[1]! + '年' + match[2]! + '月';
       if (last != current) {
         children.add(Container(
           child: Align(

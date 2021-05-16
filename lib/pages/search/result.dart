@@ -9,7 +9,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchResultPage extends StatefulWidget {
   final SearchForm arguments;
-  SearchResultPage({Key key, this.arguments}) : super(key: key);
+  SearchResultPage({Key? key, SearchForm? arguments})
+      : arguments = arguments ?? SearchForm(1),
+        super(key: key);
 
   @override
   _SearchResultPageState createState() => _SearchResultPageState();

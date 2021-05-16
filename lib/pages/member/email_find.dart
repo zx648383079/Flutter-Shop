@@ -7,9 +7,9 @@ class EmailFindPage extends StatefulWidget {
   final Function(int mode) tapFlip;
   final String logo;
   EmailFindPage({
-    Key key,
-    this.tapFlip,
-    this.logo,
+    Key? key,
+    required this.tapFlip,
+    required this.logo,
   }) : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class EmailFindPage extends StatefulWidget {
 
 class _EmailFindPageState extends State<EmailFindPage> {
   final formKey = GlobalKey<FormState>();
-  String email, code, password, confirmPassword;
+  String email = '', code = '', password = '', confirmPassword = '';
   bool isObscure = true;
   bool sent = false;
 
@@ -39,12 +39,12 @@ class _EmailFindPageState extends State<EmailFindPage> {
                 labelText: '请输入账号',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入账号';
                 }
                 return null;
               },
-              onSaved: (newValue) => email = newValue,
+              onSaved: (newValue) => email = newValue ?? '',
             ),
             sent
                 ? Column(
@@ -54,12 +54,12 @@ class _EmailFindPageState extends State<EmailFindPage> {
                           labelText: '请输入安全代码',
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return '请输入安全代码';
                           }
                           return null;
                         },
-                        onSaved: (newValue) => code = newValue,
+                        onSaved: (newValue) => code = newValue ?? '',
                       ),
                       TextFormField(
                         obscureText: isObscure,
@@ -76,12 +76,12 @@ class _EmailFindPageState extends State<EmailFindPage> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return '请输入密码';
                           }
                           return null;
                         },
-                        onSaved: (newValue) => password = newValue,
+                        onSaved: (newValue) => password = newValue ?? '',
                       ),
                       TextFormField(
                         obscureText: isObscure,
@@ -98,7 +98,7 @@ class _EmailFindPageState extends State<EmailFindPage> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return '请输入确认密码';
                           }
                           if (value != password) {
@@ -106,21 +106,24 @@ class _EmailFindPageState extends State<EmailFindPage> {
                           }
                           return null;
                         },
-                        onSaved: (newValue) => confirmPassword = newValue,
+                        onSaved: (newValue) => confirmPassword = newValue ?? '',
                       ),
                     ],
                   )
                 : Container(),
             SizedBox(height: 30.0),
-            RaisedButton(
-              color: Theme.of(context).indicatorColor,
-              textColor: Colors.white,
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).indicatorColor),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
               child: Text(sent ? '重置密码' : '发送验证邮件'),
               onPressed: () {
-                if (!formKey.currentState.validate()) {
+                if (!formKey.currentState!.validate()) {
                   return;
                 }
-                formKey.currentState.save();
+                formKey.currentState!.save();
                 // todo
                 setState(() {
                   sent = true;
@@ -131,7 +134,7 @@ class _EmailFindPageState extends State<EmailFindPage> {
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerRight,
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text('返回登录'),
                     onPressed: () {
                       widget.tapFlip(1);

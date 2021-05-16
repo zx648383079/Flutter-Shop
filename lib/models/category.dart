@@ -8,15 +8,15 @@ class Category extends Object {
   int id;
   String name;
   String icon;
-  String banner;
+  String? banner;
   @JsonKey(name: 'app_banner')
   String appBanner;
   @JsonKey(name: 'parent_id')
   int parentId;
   @JsonKey(ignore: true)
-  List<Category> children;
+  List<Category>? children;
   @JsonKey(ignore: true)
-  List<Product> goodsList;
+  List<Product>? goodsList;
 
   Category(this.id, this.name, this.icon, this.appBanner, this.parentId);
 
@@ -37,16 +37,16 @@ class CategoryExtra extends Object {
   int id;
   String name;
   String icon;
-  String banner;
+  String? banner;
   @JsonKey(name: 'app_banner')
   String appBanner;
   @JsonKey(name: 'parent_id')
   int parentId;
-  bool expanded;
-  int level;
-  List<Category> children;
+  bool expanded = false;
+  int level = 0;
+  List<Category>? children;
   @JsonKey(name: 'goods_list')
-  List<Product> goodsList;
+  List<Product>? goodsList;
 
   CategoryExtra(this.id, this.name, this.icon, this.appBanner, this.parentId);
 

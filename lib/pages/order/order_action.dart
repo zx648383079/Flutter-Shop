@@ -4,14 +4,14 @@ import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/pages/member/confirm_dialog.dart';
 
 List<Widget> orderAction(BuildContext context, Order item,
-    {bool isDetail = false, Function(Order order) changed}) {
+    {bool isDetail = false, Function(Order order)? changed}) {
   var actions = <Widget>[
     Expanded(
       child: SizedBox(),
     ),
   ];
   if (item.status == ORDER_STATUS.UN_PAY) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {
         Navigator.pushNamed(context, '/pay', arguments: {'id': item.id});
       },
@@ -19,7 +19,7 @@ List<Widget> orderAction(BuildContext context, Order item,
     ));
   }
   if (!isDetail) {
-    actions.add(FlatButton(
+    actions.add(ElevatedButton(
       child: Text('详情'),
       onPressed: () {
         Navigator.pushNamed(context, '/order/detail',
@@ -29,7 +29,7 @@ List<Widget> orderAction(BuildContext context, Order item,
   }
 
   if (item.status == ORDER_STATUS.SHIPPED) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {
         showConfirmDilaog(context, message: '确认已收到商品？').then((value) {
           if (value != true) {
@@ -46,33 +46,33 @@ List<Widget> orderAction(BuildContext context, Order item,
     ));
   }
   if (item.status == ORDER_STATUS.RECEIVED) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {},
       child: Text('评价'),
     ));
   }
   if (item.status == ORDER_STATUS.SHIPPED ||
       item.status == ORDER_STATUS.PAID_UN_SHIP) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {},
       child: Text('申请退款'),
     ));
   }
   if (item.status == ORDER_STATUS.RECEIVED) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {},
       child: Text('退换货'),
     ));
   }
   if (item.status == ORDER_STATUS.FINISH) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {},
       child: Text('售后'),
     ));
   }
   if (item.status == ORDER_STATUS.UN_PAY ||
       item.status == ORDER_STATUS.PAID_UN_SHIP) {
-    actions.add(RaisedButton(
+    actions.add(ElevatedButton(
       onPressed: () {
         showConfirmDilaog(context, message: '确认取消此订单？').then((value) {
           if (value != true) {

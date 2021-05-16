@@ -7,14 +7,14 @@ part 'account.g.dart';
 @JsonSerializable()
 class AccountLog extends Object {
   int id;
-  int type;
+  int? type;
   @JsonKey(name: 'item_id')
-  int itemId;
+  int? itemId;
   double money;
-  int status;
-  String remark;
+  int? status;
+  String? remark;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
 
   AccountLog(this.id, this.money);
 
@@ -41,13 +41,13 @@ class AccountLogPage extends Object {
 class Card extends Object {
   int id;
   int type;
-  String icon;
-  String bank;
+  String? icon;
+  String? bank;
   @JsonKey(name: 'card_no')
-  String cardNo;
-  int status;
+  String? cardNo;
+  int? status;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
 
   Card(this.id, this.type);
 
@@ -73,8 +73,8 @@ class CardPage extends Object {
 class AccountSubtotal extends Object {
   double money;
   int integral;
-  int bonus;
-  int coupon;
+  int? bonus;
+  int? coupon;
 
   AccountSubtotal(this.money, this.integral);
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MenuIcon extends StatelessWidget {
   final String name;
   final String icon;
-  MenuIcon({this.name, this.icon});
+  MenuIcon({required this.name, required this.icon});
 
   @override
   Widget build(BuildContext context) {

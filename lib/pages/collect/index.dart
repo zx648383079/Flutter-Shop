@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../iconfont.dart';
 
 class CollectPage extends StatefulWidget {
-  CollectPage({Key key}) : super(key: key);
+  CollectPage({Key? key}) : super(key: key);
 
   @override
   _CollectPageState createState() => _CollectPageState();

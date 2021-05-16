@@ -6,8 +6,8 @@ import 'package:flutter_shop/pages/address/region_picker.dart';
 import '../../iconfont.dart';
 
 class AddressEditPage extends StatefulWidget {
-  final Map arguments;
-  AddressEditPage({Key key, this.arguments}) : super(key: key);
+  final Map? arguments;
+  AddressEditPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   _AddressEditPageState createState() => _AddressEditPageState();
@@ -16,7 +16,7 @@ class AddressEditPage extends StatefulWidget {
 class _AddressEditPageState extends State<AddressEditPage> {
   final formKey = GlobalKey<FormState>();
   Address address = Address(0, '', '', 0, '', false);
-  TextEditingController nameController, telController, addressController;
+  TextEditingController? nameController, telController, addressController;
 
   @override
   void initState() {
@@ -24,13 +24,13 @@ class _AddressEditPageState extends State<AddressEditPage> {
     nameController = TextEditingController();
     telController = TextEditingController();
     addressController = TextEditingController();
-    if (widget.arguments == null || widget.arguments['id'] == null) {
+    if (widget.arguments == null || widget.arguments?['id'] == null) {
       return;
     }
-    AddressApi.get(widget.arguments['id'], (res) {
-      nameController.value = TextEditingValue(text: res.name);
-      telController.value = TextEditingValue(text: res.tel);
-      addressController.value = TextEditingValue(text: res.address);
+    AddressApi.get(widget.arguments?['id'], (res) {
+      nameController?.value = TextEditingValue(text: res.name);
+      telController?.value = TextEditingValue(text: res.tel);
+      addressController?.value = TextEditingValue(text: res.address);
       setState(() {
         address = res;
       });
@@ -59,13 +59,13 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 labelText: '收货人',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入收货人';
                 }
                 return '';
               },
               onSaved: (newValue) {
-                address.name = newValue;
+                address.name = newValue as String;
               },
             ),
             TextFormField(
@@ -74,12 +74,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 labelText: '手机号',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入手机号';
                 }
                 return '';
               },
-              onSaved: (newValue) => address.tel = newValue,
+              onSaved: (newValue) => address.tel = newValue as String,
             ),
             InkWell(
               child: Container(
@@ -107,12 +107,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 labelText: '详细地址',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入详细地址';
                 }
                 return '';
               },
-              onSaved: (newValue) => address.address = newValue,
+              onSaved: (newValue) => address.address = newValue as String,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,9 +130,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
             SizedBox(
               height: 30,
             ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              textColor: Colors.white,
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
               onPressed: () {},
               child: Text('保存'),
             ),
@@ -140,9 +143,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
               height: 10,
             ),
             address.id > 0
-                ? RaisedButton(
-                    color: Color(0xffb4282d),
-                    textColor: Colors.white,
+                ? ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xffb4282d)),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                     onPressed: () {},
                     child: Text('删除'),
                   )
@@ -160,6 +166,6 @@ class _AddressEditPageState extends State<AddressEditPage> {
         style: TextStyle(color: Colors.grey),
       );
     }
-    return Text(address.region.fullName);
+    return Text(address.region?.fullName ?? '');
   }
 }

@@ -9,28 +9,27 @@ part of 'order.dart';
 Order _$OrderFromJson(Map<String, dynamic> json) {
   return Order(
     json['id'] as int,
-    json['series_number'] as String,
+    json['series_number'] as String?,
   )
-    ..statusLabel = json['status_label'] as String
-    ..status = json['status'] as int
-    ..goodsAmount = (json['goods_amount'] as num)?.toDouble()
-    ..paymentId = json['payment_id'] as int
-    ..paymentName = json['payment_name'] as String
-    ..shippingId = json['shipping_id'] as int
-    ..shippingName = json['shipping_name'] as String
-    ..shippingFee = (json['shipping_fee'] as num)?.toDouble()
-    ..payFee = (json['pay_fee'] as num)?.toDouble()
-    ..discount = (json['discount'] as num)?.toDouble()
-    ..orderAmount = (json['order_amount'] as num)?.toDouble()
-    ..createdAt = json['created_at'] as String
-    ..payAt = json['pay_at'] as String
-    ..shippingAt = json['shipping_at'] as String
-    ..receiveAt = json['receive_at'] as String
-    ..finishAt = json['finish_at'] as String
-    ..goods = (json['goods'] as List)
-        ?.map((e) =>
-            e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
-        ?.toList()
+    ..statusLabel = json['status_label'] as String?
+    ..status = json['status'] as int?
+    ..goodsAmount = (json['goods_amount'] as num?)?.toDouble()
+    ..paymentId = json['payment_id'] as int?
+    ..paymentName = json['payment_name'] as String?
+    ..shippingId = json['shipping_id'] as int?
+    ..shippingName = json['shipping_name'] as String?
+    ..shippingFee = (json['shipping_fee'] as num?)?.toDouble()
+    ..payFee = (json['pay_fee'] as num?)?.toDouble()
+    ..discount = (json['discount'] as num?)?.toDouble()
+    ..orderAmount = (json['order_amount'] as num?)?.toDouble()
+    ..createdAt = json['created_at'] as String?
+    ..payAt = json['pay_at'] as String?
+    ..shippingAt = json['shipping_at'] as String?
+    ..receiveAt = json['receive_at'] as String?
+    ..finishAt = json['finish_at'] as String?
+    ..goods = (json['goods'] as List<dynamic>?)
+        ?.map((e) => OrderGoods.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..address = json['address'] == null
         ? null
         : Address.fromJson(json['address'] as Map<String, dynamic>);
@@ -61,13 +60,10 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
 
 OrderPage _$OrderPageFromJson(Map<String, dynamic> json) {
   return OrderPage(
-    (json['data'] as List)
-        ?.map(
-            (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => Order.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -81,11 +77,11 @@ OrderGoods _$OrderGoodsFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['name'] as String,
   )
-    ..status = json['status'] as int
-    ..amount = json['amount'] as int
-    ..thumb = json['thumb'] as String
-    ..price = (json['price'] as num)?.toDouble()
-    ..goodsId = json['goods_id'] as int
+    ..status = json['status'] as int?
+    ..amount = json['amount'] as int?
+    ..thumb = json['thumb'] as String?
+    ..price = (json['price'] as num?)?.toDouble()
+    ..goodsId = json['goods_id'] as int?
     ..goods = json['goods'] == null
         ? null
         : Product.fromJson(json['goods'] as Map<String, dynamic>);
@@ -97,6 +93,7 @@ Map<String, dynamic> _$OrderGoodsToJson(OrderGoods instance) =>
       'name': instance.name,
       'status': instance.status,
       'amount': instance.amount,
+      'thumb': instance.thumb,
       'price': instance.price,
       'goods_id': instance.goodsId,
       'goods': instance.goods,
@@ -104,10 +101,9 @@ Map<String, dynamic> _$OrderGoodsToJson(OrderGoods instance) =>
 
 OrderGoodsData _$OrderGoodsDataFromJson(Map<String, dynamic> json) {
   return OrderGoodsData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => OrderGoods.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -118,13 +114,10 @@ Map<String, dynamic> _$OrderGoodsDataToJson(OrderGoodsData instance) =>
 
 OrderGoodsPage _$OrderGoodsPageFromJson(Map<String, dynamic> json) {
   return OrderGoodsPage(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : OrderGoods.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => OrderGoods.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -177,10 +170,9 @@ Map<String, dynamic> _$LogisticsToJson(Logistics instance) => <String, dynamic>{
 
 LogisticsData _$LogisticsDataFromJson(Map<String, dynamic> json) {
   return LogisticsData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Logistics.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Logistics.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -192,10 +184,10 @@ Map<String, dynamic> _$LogisticsDataToJson(LogisticsData instance) =>
 PrePay _$PrePayFromJson(Map<String, dynamic> json) {
   return PrePay(
     json['success'] as bool,
-    json['params'],
+    json['params'] as Object,
   )
-    ..url = json['url'] as String
-    ..html = json['html'] as String;
+    ..url = json['url'] as String?
+    ..html = json['html'] as String?;
 }
 
 Map<String, dynamic> _$PrePayToJson(PrePay instance) => <String, dynamic>{
@@ -207,9 +199,7 @@ Map<String, dynamic> _$PrePayToJson(PrePay instance) => <String, dynamic>{
 
 PrePayData _$PrePayDataFromJson(Map<String, dynamic> json) {
   return PrePayData(
-    json['data'] == null
-        ? null
-        : PrePay.fromJson(json['data'] as Map<String, dynamic>),
+    PrePay.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 

@@ -36,8 +36,8 @@ Map<String, dynamic> _$SearchFormToJson(SearchForm instance) =>
 OrderForm _$OrderFormFromJson(Map<String, dynamic> json) {
   return OrderForm(
     json['page'] as int,
-    status: json['status'] as int,
-    keywords: json['keywords'] as String,
+    status: json['status'] as int?,
+    keywords: json['keywords'] as String?,
   );
 }
 

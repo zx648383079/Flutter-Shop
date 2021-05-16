@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user;
+  User? user;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var now = DateTime.now();
     showDatePicker(
             context: context,
-            initialDate: DateTime.parse(user.birthday),
+            initialDate: DateTime.parse(user!.birthday ?? ''),
             firstDate: DateTime(now.year - 100),
             lastDate: now)
         .then((value) {
@@ -123,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Image.network(
-                      user.avatar,
+                      user?.avatar ?? '',
                       height: 70,
                       width: 70,
                     ),
@@ -138,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         hr(),
-        profileItem('昵称', user.name, onTap: () {
+        profileItem('昵称', user!.name, onTap: () {
           Navigator.pushNamed(context, '/member/edit', arguments: {
             'field': 'name',
           }).then((value) {
@@ -146,11 +146,11 @@ class _ProfilePageState extends State<ProfilePage> {
           });
         }),
         hr(),
-        profileItem('邮箱', user.email),
+        profileItem('邮箱', user!.email),
         hr(),
-        profileItem('性别', user.sexLabel, onTap: tapSex),
+        profileItem('性别', user!.sexLabel ?? '', onTap: tapSex),
         hr(),
-        profileItem('生日', user.birthday, onTap: tapBirthday),
+        profileItem('生日', user!.birthday ?? '', onTap: tapBirthday),
         SizedBox(
           height: 30,
         ),
@@ -171,9 +171,12 @@ class _ProfilePageState extends State<ProfilePage> {
         }),
         Padding(
           padding: EdgeInsets.all(10),
-          child: RaisedButton(
-            color: Theme.of(context).indicatorColor,
-            textColor: Colors.white,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(Theme.of(context).indicatorColor),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
             onPressed: () {
               UserApi.logout((res) {
                 Application.removeToken();
@@ -195,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget menuItem(String name, {Function onTap}) {
+  Widget menuItem(String name, {Function()? onTap}) {
     return Container(
       color: Colors.white,
       child: InkWell(
@@ -221,7 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget profileItem(String name, String value, {Function onTap}) {
+  Widget profileItem(String name, String value, {Function()? onTap}) {
     return Container(
       color: Colors.white,
       child: InkWell(

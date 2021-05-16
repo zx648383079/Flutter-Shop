@@ -11,7 +11,7 @@ import 'package:flutter_shop/models/site.dart';
 import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/pages/index/menu_icon.dart';
 import 'package:flutter_shop/utils/index.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 import 'product_item.dart';
 import 'search_bar.dart';
@@ -54,13 +54,13 @@ class _HomePageState extends State<HomePage>
     ProductApi.getHome((res) {
       setState(() {
         if (res.hotProducts != null) {
-          hotItems = res.hotProducts;
+          hotItems = res.hotProducts!;
         }
         if (res.bestProducts != null) {
-          bestItems = res.bestProducts;
+          bestItems = res.bestProducts!;
         }
         if (res.newProducts != null) {
-          newItems = res.newProducts;
+          newItems = res.newProducts!;
         }
       });
     });
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  List<Widget> floor(String title, List<Product> data) {
+  List<Widget> floor(String title, List<Product>? data) {
     if (data == null || data.length < 1) {
       return <Widget>[];
     }
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage>
                   color: Colors.white,
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.grey[100],
+                      color: Colors.grey[100]!,
                       width: 1,
                     ),
                   ),

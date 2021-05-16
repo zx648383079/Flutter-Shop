@@ -28,10 +28,9 @@ Map<String, dynamic> _$ConnectToJson(Connect instance) => <String, dynamic>{
 
 ConnectData _$ConnectDataFromJson(Map<String, dynamic> json) {
   return ConnectData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Connect.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Connect.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

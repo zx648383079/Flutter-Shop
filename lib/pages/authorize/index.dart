@@ -10,15 +10,15 @@ import '../../iconfont.dart';
 
 class AuthorizePage extends StatefulWidget {
   final Map arguments;
-  AuthorizePage({Key key, this.arguments}) : super(key: key);
+  AuthorizePage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _AuthorizePageState createState() => _AuthorizePageState();
 }
 
 class _AuthorizePageState extends State<AuthorizePage> {
-  User user;
-  QrAction qr;
+  User? user;
+  QrAction qr = QrAction();
 
   @override
   void initState() {
@@ -26,11 +26,10 @@ class _AuthorizePageState extends State<AuthorizePage> {
     Application.getUser().then((value) {
       user = value;
     });
-    qr = QrAction();
     qr.token = widget.arguments['token'];
     AuthorizeApi.authorizeQrToken(qr, (res) {}, (code, message) {
       Fluttertoast.showToast(
-        msg: message,
+        msg: message ?? '',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -63,9 +62,7 @@ class _AuthorizePageState extends State<AuthorizePage> {
                 Center(
                   child: ClipOval(
                     child: Image.network(
-                      user != null
-                          ? user.avatar
-                          : getAssetUrl('assets/images/zx.jpg'),
+                      user?.avatar ?? getAssetUrl('assets/images/zx.jpg'),
                       height: 80,
                       width: 80,
                     ),
@@ -80,14 +77,14 @@ class _AuthorizePageState extends State<AuthorizePage> {
           SizedBox(
             height: 30,
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               qr.confirm = true;
               AuthorizeApi.authorizeQrToken(qr, (res) {
                 Navigator.pop(context);
               }, (code, message) {
                 Fluttertoast.showToast(
-                  msg: message,
+                  msg: message ?? '',
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
@@ -102,14 +99,14 @@ class _AuthorizePageState extends State<AuthorizePage> {
           SizedBox(
             height: 10,
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               qr.reject = true;
               AuthorizeApi.authorizeQrToken(qr, (res) {
                 Navigator.pop(context);
               }, (code, message) {
                 Fluttertoast.showToast(
-                  msg: message,
+                  msg: message ?? '',
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,

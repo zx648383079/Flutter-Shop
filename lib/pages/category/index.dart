@@ -88,10 +88,10 @@ class _CategoryPageState extends State<CategoryPage>
         ),
       ));
     }
-    if (item.goodsList != null && item.goodsList.length > 0) {
-      items.addAll(floor(item.name, item.goodsList));
+    if (item.goodsList != null && item.goodsList!.length > 0) {
+      items.addAll(floor(item.name, item.goodsList!));
     }
-    if (item.children != null && item.children.length > 0) {
+    if (item.children != null && item.children!.length > 0) {
       items.add(
         SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -117,7 +117,7 @@ class _CategoryPageState extends State<CategoryPage>
                         CachedNetworkImage(
                           width: 50.0,
                           fit: BoxFit.contain,
-                          imageUrl: item.children[subIndex].icon,
+                          imageUrl: item.children![subIndex].icon,
                           placeholder: (context, url) => new Icon(
                             Icons.image,
                             color: Colors.grey[300],
@@ -129,14 +129,14 @@ class _CategoryPageState extends State<CategoryPage>
                             size: 50.0,
                           ),
                         ),
-                        Text(item.children[subIndex].name)
+                        Text(item.children![subIndex].name)
                       ],
                     ),
                   ),
                 ],
               ),
             );
-          }, childCount: item.children.length),
+          }, childCount: item.children!.length),
         ),
       );
     }
@@ -270,7 +270,7 @@ class _CategoryPageState extends State<CategoryPage>
     );
   }
 
-  Widget header() {
+  PreferredSizeWidget header() {
     return SearchAppBar(
       backgroundColor: Color(0xFF05A6B1),
       child: Padding(

@@ -6,15 +6,14 @@ import '../models/cart.dart';
 import '../utils/http.dart';
 
 class CartApi {
-  static void get(Function(Cart res) success,
-      [Function(int code, String message) error]) async {
+  static void get(Function(Cart res) success, [ErrorCallback? error]) async {
     RestClient.get<Map<String, dynamic>>('shop/cart', success: (res) {
       success(Cart.fromJson(res));
     }, error: error);
   }
 
   static void addGoods(int goods, int amount, Function(CartDialog res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cart/add',
         data: {'goods': goods, 'amount': amount}, success: (res) {
       success(CartDialog.fromJson(res));
@@ -22,7 +21,7 @@ class CartApi {
   }
 
   static void updateGoods(int goods, int amount, Function(Cart res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cart/update_goods',
         data: {'goods': goods, 'amount': amount}, success: (res) {
       success(Cart.fromJson(res));
@@ -30,7 +29,7 @@ class CartApi {
   }
 
   static void updateItem(int id, int amount, Function(Cart res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.put<Map<String, dynamic>>('shop/cart/update',
         data: {'id': id, 'amount': amount}, success: (res) {
       success(Cart.fromJson(res));
@@ -38,7 +37,7 @@ class CartApi {
   }
 
   static void deleteItem(int id, Function(Cart res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.delete<Map<String, dynamic>>('shop/cart/delete',
         data: {'id': id}, success: (res) {
       success(Cart.fromJson(res));
@@ -46,7 +45,7 @@ class CartApi {
   }
 
   static void deleteAll(Function(Cart res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.delete<Map<String, dynamic>>('shop/cart/clear', success: (res) {
       success(Cart.fromJson(res));
     }, error: error);
@@ -54,7 +53,7 @@ class CartApi {
 
   static void getPaymentList(
       List<int> goods, int shipping, Function(PaymentData res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cashier/payment',
         data: {'goods': goods, 'shipping': shipping}, success: (res) {
       success(PaymentData.fromJson(res));
@@ -63,7 +62,7 @@ class CartApi {
 
   static void getShippingList(List<int> goods, int address, int type,
       Function(ShippingData res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cashier/shipping',
         data: {'goods': goods, 'address': address, 'type': type},
         success: (res) {
@@ -73,7 +72,7 @@ class CartApi {
 
   static void previewOrder(List<int> goods, int address, int shipping,
       int payment, int type, Function(Order res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cashier/preview', data: {
       'goods': goods,
       'address': address,
@@ -87,7 +86,7 @@ class CartApi {
 
   static void checkoutOrder(List<int> goods, int address, int shipping,
       int payment, int type, Function(Order res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.post<Map<String, dynamic>>('shop/cashier/checkout', data: {
       'goods': goods,
       'address': address,

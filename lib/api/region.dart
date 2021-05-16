@@ -3,7 +3,7 @@ import 'package:flutter_shop/utils/http.dart';
 
 class RegionApi {
   static void getList(int id, Function(RegionData res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.get<Map<String, dynamic>>('shop/region', data: {'id': id},
         success: (res) {
       success(RegionData.fromJson(res));

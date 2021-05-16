@@ -18,10 +18,11 @@ class Product extends Object {
   @JsonKey(name: 'is_collect')
   bool isCollect;
   int amount;
-  List<CommentImage> gallery;
-  String content;
+  List<CommentImage>? gallery;
+  String? content;
 
-  Product(this.id, this.name);
+  Product(this.id, this.name, this.thumb, this.image, this.price,
+      this.marketPrice, this.stock, this.isCollect, this.amount);
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
@@ -57,13 +58,13 @@ class ProductData extends Object {
 @JsonSerializable()
 class HomeProduct extends Object {
   @JsonKey(name: 'hot_products')
-  List<Product> hotProducts;
+  List<Product>? hotProducts;
 
   @JsonKey(name: 'new_products')
-  List<Product> newProducts;
+  List<Product>? newProducts;
 
   @JsonKey(name: 'best_products')
-  List<Product> bestProducts;
+  List<Product>? bestProducts;
 
   HomeProduct();
 

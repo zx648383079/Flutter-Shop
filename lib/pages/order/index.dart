@@ -9,8 +9,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'order_action.dart';
 
 class OrderPage extends StatefulWidget {
-  final Map arguments;
-  OrderPage({Key key, this.arguments}) : super(key: key);
+  final Map? arguments;
+  OrderPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   _OrderPageState createState() => _OrderPageState();
@@ -30,7 +30,7 @@ class _OrderPageState extends State<OrderPage> {
   bool hasMore = true;
   bool isLoading = false;
   final refreshController = RefreshController(initialRefresh: false);
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -39,8 +39,8 @@ class _OrderPageState extends State<OrderPage> {
       length: statusItems.length,
       vsync: ScrollableState(),
     );
-    tabController.addListener(() {
-      tabIndex = tabController.index;
+    tabController!.addListener(() {
+      tabIndex = tabController!.index;
       tapRefresh();
     });
     tapRefresh();
@@ -123,7 +123,7 @@ class _OrderPageState extends State<OrderPage> {
                 style: TextStyle(fontSize: 16.0),
               ),
               Text(
-                item.statusLabel,
+                item.statusLabel!,
                 style: TextStyle(color: Colors.orange[600], fontSize: 16.0),
               ),
             ],
@@ -131,7 +131,7 @@ class _OrderPageState extends State<OrderPage> {
         ),
         Container(
           child: Column(
-            children: item.goods
+            children: item.goods!
                 .map(
                   (e) => InkWell(
                     onTap: () {},
@@ -143,7 +143,7 @@ class _OrderPageState extends State<OrderPage> {
                                 height: 100.0,
                               )
                             : CachedNetworkImage(
-                                imageUrl: e.thumb,
+                                imageUrl: e.thumb!,
                                 width: 100.0,
                                 height: 100.0,
                                 placeholder: (context, url) => new Icon(
@@ -188,7 +188,7 @@ class _OrderPageState extends State<OrderPage> {
                                           color: Colors.red, fontSize: 22.0),
                                     ),
                                     Text(
-                                      e.amount > 0 ? 'x${e.amount}' : '',
+                                      e.amount! > 0 ? 'x${e.amount}' : '',
                                       style: TextStyle(
                                           color: Colors.grey[400],
                                           fontSize: 14.0),
@@ -210,7 +210,7 @@ class _OrderPageState extends State<OrderPage> {
           color: Colors.white,
           child: Align(
             alignment: Alignment.centerRight,
-            child: Text('共${item.goods.length}件，合计：￥${item.goodsAmount}'),
+            child: Text('共${item.goods!.length}件，合计：￥${item.goodsAmount}'),
           ),
         ),
         Container(
@@ -235,7 +235,7 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  Widget header(BuildContext context) {
+  PreferredSizeWidget header(BuildContext context) {
     return AppBar(
       leading: IconButton(
         icon: Icon(IconFont.chevronLeft),

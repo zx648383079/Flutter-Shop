@@ -6,6 +6,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../iconfont.dart';
 
 class AddressPage extends StatefulWidget {
+  AddressPage({Key? key}) : super(key: key);
+
   @override
   _AddressPageState createState() => _AddressPageState();
 }
@@ -78,7 +80,7 @@ class _AddressPageState extends State<AddressPage> {
                 ),
               ],
             ),
-            subtitle: Text('${item.region.fullName} ${item.address}'),
+            subtitle: Text('${item.region?.fullName} ${item.address}'),
             onTap: () {
               Navigator.pushNamed(context, '/address/edit',
                   arguments: {'id': item.id});

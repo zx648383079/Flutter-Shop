@@ -64,7 +64,7 @@ class _CancelPageState extends State<CancelPage> {
                         groupValue: selected,
                         onChanged: (value) {
                           setState(() {
-                            selected = value;
+                            selected = value as int;
                           });
                         },
                       ),
@@ -84,9 +84,12 @@ class _CancelPageState extends State<CancelPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(10),
-              child: RaisedButton(
-                color: Theme.of(context).indicatorColor,
-                textColor: Colors.white,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).indicatorColor),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
                 onPressed: () {
                   AccountApi.cancelUser({'reason': items[selected]}, (res) {
                     showConfirmDilaog(context, message: '您的账户注销申请已提交，等待管理员确认。')

@@ -8,9 +8,9 @@ part of 'authorize.dart';
 
 QrAction _$QrActionFromJson(Map<String, dynamic> json) {
   return QrAction()
-    ..token = json['token'] as String
-    ..confirm = json['confirm'] as bool
-    ..reject = json['reject'] as bool;
+    ..token = json['token'] as String?
+    ..confirm = json['confirm'] as bool?
+    ..reject = json['reject'] as bool?;
 }
 
 Map<String, dynamic> _$QrActionToJson(QrAction instance) => <String, dynamic>{
@@ -21,9 +21,9 @@ Map<String, dynamic> _$QrActionToJson(QrAction instance) => <String, dynamic>{
 
 QrToken _$QrTokenFromJson(Map<String, dynamic> json) {
   return QrToken()
-    ..id = json['id'] as int
-    ..status = json['status'] as int
-    ..createdAt = json['created_at'] as String;
+    ..id = json['id'] as int?
+    ..status = json['status'] as int?
+    ..createdAt = json['created_at'] as String?;
 }
 
 Map<String, dynamic> _$QrTokenToJson(QrToken instance) => <String, dynamic>{

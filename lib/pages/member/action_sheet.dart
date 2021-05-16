@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Future<int> showActionSheet(BuildContext context,
-    {String title, String message, @required List<String> items}) {
+    {String? title, String? message, required List<String> items}) {
   Completer<int> completer = Completer();
   var result = showCupertinoModalPopup(
       context: context,

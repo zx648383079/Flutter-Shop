@@ -18,19 +18,19 @@ class CashierPage extends StatefulWidget {
 }
 
 class _CashierPageState extends State<CashierPage> {
-  Address address;
+  Address? address;
   List<CartGroup> items = [];
-  Order order;
+  Order? order;
   List<Payment> paymentItems = [];
-  Payment payment;
+  Payment? payment;
   List<Shipping> shippingItems = [];
-  Shipping shipping;
-  List<int> cartIdItems;
+  Shipping? shipping;
+  List<int> cartIdItems = [];
 
   @override
   void initState() {
     super.initState();
-    items = Application.cart;
+    items = Application.cart as List<CartGroup>;
     cartIdItems = [];
     for (var group in items) {
       for (var cart in group.goodsList) {
@@ -52,7 +52,7 @@ class _CashierPageState extends State<CashierPage> {
     if (address == null) {
       return;
     }
-    CartApi.getShippingList(cartIdItems, address.id, 0, (res) {
+    CartApi.getShippingList(cartIdItems, address?.id ?? 0, 0, (res) {
       shippingItems = res.data;
     });
     refreshPrice();
@@ -63,11 +63,8 @@ class _CashierPageState extends State<CashierPage> {
       return;
     }
     CartApi.previewOrder(
-        cartIdItems,
-        address.id,
-        shipping == null ? 0 : shipping.id,
-        payment == null ? 0 : payment.id,
-        0, (res) {
+        cartIdItems, address?.id ?? 0, shipping?.id ?? 0, payment?.id ?? 0, 0,
+        (res) {
       setState(() {
         order = res;
       });
@@ -103,13 +100,14 @@ class _CashierPageState extends State<CashierPage> {
       showToast('请选择配送方式');
       return;
     }
-    CartApi.checkoutOrder(cartIdItems, address.id, shipping.id, payment.id, 0,
+    CartApi.checkoutOrder(
+        cartIdItems, address?.id ?? 0, shipping?.id ?? 0, payment?.id ?? 0, 0,
         (res) {
       Application.order = res;
       Navigator.pushReplacementNamed(context, '/pay',
           arguments: {'id': res.id});
     }, (code, msg) {
-      showToast(msg);
+      showToast(msg ?? '');
     });
   }
 
@@ -225,35 +223,35 @@ class _CashierPageState extends State<CashierPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('商品总价'),
-            Text('￥${order.goodsAmount}'),
+            Text('￥${order?.goodsAmount}'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('+运费'),
-            Text(order.shippingFee == null ? '￥0' : '￥${order.shippingFee}'),
+            Text(order?.shippingFee == null ? '￥0' : '￥${order?.shippingFee}'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('+支付手续费'),
-            Text(order.payFee == null ? '￥0' : '￥${order.payFee}'),
+            Text(order?.payFee == null ? '￥0' : '￥${order?.payFee}'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('-优惠'),
-            Text(order.discount == null ? '￥0' : '￥${order.discount}'),
+            Text(order?.discount == null ? '￥0' : '￥${order?.discount}'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('订单总价'),
-            Text('￥${order.orderAmount}'),
+            Text('￥${order?.orderAmount}'),
           ],
         ),
       ]),
@@ -273,7 +271,7 @@ class _CashierPageState extends State<CashierPage> {
             Expanded(
               child: Align(
                 alignment: Alignment.centerRight,
-                child: Text(shipping == null ? '请选择' : shipping.name),
+                child: Text(shipping?.name ?? '请选择'),
               ),
             ),
             Container(
@@ -287,7 +285,7 @@ class _CashierPageState extends State<CashierPage> {
         showSelectDialog(
           context,
           items: shippingItems,
-          selected: shipping == null ? 0 : shipping.id,
+          selected: shipping?.id ?? 0,
           title: '配送方式',
         ).then((value) {
           if (value == null) {
@@ -313,7 +311,7 @@ class _CashierPageState extends State<CashierPage> {
             Expanded(
               child: Align(
                 alignment: Alignment.centerRight,
-                child: Text(payment == null ? '请选择' : payment.name),
+                child: Text(payment?.name ?? '请选择'),
               ),
             ),
             Container(
@@ -327,7 +325,7 @@ class _CashierPageState extends State<CashierPage> {
         showSelectDialog(
           context,
           items: paymentItems,
-          selected: payment == null ? 0 : payment.id,
+          selected: payment?.id ?? 0,
           title: '支付方式',
         ).then((value) {
           if (value == null) {
@@ -350,15 +348,15 @@ class _CashierPageState extends State<CashierPage> {
               Row(
                 children: <Widget>[
                   Text(
-                    address.name,
+                    address?.name ?? '',
                     style: TextStyle(fontSize: 30),
                   ),
-                  Text(address.tel),
+                  Text(address?.tel ?? ''),
                 ],
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                child: Text('${address.region.fullName} ${address.address}'),
+                child: Text('${address?.region?.fullName} ${address?.address}'),
               ),
             ],
           );
@@ -389,20 +387,20 @@ class _CashierPageState extends State<CashierPage> {
         ),
       ),
       onTap: () {
-        if (Application.addressItems.length < 1) {
+        if (Application.addressItems == null ||
+            Application.addressItems!.length < 1) {
           Navigator.pushNamed(context, '/address/create',
               arguments: {'back': 1}).then((value) {});
           return;
         }
-        Navigator.pushNamed(context, '/address', arguments: {
-          'back': 1,
-          'seleted': address == null ? 0 : address.id
-        }).then((value) {});
+        Navigator.pushNamed(context, '/address',
+                arguments: {'back': 1, 'seleted': address?.id ?? 0})
+            .then((value) {});
       },
     );
   }
 
-  Widget bottomBar(BuildContext context) {
+  Widget? bottomBar(BuildContext context) {
     if (address == null) {
       return null;
     }
@@ -415,7 +413,7 @@ class _CashierPageState extends State<CashierPage> {
             color: Color(0xffffe4c4),
             alignment: Alignment.centerLeft,
             child: Text(
-              '${address.region.fullName} ${address.address}',
+              '${address?.region?.fullName} ${address?.address}',
               style: TextStyle(color: Colors.red),
             ),
           ),
@@ -435,7 +433,7 @@ class _CashierPageState extends State<CashierPage> {
                   child: Container(
                     alignment: Alignment.centerRight,
                     child:
-                        Text(order == null ? '加载中' : '￥${order.orderAmount}'),
+                        Text(order == null ? '加载中' : '￥${order?.orderAmount}'),
                   ),
                 ),
                 InkWell(

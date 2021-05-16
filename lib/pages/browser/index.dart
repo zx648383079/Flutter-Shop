@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../iconfont.dart';
 
 class BrowserPage extends StatefulWidget {
-  final Map arguments;
-  BrowserPage({Key key, this.arguments}) : super(key: key);
+  final Map? arguments;
+  BrowserPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   _BrowserPageState createState() => _BrowserPageState();
@@ -23,7 +24,11 @@ class _BrowserPageState extends State<BrowserPage> {
         ),
         title: Text('浏览器'),
       ),
-      body: Container(),
+      body: Container(
+        child: WebView(
+          initialUrl: widget.arguments?['url'],
+        ),
+      ),
     );
   }
 }

@@ -4,11 +4,11 @@ import 'package:flutter_shop/iconfont.dart';
 class MenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
-  final Function onTap;
+  final Function()? onTap;
   MenuItem({
-    Key key,
-    this.icon,
-    this.label,
+    Key? key,
+    required this.icon,
+    required this.label,
     this.onTap,
   }) : super(key: key);
 

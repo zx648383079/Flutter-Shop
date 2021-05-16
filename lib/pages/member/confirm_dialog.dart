@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 Future<bool> showConfirmDilaog(BuildContext context,
     {String title = '提示',
-    String message,
+    required String message,
     String yesLabel = '确定',
     String cancelLabel = '取消'}) {
   Completer<bool> completer = Completer();
@@ -14,13 +14,13 @@ Future<bool> showConfirmDilaog(BuildContext context,
       title: Text(title),
       content: Text(message),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(yesLabel),
           onPressed: () {
             Navigator.pop(context, true);
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(cancelLabel),
           onPressed: () {
             Navigator.pop(context, false);

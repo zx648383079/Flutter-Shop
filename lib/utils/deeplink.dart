@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/models/search.dart';
+import './index.dart';
 
 void openLink(BuildContext context, String link) {
   if (link.isEmpty ||
@@ -16,18 +17,18 @@ void openLink(BuildContext context, String link) {
     );
     return;
   }
-  if (uri.scheme != 'deeplink') {
+  if (uri.scheme != deeplink) {
     return;
   }
   if (uri.host == 'search') {
     Navigator.pushNamed(
       context,
       '/search/result',
-      arguments: SearchForm(1, keywords: uri.queryParameters['keywords']),
+      arguments: SearchForm(1, keywords: uri.queryParameters['keywords'] ?? ''),
     );
     return;
   }
-  if (uri.host != 'goto') {
+  if (uri.host != 'shop') {
     return;
   }
   if (uri.path == 'index') {

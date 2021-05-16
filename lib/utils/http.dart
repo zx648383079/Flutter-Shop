@@ -3,16 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './index.dart';
 import './types.dart';
 
+typedef void ErrorCallback(int? code, String? message);
+
 class RestClient {
-  static Dio dio;
+  static Dio? dio;
   static const int CONNECT_TIMEOUT = 10000;
   static const int RECEIVE_TIMEOUT = 3000;
 
   static void request<T>(String url,
-      {data,
-      method,
-      Function(T t) success,
-      Function(int code, String message) error}) async {
+      {data, method, Function(T t)? success, ErrorCallback? error}) async {
     method = method ?? 'GET';
     data = data ?? {};
     var queryParameters = Map<String, dynamic>();
@@ -48,13 +47,13 @@ class RestClient {
         error(400, e.message);
         return;
       }
-      error(e.response.statusCode, e.response.data['message']);
+      error(e.response?.statusCode, e.response?.data['message']);
     }
   }
 
   // 上传文件
   static void uploadFile<T>(String url, FormData data,
-      {Function(T t) success, Function(int code, String message) error}) async {
+      {Function(T t)? success, ErrorCallback? error}) async {
     Dio dio = createInstance();
     try {
       var queryParameters = ApiToken.create().toJson();
@@ -79,35 +78,27 @@ class RestClient {
         error(400, '网络错误');
         return;
       }
-      error(e.response.statusCode, e.response.data['message']);
+      error(e.response?.statusCode, e.response?.data['message']);
     }
   }
 
   static void get<T>(String url,
-      {Map data,
-      Function(T t) success,
-      Function(int code, String message) error}) async {
+      {Map? data, Function(T t)? success, ErrorCallback? error}) async {
     request<T>(url, data: data, method: 'GET', success: success, error: error);
   }
 
   static void post<T>(String url,
-      {Map data,
-      Function(T t) success,
-      Function(int code, String message) error}) async {
+      {Map? data, Function(T t)? success, ErrorCallback? error}) async {
     request<T>(url, data: data, method: 'POST', success: success, error: error);
   }
 
   static void put<T>(String url,
-      {Map data,
-      Function(T t) success,
-      Function(int code, String message) error}) async {
+      {Map? data, Function(T t)? success, ErrorCallback? error}) async {
     request<T>(url, data: data, method: 'PUT', success: success, error: error);
   }
 
   static void delete<T>(String url,
-      {Map data,
-      Function(T t) success,
-      Function(int code, String message) error}) async {
+      {Map? data, Function(T t)? success, ErrorCallback? error}) async {
     request<T>(url,
         data: data, method: 'DELETE', success: success, error: error);
   }
@@ -125,7 +116,6 @@ class RestClient {
           },
           responseType: ResponseType.json));
     }
-
-    return dio;
+    return dio as Dio;
   }
 }

@@ -8,7 +8,7 @@ import '../../iconfont.dart';
 import 'large_header.dart';
 
 class EditPasswordPage extends StatefulWidget {
-  EditPasswordPage({Key key}) : super(key: key);
+  EditPasswordPage({Key? key}) : super(key: key);
 
   @override
   _EditPasswordPageState createState() => _EditPasswordPageState();
@@ -16,7 +16,7 @@ class EditPasswordPage extends StatefulWidget {
 
 class _EditPasswordPageState extends State<EditPasswordPage> {
   final formKey = GlobalKey<FormState>();
-  String oldPassword, password, confirmPassword;
+  String oldPassword = '', password = '', confirmPassword = '';
   bool isObscure = true;
 
   void tapSubmit() {
@@ -66,10 +66,10 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
           Navigator.pop(context);
         },
         onSubmit: () {
-          if (!formKey.currentState.validate()) {
+          if (!formKey.currentState!.validate()) {
             return;
           }
-          formKey.currentState.save();
+          formKey.currentState!.save();
           // todo
           tapSubmit();
         },
@@ -92,12 +92,12 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入密码';
                 }
                 return '';
               },
-              onSaved: (newValue) => oldPassword = newValue,
+              onSaved: (newValue) => oldPassword = newValue ?? '',
             ),
             TextFormField(
               obscureText: isObscure,
@@ -113,12 +113,12 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入密码';
                 }
                 return '';
               },
-              onSaved: (newValue) => password = newValue,
+              onSaved: (newValue) => password = newValue ?? '',
             ),
             TextFormField(
               obscureText: isObscure,
@@ -134,7 +134,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入确认密码';
                 }
                 if (value != password) {
@@ -142,7 +142,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                 }
                 return '';
               },
-              onSaved: (newValue) => confirmPassword = newValue,
+              onSaved: (newValue) => confirmPassword = newValue ?? '',
             ),
           ],
         ),

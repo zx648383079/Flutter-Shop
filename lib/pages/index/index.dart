@@ -9,7 +9,7 @@ import '../../models/bar.dart';
 class IndexPage extends StatefulWidget {
   final int pageIndex;
 
-  IndexPage({Key key, this.pageIndex}) : super(key: key);
+  IndexPage({Key? key, this.pageIndex = 0}) : super(key: key);
 
   @override
   _IndexPageState createState() => _IndexPageState();
@@ -24,12 +24,12 @@ class _IndexPageState extends State<IndexPage> {
     BarItem('我的', IconFont.user, MemberPage()),
   ];
 
-  PageController pageController;
+  PageController? pageController;
 
   @override
   void initState() {
     super.initState();
-    tabIndex = widget.pageIndex == null ? 0 : widget.pageIndex;
+    tabIndex = widget.pageIndex;
     pageController = PageController(
       initialPage: tabIndex,
     );
@@ -39,7 +39,7 @@ class _IndexPageState extends State<IndexPage> {
     setState(() {
       tabIndex = index;
     });
-    pageController.jumpToPage(index);
+    pageController!.jumpToPage(index);
   }
 
   @override

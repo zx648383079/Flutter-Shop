@@ -5,8 +5,8 @@ import '../../iconfont.dart';
 class EmailRegisterPage extends StatefulWidget {
   final Function(int mode) tapFlip;
   EmailRegisterPage({
-    Key key,
-    this.tapFlip,
+    Key? key,
+    required this.tapFlip,
   }) : super(key: key);
 
   @override
@@ -15,7 +15,7 @@ class EmailRegisterPage extends StatefulWidget {
 
 class _EmailRegisterPageState extends State<EmailRegisterPage> {
   final formKey = GlobalKey<FormState>();
-  String name, email, password, confirmPassword;
+  String name = '', email = '', password = '', confirmPassword = '';
   bool agree = false;
   bool isObscure = true;
 
@@ -32,12 +32,12 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 labelText: '请输入昵称',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入昵称';
                 }
                 return null;
               },
-              onSaved: (newValue) => name = newValue,
+              onSaved: (newValue) => name = newValue ?? '',
             ),
             TextFormField(
               keyboardType: TextInputType.emailAddress,
@@ -45,12 +45,12 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 labelText: '请输入账号',
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入账号';
                 }
                 return null;
               },
-              onSaved: (newValue) => email = newValue,
+              onSaved: (newValue) => email = newValue ?? '',
             ),
             TextFormField(
               obscureText: isObscure,
@@ -66,12 +66,12 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入密码';
                 }
                 return null;
               },
-              onSaved: (newValue) => password = newValue,
+              onSaved: (newValue) => password = newValue ?? '',
             ),
             TextFormField(
               obscureText: isObscure,
@@ -87,7 +87,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 ),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return '请输入确认密码';
                 }
                 if (value != password) {
@@ -95,7 +95,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 }
                 return null;
               },
-              onSaved: (newValue) => confirmPassword = newValue,
+              onSaved: (newValue) => confirmPassword = newValue ?? '',
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,12 +108,14 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                         value: agree,
                         onChanged: (val) {
                           setState(() {
-                            agree = val;
+                            agree = val ?? false;
                           });
                         },
                       ),
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
+                      TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                        ),
                         child: Text('同意《注册协议》'),
                         onPressed: () {
                           showAgreement(context);
@@ -124,7 +126,7 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text('返回登录'),
                     onPressed: () {
                       widget.tapFlip(1);
@@ -133,15 +135,18 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
                 ),
               ],
             ),
-            RaisedButton(
-              color: Theme.of(context).indicatorColor,
-              textColor: Colors.white,
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).indicatorColor),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
               child: Text('注册'),
               onPressed: () {
-                if (!formKey.currentState.validate()) {
+                if (!formKey.currentState!.validate()) {
                   return;
                 }
-                formKey.currentState.save();
+                formKey.currentState!.save();
                 // todo
               },
             ),
@@ -163,13 +168,13 @@ class _EmailRegisterPageState extends State<EmailRegisterPage> {
           ],
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('取消'),
             onPressed: () {
               Navigator.pop(context, false);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text('确认'),
             onPressed: () {
               Navigator.pop(context, true);

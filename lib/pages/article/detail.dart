@@ -7,14 +7,14 @@ import '../../iconfont.dart';
 
 class ArticleDetailPage extends StatefulWidget {
   final Map arguments;
-  ArticleDetailPage({Key key, this.arguments}) : super(key: key);
+  ArticleDetailPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _ArticleDetailPageState createState() => _ArticleDetailPageState();
 }
 
 class _ArticleDetailPageState extends State<ArticleDetailPage> {
-  Article article;
+  Article? article;
 
   @override
   void initState() {
@@ -54,12 +54,12 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
           color: Theme.of(context).primaryColor,
           height: 60,
           child: Text(
-            article.title,
+            article?.title ?? '',
             style: TextStyle(color: Colors.white),
           ),
         ),
         Container(
-          child: Html(data: article.content),
+          child: Html(data: article?.content ?? ''),
         ),
       ],
     );

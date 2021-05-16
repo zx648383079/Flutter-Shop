@@ -11,9 +11,9 @@ class Article extends Object {
   String thumb;
   String url;
   String content;
-  String description;
+  String? description;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
 
   Article(this.id, this.title, this.thumb, this.url, this.content);
 

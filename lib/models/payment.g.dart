@@ -22,10 +22,9 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
 
 PaymentData _$PaymentDataFromJson(Map<String, dynamic> json) {
   return PaymentData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Payment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Payment.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

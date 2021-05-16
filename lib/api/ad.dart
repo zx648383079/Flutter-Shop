@@ -3,7 +3,7 @@ import '../utils/http.dart';
 
 class AdApi {
   static void get(dynamic position, Function(AdData res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.get<Map<String, dynamic>>('shop/ad',
         data: {'position': position}, success: (res) {
       success(AdData.fromJson(res));
@@ -11,7 +11,7 @@ class AdApi {
   }
 
   static void banners(Function(AdData res) success,
-      [Function(int code, String message) error]) async {
+      [ErrorCallback? error]) async {
     RestClient.get<Map<String, dynamic>>('shop/ad/banner', success: (res) {
       success(AdData.fromJson(res));
     }, error: error);

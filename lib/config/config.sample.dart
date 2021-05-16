@@ -8,3 +8,4 @@ const apiEndpoint = BASIC_HOST + '/open/';
 const assetUri = BASIC_HOST;
 const appId = '<App ID>';
 const secret = '<App Secret>';
+const deeplink = '<deeplink>';

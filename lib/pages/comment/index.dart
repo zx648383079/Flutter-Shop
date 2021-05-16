@@ -8,7 +8,7 @@ import '../../iconfont.dart';
 
 class CommentPage extends StatefulWidget {
   final Map arguments;
-  CommentPage({Key key, this.arguments}) : super(key: key);
+  CommentPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -22,7 +22,7 @@ class _CommentPageState extends State<CommentPage> {
   bool hasMore = true;
   bool isLoading = false;
   final refreshController = RefreshController(initialRefresh: false);
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -31,8 +31,8 @@ class _CommentPageState extends State<CommentPage> {
       length: statusItems.length,
       vsync: ScrollableState(),
     );
-    tabController.addListener(() {
-      tabIndex = tabController.index;
+    tabController!.addListener(() {
+      tabIndex = tabController!.index;
       tapRefresh();
     });
     tapRefresh();
@@ -104,7 +104,7 @@ class _CommentPageState extends State<CommentPage> {
       child: Row(
         children: <Widget>[
           CachedNetworkImage(
-            imageUrl: item.thumb,
+            imageUrl: item.thumb ?? '',
             width: 100.0,
             height: 100.0,
             placeholder: (context, url) => new Icon(
@@ -147,7 +147,7 @@ class _CommentPageState extends State<CommentPage> {
         Positioned(
           right: 0,
           bottom: 0,
-          child: RaisedButton(
+          child: ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/comment/create',
                   arguments: {'goods': item.id});
@@ -159,7 +159,7 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
-  Widget header(BuildContext context) {
+  PreferredSizeWidget header(BuildContext context) {
     return AppBar(
       leading: IconButton(
         icon: Icon(IconFont.chevronLeft),

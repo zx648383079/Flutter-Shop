@@ -7,7 +7,7 @@ import 'package:flutter_shop/models/region.dart';
 
 Future<Region> showRegionPicker(
   BuildContext context, {
-  Region initRegion,
+  Region? initRegion,
 }) async {
   Completer<Region> completer = Completer();
   var result = showDialog(
@@ -25,9 +25,9 @@ Future<Region> showRegionPicker(
 }
 
 class RegionPicker extends StatefulWidget {
-  final Region initResult;
+  final Region? initResult;
   RegionPicker({
-    Key key,
+    Key? key,
     this.initResult,
   }) : super(key: key);
 
@@ -42,7 +42,7 @@ class _RegionPickerState extends State<RegionPicker> {
   List<FixedExtentScrollController> regionController = [];
   void getChildren(int id, Function(List<Region> res) success) {
     if (regionCache.containsKey(id)) {
-      success(regionCache[id]);
+      success(regionCache[id] as List<Region>);
       return;
     }
     RegionApi.getList(id, (res) {
@@ -108,7 +108,7 @@ class _RegionPickerState extends State<RegionPicker> {
   }
 
   Widget buildButtons() {
-    Widget buildButton(String text, Function onTap) {
+    Widget buildButton(String text, Function() onTap) {
       return CupertinoButton(
         child: Text(text),
         onPressed: onTap,

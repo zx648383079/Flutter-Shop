@@ -5,7 +5,7 @@ import 'package:flutter_shop/models/product.dart';
 class ProductItem extends StatelessWidget {
   final Product item;
 
-  ProductItem({@required this.item});
+  ProductItem({required this.item});
 
   @override
   Widget build(BuildContext context) {

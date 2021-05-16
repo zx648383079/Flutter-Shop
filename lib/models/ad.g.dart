@@ -26,9 +26,9 @@ Map<String, dynamic> _$AdToJson(Ad instance) => <String, dynamic>{
 
 AdData _$AdDataFromJson(Map<String, dynamic> json) {
   return AdData(
-    (json['data'] as List)
-        ?.map((e) => e == null ? null : Ad.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Ad.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

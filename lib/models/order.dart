@@ -9,39 +9,39 @@ part 'order.g.dart';
 class Order extends Object {
   int id;
   @JsonKey(name: 'series_number')
-  String seriesNumber;
+  String? seriesNumber;
   @JsonKey(name: 'status_label')
-  String statusLabel;
-  int status;
+  String? statusLabel;
+  int? status;
   @JsonKey(name: 'goods_amount')
-  double goodsAmount;
+  double? goodsAmount;
   @JsonKey(name: 'payment_id')
-  int paymentId;
+  int? paymentId;
   @JsonKey(name: 'payment_name')
-  String paymentName;
+  String? paymentName;
   @JsonKey(name: 'shipping_id')
-  int shippingId;
+  int? shippingId;
   @JsonKey(name: 'shipping_name')
-  String shippingName;
+  String? shippingName;
   @JsonKey(name: 'shipping_fee')
-  double shippingFee;
+  double? shippingFee;
   @JsonKey(name: 'pay_fee')
-  double payFee;
-  double discount;
+  double? payFee;
+  double? discount;
   @JsonKey(name: 'order_amount')
-  double orderAmount;
+  double? orderAmount;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
   @JsonKey(name: 'pay_at')
-  String payAt;
+  String? payAt;
   @JsonKey(name: 'shipping_at')
-  String shippingAt;
+  String? shippingAt;
   @JsonKey(name: 'receive_at')
-  String receiveAt;
+  String? receiveAt;
   @JsonKey(name: 'finish_at')
-  String finishAt;
-  List<OrderGoods> goods;
-  Address address;
+  String? finishAt;
+  List<OrderGoods>? goods;
+  Address? address;
 
   Order(this.id, this.seriesNumber);
 
@@ -67,13 +67,13 @@ class OrderPage extends Object {
 class OrderGoods extends Object {
   int id;
   String name;
-  int status;
-  int amount;
-  String thumb;
-  double price;
+  int? status;
+  int? amount;
+  String? thumb;
+  double? price;
   @JsonKey(name: 'goods_id')
-  int goodsId;
-  Product goods;
+  int? goodsId;
+  Product? goods;
 
   OrderGoods(this.id, this.name);
 
@@ -111,16 +111,16 @@ class OrderGoodsPage extends Object {
 @JsonSerializable()
 class OrderCount extends Object {
   @JsonKey(name: 'un_pay')
-  int unPay;
-  int shipped;
-  int finish;
-  int cancel;
-  int invalid;
+  int unPay = 0;
+  int shipped = 0;
+  int finish = 0;
+  int cancel = 0;
+  int invalid = 0;
   @JsonKey(name: 'paid_un_ship')
-  int paidUnShip;
-  int received;
-  int uncomment;
-  int refunding;
+  int paidUnShip = 0;
+  int received = 0;
+  int uncomment = 0;
+  int refunding = 0;
 
   OrderCount(this.unPay, this.shipped);
 
@@ -160,8 +160,8 @@ class LogisticsData extends Object {
 @JsonSerializable()
 class PrePay extends Object {
   bool success;
-  String url;
-  String html;
+  String? url;
+  String? html;
   Object params;
 
   PrePay(this.success, this.params);

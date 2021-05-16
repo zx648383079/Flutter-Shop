@@ -4,7 +4,7 @@ import '../../iconfont.dart';
 
 class CommentCreatePage extends StatefulWidget {
   final Map arguments;
-  CommentCreatePage({Key key, this.arguments}) : super(key: key);
+  CommentCreatePage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _CommentCreatePageState createState() => _CommentCreatePageState();

@@ -24,13 +24,10 @@ Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
 
 CommentPage _$CommentPageFromJson(Map<String, dynamic> json) {
   return CommentPage(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Comment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -70,16 +67,14 @@ CommentSubtotal _$CommentSubtotalFromJson(Map<String, dynamic> json) {
     json['good'] as int,
     json['middle'] as int,
     json['bad'] as int,
-    (json['avg'] as num)?.toDouble(),
-    (json['favorableRate'] as num)?.toDouble(),
-    (json['tags'] as List)
-        ?.map((e) =>
-            e == null ? null : CommentTag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    (json['comments'] as List)
-        ?.map((e) =>
-            e == null ? null : Comment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['avg'] as num).toDouble(),
+    (json['favorableRate'] as num).toDouble(),
+    (json['tags'] as List<dynamic>)
+        .map((e) => CommentTag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    (json['comments'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

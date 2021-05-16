@@ -10,19 +10,18 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
   return Product(
     json['id'] as int,
     json['name'] as String,
+    json['thumb'] as String,
+    json['image'] as String,
+    (json['price'] as num).toDouble(),
+    (json['market_price'] as num).toDouble(),
+    json['stock'] as int,
+    json['is_collect'] as bool,
+    json['amount'] as int,
   )
-    ..thumb = json['thumb'] as String
-    ..image = json['image'] as String
-    ..price = (json['price'] as num)?.toDouble()
-    ..marketPrice = (json['market_price'] as num)?.toDouble()
-    ..stock = json['stock'] as int
-    ..isCollect = json['is_collect'] as bool
-    ..amount = json['amount'] as int
-    ..gallery = (json['gallery'] as List)
-        ?.map((e) =>
-            e == null ? null : CommentImage.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..content = json['content'] as String;
+    ..gallery = (json['gallery'] as List<dynamic>?)
+        ?.map((e) => CommentImage.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..content = json['content'] as String?;
 }
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -41,13 +40,10 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
 
 ProductPage _$ProductPageFromJson(Map<String, dynamic> json) {
   return ProductPage(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -59,10 +55,9 @@ Map<String, dynamic> _$ProductPageToJson(ProductPage instance) =>
 
 ProductData _$ProductDataFromJson(Map<String, dynamic> json) {
   return ProductData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -73,18 +68,15 @@ Map<String, dynamic> _$ProductDataToJson(ProductData instance) =>
 
 HomeProduct _$HomeProductFromJson(Map<String, dynamic> json) {
   return HomeProduct()
-    ..hotProducts = (json['hot_products'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..newProducts = (json['new_products'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..bestProducts = (json['best_products'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+    ..hotProducts = (json['hot_products'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..newProducts = (json['new_products'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..bestProducts = (json['best_products'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$HomeProductToJson(HomeProduct instance) =>

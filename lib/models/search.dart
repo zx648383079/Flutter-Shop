@@ -23,7 +23,8 @@ class SearchForm extends Object {
   int brand;
   String keywords;
 
-  SearchForm(this.page, {this.category, this.keywords, this.brand});
+  SearchForm(this.page,
+      {this.category = 0, this.keywords = '', this.brand = 0});
 
   factory SearchForm.fromJson(Map<String, dynamic> json) =>
       _$SearchFormFromJson(json);
@@ -34,8 +35,8 @@ class SearchForm extends Object {
 @JsonSerializable()
 class OrderForm extends Object {
   int page;
-  int status;
-  String keywords;
+  int? status;
+  String? keywords;
 
   OrderForm(this.page, {this.status, this.keywords});
 

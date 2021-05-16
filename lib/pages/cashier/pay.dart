@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/iconfont.dart';
 import 'package:flutter_shop/models/order.dart';
@@ -9,15 +8,15 @@ import 'package:flutter_shop/pages/application.dart';
 
 class PayPage extends StatefulWidget {
   final Map arguments;
-  PayPage({Key key, this.arguments}) : super(key: key);
+  PayPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _PayPageState createState() => _PayPageState();
 }
 
 class _PayPageState extends State<PayPage> {
-  Order order;
-  Payment payment;
+  Order? order;
+  Payment? payment;
   List<Payment> paymentItems = [];
 
   @override
@@ -31,10 +30,10 @@ class _PayPageState extends State<PayPage> {
   }
 
   void refreshPayment() {
-    OrderApi.getPaymentList(order.id, (res) {
+    OrderApi.getPaymentList(order!.id, (res) {
       var items = <Payment>[];
       for (var item in res.data) {
-        if (item.id == order.paymentId) {
+        if (item.id == order?.paymentId) {
           payment = item;
           continue;
         }
@@ -59,11 +58,13 @@ class _PayPageState extends State<PayPage> {
         title: Text('支付'),
       ),
       body: showBox(),
-      bottomNavigationBar: RaisedButton(
-        color: Color(0xffd22222),
-        textColor: Colors.white,
-        padding: EdgeInsets.symmetric(
-          vertical: 15,
+      bottomNavigationBar: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xffd22222)),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+          padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+            vertical: 15,
+          )),
         ),
         onPressed: () {},
         child: Text('立即支付'),
@@ -85,7 +86,7 @@ class _PayPageState extends State<PayPage> {
               height: 120,
               child: Center(
                 child: Text(
-                  '￥${order.orderAmount}',
+                  '￥${order?.orderAmount}',
                   style: TextStyle(color: Colors.white, fontSize: 40),
                 ),
               ),
@@ -94,28 +95,28 @@ class _PayPageState extends State<PayPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('商品总价'),
-                Text('￥${order.goodsAmount}'),
+                Text('￥${order?.goodsAmount}'),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('+运费'),
-                Text('￥${order.shippingFee}'),
+                Text('￥${order?.shippingFee}'),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('+支付手续费'),
-                Text('￥${order.payFee}'),
+                Text('￥${order?.payFee}'),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('-优惠'),
-                Text('￥${order.discount}'),
+                Text('￥${order?.discount}'),
               ],
             ),
             paymentView(),
@@ -144,7 +145,7 @@ class _PayPageState extends State<PayPage> {
     if (payment == null) {
       return Container();
     }
-    return paymentItem(payment);
+    return paymentItem(payment!);
   }
 
   Widget paymentItem(Payment item) {
@@ -166,7 +167,7 @@ class _PayPageState extends State<PayPage> {
           ),
           Container(
             width: 40,
-            child: item.id == order.paymentId ? Icon(IconFont.check) : null,
+            child: item.id == order?.paymentId ? Icon(IconFont.check) : null,
           )
         ],
       ),

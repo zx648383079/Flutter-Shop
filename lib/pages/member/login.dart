@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   ];
 
   int mode = 0;
-  String logo;
+  String logo = '';
   String get title {
     if (mode == 2) {
       return '注册';
@@ -104,9 +104,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: RaisedButton(
-            color: Theme.of(context).indicatorColor,
-            textColor: Colors.white,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(Theme.of(context).indicatorColor),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
             onPressed: () {
               tapChange(1);
             },
@@ -115,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             tapChange(2);
           },
@@ -142,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Theme.of(context).iconTheme.color),
                     onPressed: () {
                       // todo : 第三方登录方法
-                      Scaffold.of(context).showSnackBar(new SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
                         content: new Text("${item['name']}登录"),
                         action: new SnackBarAction(
                           label: "取消",

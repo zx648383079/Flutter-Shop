@@ -9,13 +9,13 @@ part of 'account.dart';
 AccountLog _$AccountLogFromJson(Map<String, dynamic> json) {
   return AccountLog(
     json['id'] as int,
-    (json['money'] as num)?.toDouble(),
+    (json['money'] as num).toDouble(),
   )
-    ..type = json['type'] as int
-    ..itemId = json['item_id'] as int
-    ..status = json['status'] as int
-    ..remark = json['remark'] as String
-    ..createdAt = json['created_at'] as String;
+    ..type = json['type'] as int?
+    ..itemId = json['item_id'] as int?
+    ..status = json['status'] as int?
+    ..remark = json['remark'] as String?
+    ..createdAt = json['created_at'] as String?;
 }
 
 Map<String, dynamic> _$AccountLogToJson(AccountLog instance) =>
@@ -31,13 +31,10 @@ Map<String, dynamic> _$AccountLogToJson(AccountLog instance) =>
 
 AccountLogPage _$AccountLogPageFromJson(Map<String, dynamic> json) {
   return AccountLogPage(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : AccountLog.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => AccountLog.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -52,11 +49,11 @@ Card _$CardFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['type'] as int,
   )
-    ..icon = json['icon'] as String
-    ..bank = json['bank'] as String
-    ..cardNo = json['card_no'] as String
-    ..status = json['status'] as int
-    ..createdAt = json['created_at'] as String;
+    ..icon = json['icon'] as String?
+    ..bank = json['bank'] as String?
+    ..cardNo = json['card_no'] as String?
+    ..status = json['status'] as int?
+    ..createdAt = json['created_at'] as String?;
 }
 
 Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
@@ -71,13 +68,10 @@ Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
 
 CardPage _$CardPageFromJson(Map<String, dynamic> json) {
   return CardPage(
-    (json['data'] as List)
-        ?.map(
-            (e) => e == null ? null : Card.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => Card.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 
@@ -88,11 +82,11 @@ Map<String, dynamic> _$CardPageToJson(CardPage instance) => <String, dynamic>{
 
 AccountSubtotal _$AccountSubtotalFromJson(Map<String, dynamic> json) {
   return AccountSubtotal(
-    (json['money'] as num)?.toDouble(),
+    (json['money'] as num).toDouble(),
     json['integral'] as int,
   )
-    ..bonus = json['bonus'] as int
-    ..coupon = json['coupon'] as int;
+    ..bonus = json['bonus'] as int?
+    ..coupon = json['coupon'] as int?;
 }
 
 Map<String, dynamic> _$AccountSubtotalToJson(AccountSubtotal instance) =>

@@ -13,18 +13,18 @@ import 'package:flutter_shop/utils/types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Application {
-  static Site site;
-  static User user;
-  static String token;
+  static Site? site;
+  static User? user;
+  static String? token;
   static bool isBooted = false;
-  static List<CartGroup> cart;
-  static List<Address> addressItems;
-  static Address address;
-  static Order order;
+  static List<CartGroup>? cart;
+  static List<Address>? addressItems;
+  static Address? address;
+  static Order? order;
 
   static void getSite(Function(Site site) success) {
     if (site != null) {
-      success(site);
+      success(site as Site);
       return;
     }
     SiteApi.get((res) {
@@ -33,16 +33,16 @@ class Application {
     });
   }
 
-  static void setUser(User res) {
+  static void setUser(User? res) {
     if (res != null && res.token != null && res.id > 0) {
       setToken(res.token);
     }
     user = res;
   }
 
-  static Future<User> getUser() async {
+  static Future<User?> getUser() async {
     if (isBooted && user != null) {
-      return user;
+      return user as User;
     }
     var token = await getToken();
     if (token == null || token.length < 1) {
@@ -59,7 +59,7 @@ class Application {
     return completer.future;
   }
 
-  static Future<String> getToken() async {
+  static Future<String?> getToken() async {
     if (isBooted) {
       return token;
     }
@@ -68,8 +68,12 @@ class Application {
     return token = prefs.getString(TOKEN_KEY);
   }
 
-  static void setToken(String val) {
+  static void setToken(String? val) {
     SharedPreferences.getInstance().then((prefs) {
+      if (val == null) {
+        prefs.remove(TOKEN_KEY);
+        return;
+      }
       prefs.setString(TOKEN_KEY, val);
     });
     token = val;
@@ -90,12 +94,12 @@ class Application {
 
   static void getAddressList(Function(List<Address> res) success) {
     if (addressItems != null) {
-      success(addressItems);
+      success(addressItems as List<Address>);
       return;
     }
     AddressApi.getList((res) {
       addressItems = res.data;
-      success(addressItems);
+      success(addressItems as List<Address>);
     }, (code, message) {
       if (code == 401) {
         removeToken();
@@ -105,7 +109,7 @@ class Application {
     });
   }
 
-  static void getAddress(Function(Address res) success) {
+  static void getAddress(Function(Address? res) success) {
     if (address != null) {
       success(address);
       return;
@@ -122,8 +126,8 @@ class Application {
     });
   }
 
-  static void getOrder(int id, Function(Order res) success) {
-    if (order != null && order.id == id) {
+  static void getOrder(int id, Function(Order? res) success) {
+    if (order != null && order?.id == id) {
       success(order);
       return;
     }

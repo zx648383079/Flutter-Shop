@@ -1,4 +1,3 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/order.dart';
 import 'package:flutter_shop/iconfont.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_shop/utils/types.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MemberPage extends StatefulWidget {
+  MemberPage({Key? key}) : super(key: key);
   @override
   _MemberPageState createState() => _MemberPageState();
 }
@@ -21,8 +21,8 @@ class _MemberPageState extends State<MemberPage>
     with AutomaticKeepAliveClientMixin<MemberPage> {
   @override
   bool get wantKeepAlive => true;
-  User user;
-  OrderCount orderSubtotal;
+  User? user;
+  OrderCount? orderSubtotal;
 
   void loadUser() {
     Application.getUser().then((value) {
@@ -158,7 +158,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.money,
                 label: '待付款',
-                count: orderSubtotal == null ? 0 : orderSubtotal.unPay,
+                count: orderSubtotal?.unPay ?? 0,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -173,7 +173,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.exchange,
                 label: '待发货',
-                count: orderSubtotal == null ? 0 : orderSubtotal.paidUnShip,
+                count: orderSubtotal?.paidUnShip ?? 0,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -192,7 +192,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.shippingFast,
                 label: '待收货',
-                count: orderSubtotal == null ? 0 : orderSubtotal.shipped,
+                count: orderSubtotal?.shipped ?? 0,
                 onTap: () {
                   navigateIfLogin(
                     '/order',
@@ -207,7 +207,7 @@ class _MemberPageState extends State<MemberPage>
               child: IconNumber(
                 icon: IconFont.comment,
                 label: '待评价',
-                count: orderSubtotal == null ? 0 : orderSubtotal.uncomment,
+                count: orderSubtotal?.uncomment ?? 0,
                 onTap: () {
                   navigateIfLogin('/comment');
                 },
@@ -285,7 +285,7 @@ class _MemberPageState extends State<MemberPage>
           title: InkWell(
             onTap: tapProfile,
             child: Text(
-              user != null ? '欢迎你，${user.name}~' : '欢迎你，请登录~',
+              user != null ? '欢迎你，${user!.name}~' : '欢迎你，请登录~',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -296,9 +296,7 @@ class _MemberPageState extends State<MemberPage>
             child: Center(
               child: ClipOval(
                 child: Image.network(
-                  user != null
-                      ? user.avatar
-                      : getAssetUrl('assets/images/zx.jpg'),
+                  user?.avatar ?? getAssetUrl('assets/images/zx.jpg'),
                   height: 100,
                   width: 100,
                 ),
@@ -312,16 +310,11 @@ class _MemberPageState extends State<MemberPage>
 
   Future scan() async {
     if (await Permission.camera.request().isGranted) {
-      var res = await BarcodeScanner.scan();
-      print(res.rawContent);
-      if (res.rawContent != null) {
-        Navigator.pushNamed(context, '/authorize',
-            arguments: {'token': res.rawContent});
-      }
+      Navigator.pushNamed(context, '/scan');
     }
   }
 
-  void navigateIfLogin(String route, {Object arguments}) {
+  void navigateIfLogin(String route, {Object? arguments}) {
     doIfLogin(() {
       Navigator.pushNamed(context, route, arguments: arguments);
     });

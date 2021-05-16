@@ -24,10 +24,9 @@ Map<String, dynamic> _$CheckInToJson(CheckIn instance) => <String, dynamic>{
 
 CheckInData _$CheckInDataFromJson(Map<String, dynamic> json) {
   return CheckInData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : CheckIn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => CheckIn.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -38,9 +37,7 @@ Map<String, dynamic> _$CheckInDataToJson(CheckInData instance) =>
 
 CheckInOne _$CheckInOneFromJson(Map<String, dynamic> json) {
   return CheckInOne(
-    json['data'] == null
-        ? null
-        : CheckIn.fromJson(json['data'] as Map<String, dynamic>),
+    CheckIn.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 

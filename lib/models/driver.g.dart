@@ -22,10 +22,9 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
 
 DriverData _$DriverDataFromJson(Map<String, dynamic> json) {
   return DriverData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Driver.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Driver.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

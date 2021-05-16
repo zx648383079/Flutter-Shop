@@ -9,10 +9,10 @@ class User extends Object {
   String email;
   int sex;
   @JsonKey(name: 'sex_label')
-  String sexLabel;
+  String? sexLabel;
   String avatar;
-  String birthday;
-  String token;
+  String? birthday;
+  String? token;
   int status;
   @JsonKey(name: 'created_at')
   String createdAt;
@@ -20,7 +20,7 @@ class User extends Object {
   String updatedAt;
   int money;
   @JsonKey(name: 'is_admin')
-  bool isAdmin;
+  bool? isAdmin;
 
   User(this.id, this.name, this.email, this.sex, this.avatar, this.token,
       this.status, this.createdAt, this.updatedAt, this.money);

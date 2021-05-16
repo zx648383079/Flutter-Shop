@@ -56,7 +56,7 @@ Map<String, dynamic> _$ResponseBoolToJson(ResponseBool instance) =>
 
 StringData _$StringDataFromJson(Map<String, dynamic> json) {
   return StringData(
-    (json['data'] as List)?.map((e) => e as String)?.toList(),
+    (json['data'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 

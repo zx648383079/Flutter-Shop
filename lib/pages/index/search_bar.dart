@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget child; //从外部指定内容
-  final Color backgroundColor; // 指定背景颜色
-  SearchAppBar({this.child, this.backgroundColor}) : super();
+  final Color? backgroundColor; // 指定背景颜色
+  SearchAppBar({required this.child, this.backgroundColor}) : super();
 
   @override
   _SearchAppBarState createState() => _SearchAppBarState();

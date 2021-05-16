@@ -6,9 +6,9 @@ part 'legwork.g.dart';
 class LegworkForm extends Object {
   String name;
   String label;
-  bool required;
-  bool only;
-  String value;
+  bool? required;
+  bool? only;
+  String? value;
 
   LegworkForm(this.name, this.label);
 
@@ -26,7 +26,7 @@ class LegworkService extends Object {
   String brief;
   String content;
   double price;
-  List<LegworkForm> form;
+  List<LegworkForm>? form;
 
   LegworkService(
       this.id, this.name, this.thumb, this.brief, this.content, this.price);
@@ -39,30 +39,30 @@ class LegworkService extends Object {
 
 @JsonSerializable()
 class LegworkOrder extends Object {
-  int id;
+  int id = 0;
   @JsonKey(name: 'user_id')
-  int userId;
+  int userId = 0;
   @JsonKey(name: 'service_id')
-  int serviceId;
-  List<LegworkForm> remark;
+  int serviceId = 0;
+  List<LegworkForm>? remark;
   @JsonKey(name: 'order_amount')
-  double orderAmount;
-  int runner;
-  int status;
+  double orderAmount = 0;
+  int runner = 0;
+  int status = 0;
   @JsonKey(name: 'service_rank')
-  int serviceRank;
+  int? serviceRank;
   @JsonKey(name: 'pay_at')
-  String payAt;
+  String? payAt;
   @JsonKey(name: 'taking_at')
-  String takingAt;
+  String? takingAt;
   @JsonKey(name: 'taken_at')
-  String takenAt;
+  String? takenAt;
   @JsonKey(name: 'finish_at')
-  String finishAt;
+  String? finishAt;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updated_at')
-  String updatedAt;
+  String? updatedAt;
 
   LegworkOrder();
 

@@ -11,11 +11,11 @@ class Address extends Object {
   @JsonKey(name: 'region_id')
   int regionId;
   @JsonKey(name: 'region_name')
-  String regionName;
+  String? regionName;
   String address;
   @JsonKey(name: 'is_default')
   bool isDefault;
-  Region region;
+  Region? region;
 
   Address(this.id, this.name, this.tel, this.regionId, this.address,
       this.isDefault);

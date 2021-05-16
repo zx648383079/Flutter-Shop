@@ -26,14 +26,15 @@ Future<dynamic> showCartDialog(BuildContext context, Product product,
 class CartDialog extends StatefulWidget {
   final Product product;
   final bool isBuy;
-  CartDialog({Key key, this.product, this.isBuy}) : super(key: key);
+  CartDialog({Key? key, required this.product, this.isBuy = false})
+      : super(key: key);
 
   @override
   _CartDialogState createState() => _CartDialogState();
 }
 
 class _CartDialogState extends State<CartDialog> {
-  TextEditingController amountController;
+  TextEditingController? amountController;
   int amount = 1;
 
   @override
@@ -50,7 +51,7 @@ class _CartDialogState extends State<CartDialog> {
       value = widget.product.stock;
     }
     amount = value;
-    amountController.value = TextEditingValue(text: amount.toString());
+    amountController!.value = TextEditingValue(text: amount.toString());
   }
 
   @override
@@ -148,11 +149,14 @@ class _CartDialogState extends State<CartDialog> {
           left: 0,
           bottom: 0,
           right: 0,
-          child: RaisedButton(
-            color: Color(0xffe4393c),
-            textColor: Colors.white,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffe4393c)),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+              padding:
+                  MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 20)),
+            ),
             onPressed: tapDoCart,
-            padding: EdgeInsets.symmetric(vertical: 20),
             child: Text('确认'),
           ),
         )
@@ -161,15 +165,12 @@ class _CartDialogState extends State<CartDialog> {
   }
 
   void tapDoCart() {
-    if (widget.product == null) {
-      return;
-    }
     if (!widget.isBuy) {
       CartApi.addGoods(widget.product.id, amount, (res) {
         Navigator.pop(context, res);
       }, (code, message) {
         Fluttertoast.showToast(
-          msg: message,
+          msg: message ?? '',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

@@ -5,7 +5,7 @@ import 'package:flutter_shop/models/search.dart';
 import 'package:flutter_shop/pages/index/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key}) : super(key: key);
+  SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage> {
 
   String keywords = '';
 
-  TextEditingController searchController;
+  TextEditingController? searchController;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
                                 icon: Icon(IconFont.close),
                                 onPressed: () {
                                   setState(() {
-                                    searchController.clear();
+                                    searchController?.clear();
                                     tipItems.clear();
                                     keywords = '';
                                   });
@@ -76,7 +76,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 Container(
                   width: 60,
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },

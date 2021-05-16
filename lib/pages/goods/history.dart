@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../iconfont.dart';
 
 class HistoryPage extends StatefulWidget {
-  HistoryPage({Key key}) : super(key: key);
+  HistoryPage({Key? key}) : super(key: key);
 
   @override
   _HistoryPageState createState() => _HistoryPageState();

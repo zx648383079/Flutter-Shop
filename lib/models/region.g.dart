@@ -24,10 +24,9 @@ Map<String, dynamic> _$RegionToJson(Region instance) => <String, dynamic>{
 
 RegionData _$RegionDataFromJson(Map<String, dynamic> json) {
   return RegionData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Region.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Region.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

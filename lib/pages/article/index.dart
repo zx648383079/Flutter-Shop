@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../iconfont.dart';
 
 class ArticlePage extends StatefulWidget {
-  ArticlePage({Key key}) : super(key: key);
+  ArticlePage({Key? key}) : super(key: key);
 
   @override
   _ArticlePageState createState() => _ArticlePageState();
@@ -15,8 +15,8 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   List<ArticleCategory> categories = [];
-  int category;
-  String keywords;
+  int category = 0;
+  String keywords = '';
   List<Article> items = [];
   int page = 1;
   bool hasMore = true;
@@ -127,7 +127,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                   ),
                   Text(
-                    item.createdAt,
+                    item.createdAt ?? '',
                     style: TextStyle(
                       color: Color(0xffcccccc),
                     ),
@@ -140,7 +140,7 @@ class _ArticlePageState extends State<ArticlePage> {
               constraints: BoxConstraints(
                 minHeight: 80,
               ),
-              child: Text(item.description),
+              child: Text(item.description ?? ''),
             )
           ],
         ),

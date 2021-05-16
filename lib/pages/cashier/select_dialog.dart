@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../../iconfont.dart';
 
 Future<dynamic> showSelectDialog(BuildContext context,
-    {List<dynamic> items, int selected, String title}) {
+    {required List<dynamic> items,
+    required int selected,
+    required String title}) {
   Completer<dynamic> completer = Completer();
   var result = showModalBottomSheet(
     context: context,

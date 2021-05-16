@@ -7,7 +7,7 @@ import 'package:flutter_shop/api/user.dart';
 import 'package:flutter_shop/models/comment.dart';
 import 'package:flutter_shop/models/product.dart';
 import 'package:flutter_shop/utils/types.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,14 +16,14 @@ import 'cart_dialog.dart';
 
 class GoodsPage extends StatefulWidget {
   final Map arguments;
-  GoodsPage({Key key, this.arguments}) : super(key: key);
+  GoodsPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _GoodsPageState createState() => _GoodsPageState();
 }
 
 class _GoodsPageState extends State<GoodsPage> {
-  Product product;
+  Product? product;
   List<Product> items = [];
   List<Comment> commentItems = [];
 
@@ -41,7 +41,7 @@ class _GoodsPageState extends State<GoodsPage> {
   }
 
   void setHistory() {
-    var id = product.id.toString();
+    var id = product!.id.toString();
     SharedPreferences.getInstance().then((prefs) {
       var data = prefs.getString(SET_GOODS_HISTORY);
       if (data == null) {
@@ -61,7 +61,7 @@ class _GoodsPageState extends State<GoodsPage> {
     if (product == null) {
       return;
     }
-    CommentApi.getSubtotal(product.id, (res) {
+    CommentApi.getSubtotal(product!.id, (res) {
       setState(() {
         commentItems = res.comments;
       });
@@ -72,7 +72,7 @@ class _GoodsPageState extends State<GoodsPage> {
     if (product == null) {
       return;
     }
-    ProductApi.getRecommend(product.id, (res) {
+    ProductApi.getRecommend(product!.id, (res) {
       setState(() {
         items = res.data;
       });
@@ -117,7 +117,7 @@ class _GoodsPageState extends State<GoodsPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.centerLeft,
-                              child: Text(product.name),
+                              child: Text(product!.name),
                             ),
                           ],
                         ),
@@ -128,8 +128,8 @@ class _GoodsPageState extends State<GoodsPage> {
                           child: collectButton(context),
                         ),
                         onTap: () {
-                          UserApi.toggleCollect(product.id, (res) {
-                            product.isCollect = res.data;
+                          UserApi.toggleCollect(product!.id, (res) {
+                            product!.isCollect = res.data;
                             setState(() {});
                           });
                         },
@@ -138,7 +138,7 @@ class _GoodsPageState extends State<GoodsPage> {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    child: Text('￥${product.price}'),
+                    child: Text('￥${product!.price}'),
                   ),
                 ],
               ),
@@ -208,7 +208,7 @@ class _GoodsPageState extends State<GoodsPage> {
         SliverList(
           delegate: SliverChildListDelegate(<Widget>[
             Container(
-              child: Html(data: product.content),
+              child: Html(data: product!.content),
             )
           ]),
         ),
@@ -217,7 +217,7 @@ class _GoodsPageState extends State<GoodsPage> {
   }
 
   Widget collectButton(BuildContext context) {
-    if (product.isCollect) {
+    if (product!.isCollect) {
       return Column(
         children: <Widget>[
           Icon(IconFont.collect),
@@ -234,9 +234,9 @@ class _GoodsPageState extends State<GoodsPage> {
   }
 
   Widget banner() {
-    var banners = product.gallery == null
-        ? <CommentImage>[CommentImage(product.image)]
-        : product.gallery;
+    var banners = product!.gallery == null
+        ? <CommentImage>[CommentImage(product!.image)]
+        : product!.gallery!;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 360.0,
@@ -262,7 +262,7 @@ class _GoodsPageState extends State<GoodsPage> {
         Navigator.pushNamed(context, '/cart');
       }),
     ];
-    if (product == null || product.stock < 1) {
+    if (product == null || product!.stock < 1) {
       children.add(
         Expanded(
           child: Container(
@@ -276,7 +276,7 @@ class _GoodsPageState extends State<GoodsPage> {
     } else {
       children.add(
         menuButton('加入购物车', Color(0xFFFF9600), onTap: () {
-          showCartDialog(context, product).then((value) {
+          showCartDialog(context, product!).then((value) {
             if (value == null) {
               return;
             }
@@ -294,7 +294,7 @@ class _GoodsPageState extends State<GoodsPage> {
       );
       children.add(
         menuButton('立即购买', Colors.red, onTap: () {
-          showCartDialog(context, product, isBuy: true).then((value) {});
+          showCartDialog(context, product!, isBuy: true).then((value) {});
         }),
       );
     }
@@ -306,7 +306,7 @@ class _GoodsPageState extends State<GoodsPage> {
     );
   }
 
-  Widget menuButton(String name, Color color, {Function onTap}) {
+  Widget menuButton(String name, Color color, {Function()? onTap}) {
     return Expanded(
       child: Container(
         color: color,
@@ -320,7 +320,7 @@ class _GoodsPageState extends State<GoodsPage> {
     );
   }
 
-  Widget menuItem(String name, IconData icon, {Function onTap}) {
+  Widget menuItem(String name, IconData icon, {Function()? onTap}) {
     return Container(
       width: 50,
       child: InkWell(

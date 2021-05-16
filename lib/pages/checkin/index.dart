@@ -7,14 +7,16 @@ import 'package:flutter_shop/utils/index.dart';
 import '../../iconfont.dart';
 
 class CheckInPage extends StatefulWidget {
+  CheckInPage({Key? key}) : super(key: key);
+
   @override
   _CheckInPageState createState() => _CheckInPageState();
 }
 
 class _CheckInPageState extends State<CheckInPage> {
-  CheckIn todayChecked;
+  CheckIn? todayChecked;
   List<DayItem> dayItems = <DayItem>[];
-  String month;
+  String month = '';
 
   @override
   void initState() {
@@ -85,7 +87,7 @@ class _CheckInPageState extends State<CheckInPage> {
       if (res.data == null || res.data.length < 1) {
         return;
       }
-      var items = List<int>();
+      var items = <int>[];
       for (var item in res.data) {
         items.add(DateTime.parse(item.createdAt).day);
       }
@@ -310,9 +312,12 @@ class _CheckInPageState extends State<CheckInPage> {
 
   Widget buildButton(BuildContext context) {
     if (todayChecked == null) {
-      return RaisedButton(
-        color: Theme.of(context).primaryColor,
-        textColor: Colors.white,
+      return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(Theme.of(context).primaryColor),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
         onPressed: () {
           checkToday();
         },
@@ -321,15 +326,18 @@ class _CheckInPageState extends State<CheckInPage> {
     }
     return Column(
       children: <Widget>[
-        RaisedButton.icon(
-          color: Theme.of(context).primaryColor,
-          textColor: Colors.white,
+        ElevatedButton.icon(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all(Theme.of(context).primaryColor),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
           onPressed: () {},
           icon: Icon(IconFont.calendarCheck),
           label: Text('已签到'),
         ),
         Text(
-          '已连续签到${todayChecked.running}天，继续加油',
+          '已连续签到${todayChecked!.running}天，继续加油',
           style: TextStyle(color: Colors.white),
         ),
       ],

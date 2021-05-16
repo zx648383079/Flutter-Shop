@@ -22,10 +22,9 @@ Map<String, dynamic> _$ShippingToJson(Shipping instance) => <String, dynamic>{
 
 ShippingData _$ShippingDataFromJson(Map<String, dynamic> json) {
   return ShippingData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Shipping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Shipping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

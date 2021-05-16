@@ -10,9 +10,7 @@ Collect _$CollectFromJson(Map<String, dynamic> json) {
   return Collect(
     json['id'] as int,
     json['goods_id'] as int,
-    json['goods'] == null
-        ? null
-        : Product.fromJson(json['goods'] as Map<String, dynamic>),
+    Product.fromJson(json['goods'] as Map<String, dynamic>),
   );
 }
 
@@ -24,13 +22,10 @@ Map<String, dynamic> _$CollectToJson(Collect instance) => <String, dynamic>{
 
 CollectPage _$CollectPageFromJson(Map<String, dynamic> json) {
   return CollectPage(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Collect.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['paging'] == null
-        ? null
-        : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+    (json['data'] as List<dynamic>)
+        .map((e) => Collect.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    Paging.fromJson(json['paging'] as Map<String, dynamic>),
   );
 }
 

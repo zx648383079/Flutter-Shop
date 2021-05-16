@@ -18,31 +18,32 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   dio: ^4.0.0
   crypto: any
-  flutter_swiper : any
+  flutter_swiper_null_safety: ^1.0.2
   shared_preferences: any
-  json_annotation: any
+  json_annotation: ^4.0.1
   cached_network_image: ^3.0.0
   image_picker: ^0.7.3
-  barcode_scan: ^3.0.1
+  scan: ^1.4.3
   permission_handler: any
   pull_to_refresh: any
   flutter_slidable: any
-  flutter_html: any
+  flutter_html: ^2.0.0
   fluttertoast: any
+  webview_flutter: ^2.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.11.5
-  logger: any
-  json_serializable: any
+  build_runner: ^2.0.3
+  logger: ^1.0.0
+  json_serializable: ^4.1.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

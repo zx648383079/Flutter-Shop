@@ -10,13 +10,13 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
   return Login(
     json['email'] as String,
     json['password'] as String,
-  );
+  )..remember = json['remember'] as bool;
 }
 
 Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
-      'remember': instance.remember
+      'remember': instance.remember,
     };
 
 Register _$RegisterFromJson(Map<String, dynamic> json) {

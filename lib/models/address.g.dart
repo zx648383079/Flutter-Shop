@@ -15,7 +15,7 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
     json['address'] as String,
     json['is_default'] as bool,
   )
-    ..regionName = json['region_name'] as String
+    ..regionName = json['region_name'] as String?
     ..region = json['region'] == null
         ? null
         : Region.fromJson(json['region'] as Map<String, dynamic>);
@@ -34,10 +34,9 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
 
 AddressData _$AddressDataFromJson(Map<String, dynamic> json) {
   return AddressData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Address.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Address.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

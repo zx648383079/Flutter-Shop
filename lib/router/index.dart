@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/pages/message/chat.dart';
+import 'package:flutter_shop/pages/micro/detail.dart';
+import 'package:flutter_shop/pages/micro/index.dart';
+import 'package:flutter_shop/pages/micro/publish.dart';
+import 'package:flutter_shop/pages/micro/share.dart';
 
 import '../pages/comment/create.dart';
 import '../pages/browser/index.dart';
@@ -55,6 +60,8 @@ final routes = {
       EditProfilePage(arguments: arguments),
   '/member/password': (context) => EditPasswordPage(),
   '/message': (context) => MessagePage(),
+  '/message/chat': (context, {arguments}) => ChatPage(arguments: arguments),
+  '/scan': (context) => MessagePage(),
   '/order': (context, {arguments}) => OrderPage(arguments: arguments),
   '/order/detail': (context, {arguments}) =>
       OrderDetailPage(arguments: arguments),
@@ -74,6 +81,12 @@ final routes = {
   '/article': (context) => ArticlePage(),
   '/article/detail': (context, {arguments}) =>
       ArticleDetailPage(arguments: arguments),
+  '/micro': (context) => MicroPage(),
+  '/micro/detail': (context, {arguments}) =>
+      MicroDetailPage(arguments: arguments),
+  '/micro/share': (context, {arguments}) =>
+      MicroSharePage(arguments: arguments),
+  '/micro/publish': (context) => MicroPublishPage(),
   '/feedback': (context) => FeedbackPage(),
   '/browser': (context, {arguments}) => BrowserPage(arguments: arguments),
 };
@@ -81,9 +94,9 @@ final routes = {
 //固定写法：
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   //统一处理：
-  final String name = settings.name;
+  final String name = settings.name as String;
   final Function pageContentBuilder =
-      routes.containsKey(name) ? routes[name] : routes['/'];
+      (routes.containsKey(name) ? routes[name] : routes['/']) as Function;
   if (settings.arguments != null) {
     final Route route = MaterialPageRoute(
         builder: (context) =>

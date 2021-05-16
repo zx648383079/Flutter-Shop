@@ -46,7 +46,7 @@ class CartGroup extends Object {
 class CartButton extends Object {
   String action;
   String text;
-  Object reason;
+  Object? reason;
 
   CartButton(this.action, this.text);
 
@@ -106,13 +106,13 @@ class CartSubtotal extends Object {
 @JsonSerializable()
 class CartDialog extends Object {
   bool dialog;
-  Product goods;
+  Product? goods;
   @JsonKey(name: 'checkout_button')
-  CartButton checkoutButton;
-  List<CartGroup> data;
+  CartButton? checkoutButton;
+  List<CartGroup>? data;
   @JsonKey(name: 'promotion_cell')
-  List<CartCell> promotionCell;
-  CartSubtotal subtotal;
+  List<CartCell>? promotionCell;
+  CartSubtotal? subtotal;
 
   CartDialog(this.dialog, this.data);
 
@@ -128,10 +128,10 @@ CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
     dailog,
     !dailog
         ? (json['data'] as List)
-            ?.map((e) => e == null
+            .map((e) => e == null
                 ? null
                 : CartGroup.fromJson(e as Map<String, dynamic>))
-            ?.toList()
+            .toList() as List<CartGroup>?
         : null,
   )
     ..goods = !dailog || json['data'] == null
@@ -142,9 +142,9 @@ CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
         : CartButton.fromJson(json['checkout_button'] as Map<String, dynamic>)
     ..promotionCell = !dailog
         ? (json['promotion_cell'] as List)
-            ?.map((e) =>
+            .map((e) =>
                 e == null ? null : CartCell.fromJson(e as Map<String, dynamic>))
-            ?.toList()
+            .toList() as List<CartCell>?
         : null
     ..subtotal = !dailog || json['subtotal'] == null
         ? null
@@ -154,10 +154,10 @@ CartDialog _$CartDialogFromJson2(Map<String, dynamic> json) {
 @JsonSerializable()
 class Cart extends Object {
   @JsonKey(name: 'checkout_button')
-  CartButton checkoutButton;
+  CartButton? checkoutButton;
   List<CartGroup> data;
   @JsonKey(name: 'promotion_cell')
-  List<CartCell> promotionCell;
+  List<CartCell>? promotionCell;
   CartSubtotal subtotal;
 
   Cart(this.data, this.subtotal);

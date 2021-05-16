@@ -5,10 +5,10 @@ import '../../iconfont.dart';
 class LargeHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   final double barHeight = 160;
   final String title;
-  final Function onBack;
-  final Function onSubmit;
+  final Function()? onBack;
+  final Function()? onSubmit;
 
-  LargeHeaderBar({Key key, this.title, this.onBack, this.onSubmit})
+  LargeHeaderBar({Key? key, required this.title, this.onBack, this.onSubmit})
       : super(key: key);
 
   @override

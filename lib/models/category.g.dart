@@ -13,7 +13,7 @@ Category _$CategoryFromJson(Map<String, dynamic> json) {
     json['icon'] as String,
     json['app_banner'] as String,
     json['parent_id'] as int,
-  )..banner = json['banner'] as String;
+  )..banner = json['banner'] as String?;
 }
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
@@ -33,17 +33,15 @@ CategoryExtra _$CategoryExtraFromJson(Map<String, dynamic> json) {
     json['app_banner'] as String,
     json['parent_id'] as int,
   )
-    ..banner = json['banner'] as String
+    ..banner = json['banner'] as String?
     ..expanded = json['expanded'] as bool
     ..level = json['level'] as int
-    ..children = (json['children'] as List)
-        ?.map((e) =>
-            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..goodsList = (json['goods_list'] as List)
-        ?.map((e) =>
-            e == null ? null : Product.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+    ..children = (json['children'] as List<dynamic>?)
+        ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..goodsList = (json['goods_list'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$CategoryExtraToJson(CategoryExtra instance) =>
@@ -62,10 +60,9 @@ Map<String, dynamic> _$CategoryExtraToJson(CategoryExtra instance) =>
 
 CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) {
   return CategoryData(
-    (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['data'] as List<dynamic>)
+        .map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
