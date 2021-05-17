@@ -37,6 +37,7 @@ dependencies:
   flutter_html: ^2.0.0
   fluttertoast: any
   webview_flutter: ^2.0.4
+  path_provider: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/bulletin.dart';
+import 'package:flutter_shop/models/message.dart';
 import 'package:flutter_shop/pages/message/message_input.dart';
 import 'package:flutter_shop/pages/message/message_container.dart';
 
@@ -13,6 +15,25 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  List<MessageBase> items = [];
+  bool hasMore = false;
+  @override
+  void initState() {
+    super.initState();
+    BulletinApi.getList(
+      {
+        'page': 1,
+        'user': widget.arguments['user'],
+      },
+      (res) {
+        setState(() {
+          hasMore = res.paging.more;
+          items = res.data.map((e) => e.bulletin.toMessage()).toList();
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

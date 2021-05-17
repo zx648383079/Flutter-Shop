@@ -6,9 +6,11 @@ part 'user_item.g.dart';
 class UserItem extends Object {
   int id;
   String name;
+  String? icon;
   String avatar;
+  int count;
 
-  UserItem(this.id, this.name, this.avatar);
+  UserItem(this.id, this.name, this.avatar, {this.icon, this.count = 0});
 
   factory UserItem.fromJson(Map<String, dynamic> json) =>
       _$UserItemFromJson(json);

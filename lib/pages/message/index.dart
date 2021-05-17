@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/api/bulletin.dart';
 import 'package:flutter_shop/models/bulletin.dart';
 import 'package:flutter_shop/models/search.dart';
+import 'package:flutter_shop/models/user_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../iconfont.dart';
@@ -14,57 +16,15 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  List<BulletinUser> items = <BulletinUser>[];
-  int page = 1;
-  bool hasMore = true;
-  bool isLoading = false;
-  final refreshController = RefreshController(initialRefresh: false);
+  List<UserItem> items = <UserItem>[];
   @override
   void initState() {
     super.initState();
-    this.tapRefresh();
-  }
-
-  void tapRefresh() {
-    tapPage(1, (suc) {
-      refreshController.refreshCompleted();
+    BulletinApi.users((res) {
+      setState(() {
+        items = res;
+      });
     });
-  }
-
-  void tapMore() {
-    if (!hasMore) {
-      refreshController.loadComplete();
-      return;
-    }
-    tapPage(page + 1, (suc) {
-      refreshController.loadComplete();
-    });
-  }
-
-  void tapPage(int p, Function finish) {
-    if (isLoading) {
-      finish(true);
-      return;
-    }
-    isLoading = true;
-    BulletinApi.getList(
-      PageForm(
-        p,
-      ),
-      (res) {
-        setState(() {
-          page = p;
-          isLoading = false;
-          hasMore = res.paging.more;
-          if (p < 2) {
-            items = res.data;
-          } else {
-            items.addAll(res.data);
-          }
-        });
-        finish(true);
-      },
-    );
   }
 
   @override
@@ -79,117 +39,54 @@ class _MessagePageState extends State<MessagePage> {
         ),
         title: Text('我的消息'),
       ),
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: hasMore,
-        controller: refreshController,
-        onLoading: tapMore,
-        onRefresh: tapRefresh,
-        child: showMessage(context),
-      ),
-    );
-  }
-
-  Widget showMessage(BuildContext context) {
-    if (items.length < 1) {
-      return Container(
-        child: Center(
-          child: Text('暂无消息'),
-        ),
-      );
-    }
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        var item = items[index];
-        return Container(
-          color: Colors.white,
-          margin: EdgeInsets.only(
-            bottom: 10,
-          ),
-          padding: EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-          ),
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 60,
-                child: Center(
-                  child: Text(
-                    item.bulletin.icon,
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Color(0xff41C4FF),
+      body: Container(
+        child: Column(
+          children: [
+            TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.comment),
+                  text: '回复我的',
+                ),
+                Tab(
+                  icon: Icon(Icons.alternate_email),
+                  text: '@我',
+                ),
+                Tab(
+                  icon: Icon(IconFont.star),
+                  text: '收到的赞',
+                ),
+                Tab(
+                  icon: Icon(Icons.computer),
+                  text: '系统通知',
+                ),
+              ],
+              onTap: (i) {},
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, i) {
+                  var item = items[i];
+                  return ListTile(
+                    leading: CachedNetworkImage(
+                      imageUrl: item.avatar,
                     ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: infoItem(item),
-              ),
-            ],
-          ),
-        );
-      },
-      itemCount: items.length,
-    );
-  }
-
-  Widget infoItem(BulletinUser item) {
-    var infoBox = Column(
-      children: <Widget>[
-        Container(
-          alignment: Alignment.topLeft,
-          child: Text(
-            '${item.bulletin.userName} ${item.bulletin.createdAt}',
-            style: TextStyle(
-              color: Color(0xff999999),
-            ),
-          ),
-        ),
-        Container(
-          constraints: BoxConstraints(
-            minHeight: 60,
-          ),
-          alignment: Alignment.topLeft,
-          child: Text(item.bulletin.title),
-        ),
-        Container(
-          alignment: Alignment.topLeft,
-          child: InkWell(
-            child: Text(
-              '点击查看',
-              style: TextStyle(
-                color: Color(0xff999999),
+                    title: Text(item.name),
+                    subtitle: Text('暂无消息'),
+                    trailing:
+                        item.count > 0 ? Text(item.count.toString()) : null,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/message/chat',
+                          arguments: {'user': item.id});
+                    },
+                  );
+                },
+                itemCount: items.length,
               ),
             ),
-          ),
+          ],
         ),
-      ],
-    );
-    if (item.status > 0) {
-      return infoBox;
-    }
-    return Stack(
-      children: <Widget>[
-        infoBox,
-        Positioned(
-          right: 0,
-          top: 0,
-          child: Container(
-            child: Transform.rotate(
-              angle: 20,
-              child: Text(
-                '未读',
-                style: TextStyle(
-                  color: Color(0x33000000),
-                  fontSize: 40,
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
 }

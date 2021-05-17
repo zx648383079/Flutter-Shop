@@ -1,3 +1,6 @@
+import 'package:flutter_shop/models/message.dart';
+import 'package:flutter_shop/models/rule.dart';
+import 'package:flutter_shop/models/user_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'page.dart';
@@ -15,6 +18,9 @@ class Bulletin extends Object {
   @JsonKey(name: 'user_name')
   String userName;
   String icon;
+  @JsonKey(name: 'extra_rule')
+  List<ExtraRule>? extraRule;
+  UserItem? user;
 
   Bulletin(this.id, this.title, this.content, this.type, this.createdAt,
       this.userName, this.icon);
@@ -23,6 +29,17 @@ class Bulletin extends Object {
       _$BulletinFromJson(json);
 
   Map<String, dynamic> toJson() => _$BulletinToJson(this);
+
+  MessageBase toMessage() {
+    return MessageBase(
+      this.id,
+      MessageType.TEXT,
+      content,
+      createdAt,
+      user: this.user,
+      extraRule: this.extraRule,
+    );
+  }
 }
 
 @JsonSerializable()

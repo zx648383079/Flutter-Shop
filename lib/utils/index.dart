@@ -31,7 +31,7 @@ class ApiToken {
   }
 }
 
-String getAssetUrl(String uri) {
+String getAssetUrl(String? uri) {
   if (uri == null) {
     return '';
   }

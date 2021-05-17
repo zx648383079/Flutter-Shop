@@ -1,14 +1,29 @@
+import 'package:flutter_shop/models/user_item.dart';
+
 import '../models/bulletin.dart';
 import '../models/page.dart';
 import '../models/search.dart';
 import '../utils/http.dart';
 
 class BulletinApi {
-  static void getList(PageForm page, Function(BulletinUserPage res) success,
+  static void getList(
+      Map<dynamic, dynamic> data, Function(BulletinUserPage res) success,
       [ErrorCallback? error]) async {
-    RestClient.get<Map<String, dynamic>>('auth/bulletin', data: page.toJson(),
+    RestClient.get<Map<String, dynamic>>('auth/bulletin', data: data,
         success: (res) {
       success(BulletinUserPage.fromJson(res));
+    }, error: error);
+  }
+
+  static void users(Function(List<UserItem> res) success,
+      [ErrorCallback? error]) async {
+    RestClient.get<Map<String, dynamic>>('auth/bulletin/user', success: (res) {
+      if (res['data'] == null) {
+        return success(<UserItem>[]);
+      }
+      success((res['data'] as List<dynamic>)
+          .map((e) => UserItem.fromJson(e))
+          .toList());
     }, error: error);
   }
 

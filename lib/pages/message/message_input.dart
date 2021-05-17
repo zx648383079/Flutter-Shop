@@ -7,6 +7,13 @@ typedef void SendTextEvent(String text);
 typedef void SendImageEvent(File file);
 typedef void SendAudioEvent(File audioFile, int duration);
 
+enum MessageInputMode {
+  NONE,
+  VOICE,
+  EMOJI,
+  MORE,
+}
+
 class MessageInput extends StatefulWidget {
   final SendTextEvent? onSend;
   final SendImageEvent? onSendImage;
@@ -20,15 +27,55 @@ class MessageInput extends StatefulWidget {
 }
 
 class _MessageInputState extends State<MessageInput> {
+  MessageInputMode inputMode = MessageInputMode.NONE;
+  TextEditingController? controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(),
+      child: buildColumn(),
     );
   }
 
+  void toggleMode(MessageInputMode mode,
+      [MessageInputMode toggleMode = MessageInputMode.NONE]) {
+    setState(() {
+      inputMode = inputMode == mode ? toggleMode : mode;
+    });
+  }
+
+  Widget buildColumn() {
+    if (inputMode == MessageInputMode.EMOJI) {
+      return Column(
+        children: [
+          buildInputRow(),
+          buildEmojiContainer(),
+        ],
+      );
+    }
+    if (inputMode == MessageInputMode.MORE) {
+      return Column(
+        children: [
+          buildInputRow(),
+          buildMoreContainer(),
+        ],
+      );
+    }
+    return buildInputRow();
+  }
+
   Widget buildEmojiContainer() {
-    return EmojiContainer();
+    return EmojiContainer(
+      onSelected: (emoji) {
+        controller!.text += emoji.type < 1 ? "[${emoji.name}]" : emoji.content;
+      },
+    );
   }
 
   Widget buildMoreContainer() {
@@ -62,23 +109,39 @@ class _MessageInputState extends State<MessageInput> {
           IconButton(
             icon: Icon(
               Icons.mic,
+              color: inputMode == MessageInputMode.VOICE
+                  ? Colors.red
+                  : IconTheme.of(context).color,
             ),
-            onPressed: () {},
+            onPressed: () {
+              toggleMode(MessageInputMode.VOICE);
+            },
           ),
           Expanded(
-            child: TextField(),
+            child: TextField(
+              controller: controller,
+              onSubmitted: (value) {
+                if (widget.onSend != null) {
+                  widget.onSend!(value);
+                }
+              },
+            ),
           ),
           IconButton(
             icon: Icon(
               Icons.emoji_emotions_outlined,
             ),
-            onPressed: () {},
+            onPressed: () {
+              toggleMode(MessageInputMode.EMOJI);
+            },
           ),
           IconButton(
             icon: Icon(
               Icons.more_horiz,
             ),
-            onPressed: () {},
+            onPressed: () {
+              toggleMode(MessageInputMode.MORE);
+            },
           ),
         ],
       ),

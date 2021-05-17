@@ -15,7 +15,13 @@ Bulletin _$BulletinFromJson(Map<String, dynamic> json) {
     json['created_at'] as String,
     json['user_name'] as String,
     json['icon'] as String,
-  );
+  )
+    ..extraRule = (json['extra_rule'] as List<dynamic>?)
+        ?.map((e) => ExtraRule.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..user = json['user'] == null
+        ? null
+        : UserItem.fromJson(json['user'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$BulletinToJson(Bulletin instance) => <String, dynamic>{
@@ -26,6 +32,8 @@ Map<String, dynamic> _$BulletinToJson(Bulletin instance) => <String, dynamic>{
       'created_at': instance.createdAt,
       'user_name': instance.userName,
       'icon': instance.icon,
+      'extra_rule': instance.extraRule,
+      'user': instance.user,
     };
 
 BulletinUser _$BulletinUserFromJson(Map<String, dynamic> json) {
