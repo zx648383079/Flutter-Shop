@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
     return ListView(
       children: <Widget>[
         Center(
-          child: CachedNetworkImage(imageUrl: logo),
+          child: logo.isEmpty ? null : CachedNetworkImage(imageUrl: logo),
         ),
         SizedBox(
           height: 30,

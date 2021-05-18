@@ -10,6 +10,7 @@ import 'package:flutter_shop/models/search.dart';
 import 'package:flutter_shop/models/site.dart';
 import 'package:flutter_shop/pages/application.dart';
 import 'package:flutter_shop/pages/index/menu_icon.dart';
+import 'package:flutter_shop/pages/member/confirm_dialog.dart';
 import 'package:flutter_shop/utils/index.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
@@ -40,6 +41,9 @@ class _HomePageState extends State<HomePage>
       setState(() {
         this.site = res;
       });
+    }, (code, message) {
+      showConfirmDilaog(context,
+          title: '服务出错提示', message: message ?? '服务出错，请稍后再试！');
     });
     AdApi.banners((res) {
       setState(() {

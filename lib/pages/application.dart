@@ -9,6 +9,7 @@ import 'package:flutter_shop/models/cart.dart';
 import 'package:flutter_shop/models/order.dart';
 import 'package:flutter_shop/models/site.dart';
 import 'package:flutter_shop/models/user.dart';
+import 'package:flutter_shop/utils/http.dart';
 import 'package:flutter_shop/utils/types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class Application {
   static Address? address;
   static Order? order;
 
-  static void getSite(Function(Site site) success) {
+  static void getSite(Function(Site site) success, [ErrorCallback? error]) {
     if (site != null) {
       success(site as Site);
       return;
@@ -30,7 +31,7 @@ class Application {
     SiteApi.get((res) {
       site = res;
       success(res);
-    });
+    }, error);
   }
 
   static void setUser(User? res) {

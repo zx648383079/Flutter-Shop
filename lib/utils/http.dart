@@ -23,13 +23,12 @@ class RestClient {
     Dio dio = createInstance();
     print('[URL]$url');
     try {
-      ApiToken.create().append(queryParameters);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString(TOKEN_KEY);
 
       Response response = await dio.request<T>(url,
           data: data,
-          queryParameters: queryParameters,
+          queryParameters: ApiToken.create().append(queryParameters),
           options: new Options(method: method, headers: {
             'Content-Type': 'application/vnd.api+json',
             'Date': getCurrentTime(),
@@ -40,6 +39,7 @@ class RestClient {
       }
       success(response.data);
     } on DioError catch (e) {
+      print(e.response);
       if (error == null) {
         return;
       }
