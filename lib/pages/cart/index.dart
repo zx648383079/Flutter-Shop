@@ -256,17 +256,19 @@ class _CartPageState extends State<CartPage>
                         delegate: SliverChildBuilderDelegate((c, i) {
                           return Slidable(
                             key: UniqueKey(),
-                            actionPane: SlidableDrawerActionPane(),
-                            actionExtentRatio: 0.25,
+                            endActionPane: ActionPane(
+                              motion: const DrawerMotion(),
+                              extentRatio: 0.25,
+                              children: <Widget>[
+                                SlidableAction(
+                                  label: '删除',
+                                  backgroundColor: Colors.red,
+                                  icon: Icons.delete,
+                                  onPressed: (context) {},
+                                ),
+                              ],
+                            ),
                             child: productItem(group.goodsList[i], group),
-                            secondaryActions: <Widget>[
-                              IconSlideAction(
-                                caption: '删除',
-                                color: Colors.red,
-                                icon: Icons.delete,
-                                onTap: () {},
-                              ),
-                            ],
                           );
                         }, childCount: group.goodsList.length),
                       ),

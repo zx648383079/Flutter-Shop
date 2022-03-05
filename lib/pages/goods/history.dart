@@ -148,8 +148,6 @@ class _HistoryPageState extends State<HistoryPage> {
     var item = items[index];
     return Slidable(
       key: UniqueKey(),
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
       child: Container(
         color: Colors.white,
         child: Row(
@@ -193,16 +191,18 @@ class _HistoryPageState extends State<HistoryPage> {
           ],
         ),
       ),
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: '删除',
-          color: Colors.red,
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(), 
+        children: <Widget>[
+        SlidableAction(
+          label: '删除',
+          backgroundColor: Colors.red,
           icon: Icons.delete,
-          onTap: () {
+          onPressed: (context) {
             tapRemove(item.id);
           },
         ),
-      ],
+      ],),
     );
   }
 

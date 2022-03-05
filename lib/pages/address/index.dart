@@ -61,8 +61,6 @@ class _AddressPageState extends State<AddressPage> {
         var item = items[index];
         return Slidable(
           key: UniqueKey(),
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.indigoAccent,
@@ -86,24 +84,32 @@ class _AddressPageState extends State<AddressPage> {
                   arguments: {'id': item.id});
             },
           ),
-          actions: item.isDefault
-              ? []
-              : <Widget>[
-                  IconSlideAction(
-                    caption: '设为默认',
-                    color: Colors.blue,
+          startActionPane: item.isDefault 
+            ? null 
+            : ActionPane(
+              motion: const DrawerMotion(), 
+              extentRatio: 0.25,
+              children: <Widget>[
+                  SlidableAction(
+                    label: '设为默认',
+                    backgroundColor: Colors.blue,
                     icon: Icons.archive,
-                    onTap: () {},
+                    onPressed: (context) {},
                   ),
                 ],
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              caption: '删除',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () {},
+              ),
+          endActionPane: ActionPane(
+              motion: const DrawerMotion(), 
+              extentRatio: 0.25,
+              children: <Widget>[
+                  SlidableAction(
+                    label: '删除',
+                    backgroundColor: Colors.red,
+                    icon: Icons.delete,
+                    onPressed: (context) {},
+                  ),
+                ],
             ),
-          ],
         );
       },
       itemCount: items.length,

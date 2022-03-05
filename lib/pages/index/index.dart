@@ -61,7 +61,7 @@ class _IndexPageState extends State<IndexPage> {
     return BottomNavigationBar(
       items: nav
           .map((e) =>
-              BottomNavigationBarItem(icon: Icon(e.icon), title: Text(e.name)))
+              BottomNavigationBarItem(icon: Icon(e.icon), label: e.name))
           .toList(),
       selectedItemColor: Theme.of(context).indicatorColor,
       currentIndex: tabIndex,
